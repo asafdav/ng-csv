@@ -1,5 +1,5 @@
 {
-    "name": "ngCsv",
+    "name": "ng-csv",
     "version": "0.0.1",
     "dependencies": {
         "angular": "~1.0.7",

@@ -10,8 +10,8 @@ files = [
   'bower_components/angular-mocks/angular-mocks.js',
 
   // App
-  'src/ngCsv/*.js',
-  'src/ngCsv/directives/*.js',
+  'src/ng-csv/*.js',
+  'src/ng-csv/directives/*.js',
 
   // Test specs
   'test/unit/**/*.js',
