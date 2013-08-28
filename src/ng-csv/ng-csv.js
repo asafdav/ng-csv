@@ -8,7 +8,11 @@ angular.module('ngCsv.config', []).
       debug: true
   }).
   config(['$compileProvider', function($compileProvider){
-    $compileProvider.urlSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|data):/);
+    if (angular.isDefined($compileProvider.urlSanitizationWhitelist)) {
+      $compileProvider.urlSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|data):/);
+    } else {
+      $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|data):/);
+    }
   }]);
 
 // Modules
