@@ -11,7 +11,7 @@ angular.module('ngCsv.directives', []).
       replace: true,
       transclude: true,
       scope: { data:'=ngCsv', filename:'@filename' },
-      controller: function($scope, $element, $attrs, $transclude) {
+      controller: ['$scope', '$element', '$attrs', '$transclude', function($scope, $element, $attrs, $transclude) {
         $scope.csv = "";
         $scope.$watch('data', function(newValue, oldValue) {
           $scope.buildCsv(newValue);
@@ -41,7 +41,7 @@ angular.module('ngCsv.directives', []).
         $scope.getFilename = function() {
           return $scope.filename ? $scope.filename : "download.csv";
         };
-      },
+      }],
       template: '<div class="csv-wrap">' +
         '<div class="element" ng-transclude></div>' +
         '<a class="hidden-link" ng-hide="true" ng-href="{{ csv }}" download="{{ getFilename() }}"></a>' +
