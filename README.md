@@ -17,5 +17,12 @@ Simple directive that turns arrays and objects into downloadable CSV files
   <button type="button" ng-csv="getArray()" filename="test.csv">Export</button>
   ```
 
+##### New! - Now accepts a header row as parameter
+Just provide csv-header attribute. 
+  ```html
+  <button type="button" ng-csv="getArray()" csv-header="['Field A', 'Field B', 'Field C']" filename="test.csv">Export</button>
+  ```
+
+
 ## Example
 You can check out this live example here: http://jsfiddle.net/asafdav/dR6Nb/
