@@ -10,15 +10,34 @@ angular.module('ngCsv.directives', []).
       restrict: 'AC',
       replace: true,
       transclude: true,
-      scope: { data:'=ngCsv', filename:'@filename' },
+      scope: { data:'&ngCsv', filename:'@filename', header: '&csvHeader'},
       controller: ['$scope', '$element', '$attrs', '$transclude', function($scope, $element, $attrs, $transclude) {
         $scope.csv = "";
-        $scope.$watch('data', function(newValue, oldValue) {
+        $scope.$watch($scope.data, function(newValue, oldValue) {
           $scope.buildCsv(newValue);
-        });
+        }, true);
 
         $scope.buildCsv = function(data) {
           var csvContent = "data:text/csv;charset=utf-8,";
+
+          // Check if there's a provided header array
+          if (angular.isDefined($attrs.csvHeader)) {
+            var header = $scope.$eval($scope.header);
+            var encodingArray, headerString;
+            if (angular.isArray(header)) {
+              encodingArray = header;
+            } else {
+              encodingArray = [];
+              angular.forEach(header, function(title, key){
+                this.push(title);
+              }, encodingArray);
+            }
+
+            headerString = encodingArray.join(",");
+            csvContent += headerString + "\n";
+          }
+
+          // Process the data
           angular.forEach(data, function(row, index){
             var dataString, infoArray;
 
