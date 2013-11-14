@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ngClipboard', []).
-  value('ZeroClipboardPath', '//cdnjs.cloudflare.com/ajax/libs/zeroclipboard/1.1.7/ZeroClipboard.swf').
+  value('ZeroClipboardPath', 'http://cdnjs.cloudflare.com/ajax/libs/zeroclipboard/1.1.7/ZeroClipboard.swf').
   directive('clipCopy', ['$window', 'ZeroClipboardPath', function ($window, ZeroClipboardPath) {
     return {
       scope: {
