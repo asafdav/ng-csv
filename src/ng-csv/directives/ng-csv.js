@@ -10,7 +10,7 @@ angular.module('ngCsv.directives', []).
       restrict: 'AC',
       replace: true,
       transclude: true,
-      scope: { data:'&ngCsv', filename:'@filename', header: '&csvHeader'},
+      scope: { data:'&ngCsv', filename:'@filename', header: '&csvHeader',  separator: '@csvSeparator'},
       controller: ['$scope', '$element', '$attrs', '$transclude', function($scope, $element, $attrs, $transclude) {
         $scope.csv = "";
         $scope.$watch($scope.data, function(newValue, oldValue) {
@@ -33,7 +33,7 @@ angular.module('ngCsv.directives', []).
               }, encodingArray);
             }
 
-            headerString = encodingArray.join(",");
+            headerString = encodingArray.join($scope.separator?$scope.separator:",");
             csvContent += headerString + "\n";
           }
 
@@ -50,7 +50,7 @@ angular.module('ngCsv.directives', []).
               }, infoArray);
             }
 
-            dataString = infoArray.join(",");
+            dataString = infoArray.join($scope.separator?$scope.separator:",");
             csvContent += index < data.length ? dataString + "\n" : dataString;
           });
 
