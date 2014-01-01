@@ -26,3 +26,7 @@ Just provide csv-header attribute.
 
 ## Example
 You can check out this live example here: http://jsfiddle.net/asafdav/dR6Nb/
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/asafdav/ng-csv/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
