@@ -46,7 +46,7 @@ angular.module('ngCsv.directives', []).
             } else {
               infoArray = [];
               angular.forEach(row, function(field, key){
-                this.push(field);
+                this.push(typeof field === 'string' ? '"' + field + '"' : field);
               }, infoArray);
             }
 
