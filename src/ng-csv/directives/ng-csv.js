@@ -33,7 +33,7 @@ angular.module('ngCsv.directives', []).
               }, encodingArray);
             }
 
-            headerString = encodingArray.join(",");
+            headerString = encodingArray.join($scope.fieldSep || ",");
             csvContent += headerString + "\n";
           }
 
