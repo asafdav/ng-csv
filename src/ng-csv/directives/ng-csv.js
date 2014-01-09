@@ -10,7 +10,7 @@ angular.module('ngCsv.directives', []).
       restrict: 'AC',
       replace: true,
       transclude: true,
-      scope: { data:'&ngCsv', filename:'@filename', header: '&csvHeader'},
+      scope: { data:'&ngCsv', filename:'@filename', header: '&csvHeader', txtDelim: '@textDelimiter', fieldSep: '@fieldSeparator'},
       controller: ['$scope', '$element', '$attrs', '$transclude', function($scope, $element, $attrs, $transclude) {
         $scope.csv = "";
         $scope.$watch($scope.data, function(newValue, oldValue) {
@@ -39,18 +39,14 @@ angular.module('ngCsv.directives', []).
 
           // Process the data
           angular.forEach(data, function(row, index){
-            var dataString, infoArray;
-
-            if (angular.isArray(row)) {
-              infoArray = row;
-            } else {
-              infoArray = [];
-              angular.forEach(row, function(field, key){
-                this.push(typeof field === 'string' ? '"' + field + '"' : field);
-              }, infoArray);
-            }
-
-            dataString = infoArray.join(",");
+            var infoArray = [];
+            angular.forEach(row, function(field){
+              if (typeof field === 'string' && $scope.txtDelim) {
+                field = $scope.txtDelim + field + $scope.txtDelim;
+              }
+              this.push(field);
+            }, infoArray);
+            dataString = infoArray.join($scope.fieldSep || ",");
             csvContent += index < data.length ? dataString + "\n" : dataString;
           });
 

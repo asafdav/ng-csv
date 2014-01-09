@@ -1,9 +1,9 @@
 'use strict';
-
+/* jshint indent: 2*/
 // Set the jasmine fixture path
 // jasmine.getFixtures().fixturesPath = 'base/';
 
-describe('ngCsv directive', function() {
+describe('ngCsv directive', function () {
 
   var $compile;
   var $rootScope;
@@ -13,16 +13,17 @@ describe('ngCsv directive', function() {
 
   // Store references to $rootScope and $compile
   // so they are available to all tests in this describe block
-  beforeEach(inject(function(_$compile_, _$rootScope_){
+  beforeEach(inject(function (_$compile_, _$rootScope_) {
     // The injector unwraps the underscores (_) from around the parameter names when matching
     $compile = _$compile_;
     $rootScope = _$rootScope_;
+    $rootScope.test = [[1, 2, 3], [4, 5, 6]];
+    $rootScope.testObj = [{a: 1, b: 2, c: 3}, {a: 4, b: 5, c: 6}];
   }));
 
-  it('Replaces the element with the appropriate content', function() {
+  it('Replaces the element with the appropriate content', function () {
     // Compile a piece of HTML containing the directive
-    $rootScope.test = [[1,2,3], [4,5,6]];
-    var element = $compile("<div ng-csv='test'></div>")($rootScope);
+    var element = $compile("<div ng-csv='test'></div>") ($rootScope);
     // fire all the watches, so the scope expression {{1 + 1}} will be evaluated
     $rootScope.$digest();
     // Check that the compiled element contains the templated content
@@ -30,9 +31,8 @@ describe('ngCsv directive', function() {
     expect(element.html()).toContain('<a class="hidden-link" ng-hide="true"');
   });
 
-  it('Sets default filename', function() {
+  it('Sets default filename', function () {
     // Compile a piece of HTML containing the directive
-    $rootScope.test = [[1,2,3], [4,5,6]];
     var element = $compile("<div ng-csv='test'></div>")($rootScope);
     // fire all the watches, so the scope expression {{1 + 1}} will be evaluated
     $rootScope.$digest();
@@ -40,9 +40,8 @@ describe('ngCsv directive', function() {
     expect(element.html()).toContain('download="download.csv"');
   });
 
-  it('Sets the provided filename', function() {
+  it('Sets the provided filename', function () {
     // Compile a piece of HTML containing the directive
-    $rootScope.test = [[1,2,3], [4,5,6]];
     var element = $compile("<div ng-csv='test' filename='custom.csv'></div>")($rootScope);
     // fire all the watches, so the scope expression {{1 + 1}} will be evaluated
     $rootScope.$digest();
@@ -51,9 +50,8 @@ describe('ngCsv directive', function() {
   });
 
 
-  it('Builds the csv format correctly', function() {
+  it('Builds the csv format correctly', function () {
     // Compile a piece of HTML containing the directive
-    $rootScope.test = [[1,2,3], [4,5,6]];
     var element = $compile("<div ng-csv='test' filename='custom.csv'></div>")($rootScope);
     // fire all the watches, so the scope expression {{1 + 1}} will be evaluated
     $rootScope.$digest();
@@ -65,9 +63,9 @@ describe('ngCsv directive', function() {
     expect(scope.csv).toBe('data:text/csv;charset=utf-8,1,2,3%0A4,5,6%0A');
   });
 
-  it('Accepts $scope expressions as ng-csv', function() {
+  it('Accepts $scope expressions as ng-csv', function () {
     // Compile a piece of HTML containing the directive
-    $rootScope.getTest = function() {return [[1,2,3], [4,5,6]]};
+    $rootScope.getTest = function () {return [[1, 2, 3], [4, 5, 6]]; };
     var element = $compile("<div ng-csv='getTest()' filename='custom.csv'></div>")($rootScope);
     // fire all the watches, so the scope expression {{1 + 1}} will be evaluated
     $rootScope.$digest();
@@ -79,10 +77,12 @@ describe('ngCsv directive', function() {
     expect(scope.csv).toBe('data:text/csv;charset=utf-8,1,2,3%0A4,5,6%0A');
   });
 
-  it('Creates a header row if provided', function() {
+  it('Creates a header row if provided', function () {
     // Compile a piece of HTML containing the directive
-    $rootScope.test = [[1,2,3], [4,5,6]];
-    var element = $compile("<div ng-csv='test' csv-header=\"['A','B','C']\" filename='custom.csv'></div>")($rootScope);
+    var element = $compile(
+      '<div ng-csv="test" csv-header="[\'A\',\'B\',\'C\']"' +
+      ' filename="custom.csv">' +
+      '</div>')($rootScope);
     // fire all the watches, so the scope expression {{1 + 1}} will be evaluated
     $rootScope.$digest();
 
@@ -90,8 +90,65 @@ describe('ngCsv directive', function() {
 
     // Check that the compiled element contains the templated content
     expect(scope.$eval(scope.data)).toEqual($rootScope.test);
-    expect(scope.$eval(scope.header)).toEqual(['A','B','C']);
+    expect(scope.$eval(scope.header)).toEqual(['A', 'B', 'C']);
     expect(scope.csv).toBe('data:text/csv;charset=utf-8,A,B,C%0A1,2,3%0A4,5,6%0A');
   });
 
+  it('Accepts optional text-delimiter attribute (input array)', function() {
+    $rootScope.testDelim = [[1, 'a', 2], ['b', 'c', 3]];
+    var element = $compile(
+      '<div ng-csv="testDelim" text-delimiter=\'"\'' +
+      ' filename="custom.csv">' +
+      '</div>')($rootScope);
+
+    $rootScope.$digest();
+
+    var scope = element.scope();
+
+    // Check that the compiled element contains the templated content
+    expect(scope.$eval(scope.data)).toEqual($rootScope.testDelim);
+    expect(scope.csv).toBe('data:text/csv;charset=utf-8,1,%22a%22,2%0A%22b%22,%22c%22,3%0A');
+  });
+
+  it('Accepts optional text-delimiter attribute (input object)', function() {
+    $rootScope.testDelim = [{a: 1, b: 'a', c: 2}, {a: 'b', b: 'c', c: 3}];
+    var element = $compile(
+      '<div ng-csv="testDelim" text-delimiter=\'"\'' +
+      ' filename="custom.csv">' +
+      '</div>')($rootScope);
+
+    $rootScope.$digest();
+
+    var scope = element.scope();
+
+    // Check that the compiled element contains the templated content
+    expect(scope.$eval(scope.data)).toEqual($rootScope.testDelim);
+    expect(scope.csv).toBe('data:text/csv;charset=utf-8,1,%22a%22,2%0A%22b%22,%22c%22,3%0A');
+  });
+
+  it('Accepts optional field-separator attribute (input array)', function() {
+    var element = $compile(
+      '<div ng-csv="test" field-separator=\';\'' +
+      ' filename="custom.csv">' +
+      '</div>')($rootScope);
+    $rootScope.$digest();
+
+    var scope = element.scope();
+    // Check that the compiled element contains the templated content
+    expect(scope.$eval(scope.data)).toEqual($rootScope.test);
+    expect(scope.csv).toBe('data:text/csv;charset=utf-8,1;2;3%0A4;5;6%0A');
+  });
+
+  it('Accepts optional field-separator attribute (input object)', function() {
+    var element = $compile(
+      '<div ng-csv="testObj" field-separator=\';\'' +
+      ' filename="custom.csv">' +
+      '</div>')($rootScope);
+    $rootScope.$digest();
+
+    var scope = element.scope();
+    // Check that the compiled element contains the templated content
+    expect(scope.$eval(scope.data)).toEqual($rootScope.testObj);
+    expect(scope.csv).toBe('data:text/csv;charset=utf-8,1;2;3%0A4;5;6%0A');
+  });
 });
