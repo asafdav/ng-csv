@@ -21,19 +21,13 @@ angular.module('ngCsv.directives', []).
           $scope, $element, $attrs, $transclude
       ) {
         $scope.csv = '';
-        $scope.$watch($scope.data, function (newValue) {
-          $scope.buildCsv(newValue);
-        }, true);
 
-        $scope.$watch('fieldSep', function() {
-          $scope.buildCsv($scope.data());
-        });
+				$scope.$watch(function (newValue) {
+					$scope.buildCsv();
+				}, true);
 
-        $scope.$watch('txtDelim', function() {
-          $scope.buildCsv($scope.data());
-        });
-
-        $scope.buildCsv = function (data) {
+        $scope.buildCsv = function () {
+					var data = $scope.data();
           var csvContent = 'data:text/csv;charset=utf-8,';
 
           // Check if there's a provided header array
@@ -62,6 +56,7 @@ angular.module('ngCsv.directives', []).
           });
 
           $scope.csv = encodeURI(csvContent);
+					return $scope.csv;
         };
 
         $scope.getFilename = function () {

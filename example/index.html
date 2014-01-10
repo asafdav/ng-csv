@@ -22,8 +22,19 @@
         <input type="text" id="filename" class="form-control" ng-model="filename">
       </div>
 
-      <button class="btn btn-default" ng-csv="getArray" filename="{{ filename }}.csv">Export to CSV</button>
-      <button class="btn btn-default" ng-csv="getArray" csv-header="getHeader()" filename="{{ filename }}">Export to CSV with header</button>
+      <div class="form-group">
+        <label for="separator">Field separator</label>
+        <input type="text" id="separator" class="form-control" ng-model="separator" ng-init="separator=','">
+      </div>
+
+      <button class="btn btn-default"
+              ng-csv="getArray" filename="{{ filename }}.csv" field-separator="{{separator}}"
+              on-demand="{{onDemand}}">Export to CSV</button>
+      <button class="btn btn-default"
+              ng-csv="getArray" csv-header="getHeader()" filename="{{ filename }}" field-separator="{{separator}}"
+              on-demand="{{onDemand}}">Export to CSV with header</button>
+
+      <button class="btn btn-default" ng-click="addRandomRow()">Add row</button>
     </div>
 </div>
 
@@ -33,6 +44,10 @@
     myapp.controller('myctrl', function ($scope) {
 	    $scope.filename = "test";
 	    $scope.getArray = [{a: 1, b:2}, {a:3, b:4}];
+
+      $scope.addRandomRow = function() {
+        $scope.getArray.push({a: Math.floor((Math.random()*10)+1), b: Math.floor((Math.random()*10)+1)});
+      }
       $scope.getHeader = function () {return ["A", "B"]};
     });
 </script>

@@ -17,11 +17,16 @@ An AngularJS simple directive that turns arrays and objects into downloadable CS
   <button type="button" ng-csv="getArray()" filename="test.csv">Export</button>
   ```
 
-##### New! - Now accepts a header row as parameter
-Just provide csv-header attribute. 
-  ```html
+ngCsv attributes
+----------------
+* ng-csv: The data array
+* filename: The filename that will be stored on the user's computer
+* csv-header: If provided, would use this attribute to create a header line
+    ```html
   <button type="button" ng-csv="getArray()" csv-header="['Field A', 'Field B', 'Field C']" filename="test.csv">Export</button>
   ```
+* field-separator: Defines the field separator character (default is)
+* text-delimiter: If provided, will use this characters to "escape" string values
 
 
 ## Example
