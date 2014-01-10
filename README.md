@@ -21,10 +21,12 @@ ngCsv attributes
 ----------------
 * ng-csv: The data array
 * filename: The filename that will be stored on the user's computer
-* csv-header: If provided, would use this attribute to create a header line
+* csv-header: If provided, would use this attribute to create a header row
+
     ```html
   <button type="button" ng-csv="getArray()" csv-header="['Field A', 'Field B', 'Field C']" filename="test.csv">Export</button>
   ```
+
 * field-separator: Defines the field separator character (default is)
 * text-delimiter: If provided, will use this characters to "escape" string values
 
