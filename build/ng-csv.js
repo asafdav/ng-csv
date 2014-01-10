@@ -52,6 +52,14 @@ angular.module('ngCsv.directives', []).
           $scope.buildCsv(newValue);
         }, true);
 
+        $scope.$watch('fieldSep', function() {
+          $scope.buildCsv($scope.data());
+        });
+
+        $scope.$watch('txtDelim', function() {
+          $scope.buildCsv($scope.data());
+        });
+
         $scope.buildCsv = function (data) {
           var csvContent = 'data:text/csv;charset=utf-8,';
 
@@ -64,7 +72,7 @@ angular.module('ngCsv.directives', []).
             }, encodingArray);
 
             var headerString = encodingArray.join($scope.fieldSep || ',');
-            csvContent += headerString + '\n';
+            csvContent += headerString + '\r\n';
           }
 
           // Process the data
@@ -77,14 +85,14 @@ angular.module('ngCsv.directives', []).
               this.push(field);
             }, infoArray);
             dataString = infoArray.join($scope.fieldSep || ',');
-            csvContent += index < data.length ? dataString + '\n' : dataString;
+            csvContent += index < data.length ? dataString + '\r\n' : dataString;
           });
 
           $scope.csv = encodeURI(csvContent);
         };
 
         $scope.getFilename = function () {
-          return $scope.filename ? $scope.filename : 'download.csv';
+          return $scope.filename || 'download.csv';
         };
       }],
       template: '<div class="csv-wrap">' +
