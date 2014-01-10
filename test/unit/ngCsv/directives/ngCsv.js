@@ -24,11 +24,11 @@ describe('ngCsv directive', function () {
   it('Replaces the element with the appropriate content', function () {
     // Compile a piece of HTML containing the directive
     var element = $compile("<div ng-csv='test'></div>") ($rootScope);
-    // fire all the watches, so the scope expression {{1 + 1}} will be evaluated
+    // fire all the watches
     $rootScope.$digest();
     // Check that the compiled element contains the templated content
-    expect(element.html()).toContain('<div class="element"');
-    expect(element.html()).toContain('<a class="hidden-link" ng-hide="true"');
+    expect(element.html()).toMatch(/<div class="element"/);
+    expect(element.html()).toMatch(/a class="hidden.*" ng-hide="true"/gi);
   });
 
   it('Sets default filename', function () {
@@ -56,7 +56,7 @@ describe('ngCsv directive', function () {
     // fire all the watches, so the scope expression {{1 + 1}} will be evaluated
     $rootScope.$digest();
 
-    var scope = element.scope();
+    var scope = element.isolateScope();
 
     // Check that the compiled element contains the templated content
     expect(scope.$eval(scope.data)).toBe($rootScope.test);
@@ -70,7 +70,7 @@ describe('ngCsv directive', function () {
     // fire all the watches, so the scope expression {{1 + 1}} will be evaluated
     $rootScope.$digest();
 
-    var scope = element.scope();
+    var scope = element.isolateScope();
 
     // Check that the compiled element contains the templated content
     expect(scope.$eval(scope.data)).toEqual($rootScope.getTest());
@@ -86,7 +86,7 @@ describe('ngCsv directive', function () {
     // fire all the watches, so the scope expression {{1 + 1}} will be evaluated
     $rootScope.$digest();
 
-    var scope = element.scope();
+    var scope = element.isolateScope();
 
     // Check that the compiled element contains the templated content
     expect(scope.$eval(scope.data)).toEqual($rootScope.test);
@@ -103,7 +103,7 @@ describe('ngCsv directive', function () {
 
     $rootScope.$digest();
 
-    var scope = element.scope();
+    var scope = element.isolateScope();
 
     // Check that the compiled element contains the templated content
     expect(scope.$eval(scope.data)).toEqual($rootScope.testDelim);
@@ -119,7 +119,7 @@ describe('ngCsv directive', function () {
 
     $rootScope.$digest();
 
-    var scope = element.scope();
+    var scope = element.isolateScope();
 
     // Check that the compiled element contains the templated content
     expect(scope.$eval(scope.data)).toEqual($rootScope.testDelim);
@@ -133,7 +133,7 @@ describe('ngCsv directive', function () {
       '</div>')($rootScope);
     $rootScope.$digest();
 
-    var scope = element.scope();
+    var scope = element.isolateScope();
     // Check that the compiled element contains the templated content
     expect(scope.$eval(scope.data)).toEqual($rootScope.test);
     expect(scope.csv).toBe('data:text/csv;charset=utf-8,1;2;3%0D%0A4;5;6%0D%0A');
@@ -146,7 +146,7 @@ describe('ngCsv directive', function () {
       '</div>')($rootScope);
     $rootScope.$digest();
 
-    var scope = element.scope();
+    var scope = element.isolateScope();
     // Check that the compiled element contains the templated content
     expect(scope.$eval(scope.data)).toEqual($rootScope.testObj);
     expect(scope.csv).toBe('data:text/csv;charset=utf-8,1;2;3%0D%0A4;5;6%0D%0A');
@@ -162,7 +162,7 @@ describe('ngCsv directive', function () {
     $rootScope.sep = ';';
     $rootScope.$digest();
 
-    var scope = element.scope();
+    var scope = element.isolateScope();
     // Check that the compiled element contains the templated content
     expect(scope.fieldSep).toBe($rootScope.sep);
     expect(scope.$eval(scope.data)).toEqual($rootScope.testObj);

@@ -1,13 +1,15 @@
 {
-    "name": "ng-csv",
-    "version": "0.0.1",
-    "dependencies": {
-        "angular": "~1.0",
-        "angular-sanitize": "~1.0"
-    },
-    "devDependencies": {
-        "angular-mocks": "~1.0",
-        "angular-scenario": "~1.0"
-    }
+  "name": "ng-csv",
+  "version": "0.0.1",
+  "dependencies": {
+    "angular": "~1",
+    "angular-sanitize": "~1"
+  },
+  "devDependencies": {
+    "angular-mocks": "~1",
+    "angular-scenario": "~1"
+  },
+  "resolutions": {
+    "angular": "~1"
+  }
 }
-
