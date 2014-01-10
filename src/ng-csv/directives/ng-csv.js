@@ -25,6 +25,14 @@ angular.module('ngCsv.directives', []).
           $scope.buildCsv(newValue);
         }, true);
 
+        $scope.$watch('fieldSep', function() {
+          $scope.buildCsv($scope.data());
+        });
+
+        $scope.$watch('txtDelim', function() {
+          $scope.buildCsv($scope.data());
+        });
+
         $scope.buildCsv = function (data) {
           var csvContent = 'data:text/csv;charset=utf-8,';
 
@@ -57,7 +65,7 @@ angular.module('ngCsv.directives', []).
         };
 
         $scope.getFilename = function () {
-          return $scope.filename ? $scope.filename : 'download.csv';
+          return $scope.filename || 'download.csv';
         };
       }],
       template: '<div class="csv-wrap">' +

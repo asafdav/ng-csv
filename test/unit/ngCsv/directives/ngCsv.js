@@ -94,7 +94,7 @@ describe('ngCsv directive', function () {
     expect(scope.csv).toBe('data:text/csv;charset=utf-8,A,B,C%0A1,2,3%0A4,5,6%0A');
   });
 
-  it('Accepts optional text-delimiter attribute (input array)', function() {
+  it('Accepts optional text-delimiter attribute (input array)', function () {
     $rootScope.testDelim = [[1, 'a', 2], ['b', 'c', 3]];
     var element = $compile(
       '<div ng-csv="testDelim" text-delimiter=\'"\'' +
@@ -110,7 +110,7 @@ describe('ngCsv directive', function () {
     expect(scope.csv).toBe('data:text/csv;charset=utf-8,1,%22a%22,2%0A%22b%22,%22c%22,3%0A');
   });
 
-  it('Accepts optional text-delimiter attribute (input object)', function() {
+  it('Accepts optional text-delimiter attribute (input object)', function () {
     $rootScope.testDelim = [{a: 1, b: 'a', c: 2}, {a: 'b', b: 'c', c: 3}];
     var element = $compile(
       '<div ng-csv="testDelim" text-delimiter=\'"\'' +
@@ -126,7 +126,7 @@ describe('ngCsv directive', function () {
     expect(scope.csv).toBe('data:text/csv;charset=utf-8,1,%22a%22,2%0A%22b%22,%22c%22,3%0A');
   });
 
-  it('Accepts optional field-separator attribute (input array)', function() {
+  it('Accepts optional field-separator attribute (input array)', function () {
     var element = $compile(
       '<div ng-csv="test" field-separator=\';\'' +
       ' filename="custom.csv">' +
@@ -139,7 +139,7 @@ describe('ngCsv directive', function () {
     expect(scope.csv).toBe('data:text/csv;charset=utf-8,1;2;3%0A4;5;6%0A');
   });
 
-  it('Accepts optional field-separator attribute (input object)', function() {
+  it('Accepts optional field-separator attribute (input object)', function () {
     var element = $compile(
       '<div ng-csv="testObj" field-separator=\';\'' +
       ' filename="custom.csv">' +
@@ -148,6 +148,23 @@ describe('ngCsv directive', function () {
 
     var scope = element.scope();
     // Check that the compiled element contains the templated content
+    expect(scope.$eval(scope.data)).toEqual($rootScope.testObj);
+    expect(scope.csv).toBe('data:text/csv;charset=utf-8,1;2;3%0A4;5;6%0A');
+  });
+
+  it('Accepts dynamic field-separator attribute (input object)', function () {
+    $rootScope.sep = '\t';
+    var element = $compile(
+      '<div ng-csv="testObj" field-separator="{{sep}}"' +
+      ' filename="custom.csv">' +
+      '</div>')($rootScope);
+    $rootScope.$digest();
+    $rootScope.sep = ';';
+    $rootScope.$digest();
+
+    var scope = element.scope();
+    // Check that the compiled element contains the templated content
+    expect(scope.fieldSep).toBe($rootScope.sep);
     expect(scope.$eval(scope.data)).toEqual($rootScope.testObj);
     expect(scope.csv).toBe('data:text/csv;charset=utf-8,1;2;3%0A4;5;6%0A');
   });
