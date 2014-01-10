@@ -60,7 +60,7 @@ describe('ngCsv directive', function () {
 
     // Check that the compiled element contains the templated content
     expect(scope.$eval(scope.data)).toBe($rootScope.test);
-    expect(scope.csv).toBe('data:text/csv;charset=utf-8,1,2,3%0A4,5,6%0A');
+    expect(scope.csv).toBe('data:text/csv;charset=utf-8,1,2,3%0D%0A4,5,6%0D%0A');
   });
 
   it('Accepts $scope expressions as ng-csv', function () {
@@ -74,7 +74,7 @@ describe('ngCsv directive', function () {
 
     // Check that the compiled element contains the templated content
     expect(scope.$eval(scope.data)).toEqual($rootScope.getTest());
-    expect(scope.csv).toBe('data:text/csv;charset=utf-8,1,2,3%0A4,5,6%0A');
+    expect(scope.csv).toBe('data:text/csv;charset=utf-8,1,2,3%0D%0A4,5,6%0D%0A');
   });
 
   it('Creates a header row if provided', function () {
@@ -91,7 +91,7 @@ describe('ngCsv directive', function () {
     // Check that the compiled element contains the templated content
     expect(scope.$eval(scope.data)).toEqual($rootScope.test);
     expect(scope.$eval(scope.header)).toEqual(['A', 'B', 'C']);
-    expect(scope.csv).toBe('data:text/csv;charset=utf-8,A,B,C%0A1,2,3%0A4,5,6%0A');
+    expect(scope.csv).toBe('data:text/csv;charset=utf-8,A,B,C%0D%0A1,2,3%0D%0A4,5,6%0D%0A');
   });
 
   it('Accepts optional text-delimiter attribute (input array)', function () {
@@ -107,7 +107,7 @@ describe('ngCsv directive', function () {
 
     // Check that the compiled element contains the templated content
     expect(scope.$eval(scope.data)).toEqual($rootScope.testDelim);
-    expect(scope.csv).toBe('data:text/csv;charset=utf-8,1,%22a%22,2%0A%22b%22,%22c%22,3%0A');
+    expect(scope.csv).toBe('data:text/csv;charset=utf-8,1,%22a%22,2%0D%0A%22b%22,%22c%22,3%0D%0A');
   });
 
   it('Accepts optional text-delimiter attribute (input object)', function () {
@@ -123,7 +123,7 @@ describe('ngCsv directive', function () {
 
     // Check that the compiled element contains the templated content
     expect(scope.$eval(scope.data)).toEqual($rootScope.testDelim);
-    expect(scope.csv).toBe('data:text/csv;charset=utf-8,1,%22a%22,2%0A%22b%22,%22c%22,3%0A');
+    expect(scope.csv).toBe('data:text/csv;charset=utf-8,1,%22a%22,2%0D%0A%22b%22,%22c%22,3%0D%0A');
   });
 
   it('Accepts optional field-separator attribute (input array)', function () {
@@ -136,7 +136,7 @@ describe('ngCsv directive', function () {
     var scope = element.scope();
     // Check that the compiled element contains the templated content
     expect(scope.$eval(scope.data)).toEqual($rootScope.test);
-    expect(scope.csv).toBe('data:text/csv;charset=utf-8,1;2;3%0A4;5;6%0A');
+    expect(scope.csv).toBe('data:text/csv;charset=utf-8,1;2;3%0D%0A4;5;6%0D%0A');
   });
 
   it('Accepts optional field-separator attribute (input object)', function () {
@@ -149,7 +149,7 @@ describe('ngCsv directive', function () {
     var scope = element.scope();
     // Check that the compiled element contains the templated content
     expect(scope.$eval(scope.data)).toEqual($rootScope.testObj);
-    expect(scope.csv).toBe('data:text/csv;charset=utf-8,1;2;3%0A4;5;6%0A');
+    expect(scope.csv).toBe('data:text/csv;charset=utf-8,1;2;3%0D%0A4;5;6%0D%0A');
   });
 
   it('Accepts dynamic field-separator attribute (input object)', function () {
@@ -166,6 +166,6 @@ describe('ngCsv directive', function () {
     // Check that the compiled element contains the templated content
     expect(scope.fieldSep).toBe($rootScope.sep);
     expect(scope.$eval(scope.data)).toEqual($rootScope.testObj);
-    expect(scope.csv).toBe('data:text/csv;charset=utf-8,1;2;3%0A4;5;6%0A');
+    expect(scope.csv).toBe('data:text/csv;charset=utf-8,1;2;3%0D%0A4;5;6%0D%0A');
   });
 });

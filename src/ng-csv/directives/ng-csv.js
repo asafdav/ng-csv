@@ -45,7 +45,7 @@ angular.module('ngCsv.directives', []).
             }, encodingArray);
 
             var headerString = encodingArray.join($scope.fieldSep || ',');
-            csvContent += headerString + '\n';
+            csvContent += headerString + '\r\n';
           }
 
           // Process the data
@@ -58,7 +58,7 @@ angular.module('ngCsv.directives', []).
               this.push(field);
             }, infoArray);
             dataString = infoArray.join($scope.fieldSep || ',');
-            csvContent += index < data.length ? dataString + '\n' : dataString;
+            csvContent += index < data.length ? dataString + '\r\n' : dataString;
           });
 
           $scope.csv = encodeURI(csvContent);
