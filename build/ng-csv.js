@@ -42,54 +42,59 @@ angular.module('ngCsv.directives', []).
         filename:'@filename',
         header: '&csvHeader',
         txtDelim: '@textDelimiter',
-        fieldSep: '@fieldSeparator'
+        fieldSep: '@fieldSeparator',
+        ngClick: '&'
       },
-      controller: ['$scope', '$element', '$attrs', '$transclude', function (
-          $scope, $element, $attrs, $transclude
-      ) {
-        $scope.csv = '';
+      controller: [
+        '$scope',
+        '$element',
+        '$attrs',
+        '$transclude',
+        function ($scope, $element, $attrs, $transclude) {
+          $scope.csv = '';
 
-				$scope.$watch(function (newValue) {
-					$scope.buildCsv();
-				}, true);
+          $scope.$watch(function (newValue) {
+            $scope.buildCsv();
+          }, true);
 
-        $scope.buildCsv = function () {
-					var data = $scope.data();
-          var csvContent = 'data:text/csv;charset=utf-8,';
+          $scope.buildCsv = function () {
+            var data = $scope.data();
+            var csvContent = 'data:text/csv;charset=utf-8,';
 
-          // Check if there's a provided header array
-          var header = $scope.header();
-          if (header) {
-            var encodingArray = [];
-            angular.forEach(header, function (title) {
-              this.push(title);
-            }, encodingArray);
+            // Check if there's a provided header array
+            var header = $scope.header();
+            if (header) {
+              var encodingArray = [];
+              angular.forEach(header, function (title) {
+                this.push(title);
+              }, encodingArray);
 
-            var headerString = encodingArray.join($scope.fieldSep || ',');
-            csvContent += headerString + '\r\n';
-          }
+              var headerString = encodingArray.join($scope.fieldSep || ',');
+              csvContent += headerString + '\r\n';
+            }
 
-          // Process the data
-          angular.forEach(data, function (row, index) {
-            var infoArray = [];
-            angular.forEach(row, function (field) {
-              if (typeof field === 'string' && $scope.txtDelim) {
-                field = $scope.txtDelim + field + $scope.txtDelim;
-              }
-              this.push(field);
-            }, infoArray);
-            dataString = infoArray.join($scope.fieldSep || ',');
-            csvContent += index < data.length ? dataString + '\r\n' : dataString;
-          });
+            // Process the data
+            angular.forEach(data, function (row, index) {
+              var infoArray = [];
+              angular.forEach(row, function (field) {
+                if (typeof field === 'string' && $scope.txtDelim) {
+                  field = $scope.txtDelim + field + $scope.txtDelim;
+                }
+                this.push(field);
+              }, infoArray);
+              dataString = infoArray.join($scope.fieldSep || ',');
+              csvContent += index < data.length ? dataString + '\r\n' : dataString;
+            });
 
-          $scope.csv = encodeURI(csvContent);
-					return $scope.csv;
-        };
+            $scope.csv = encodeURI(csvContent);
+            return $scope.csv;
+          };
 
-        $scope.getFilename = function () {
-          return $scope.filename || 'download.csv';
-        };
-      }],
+          $scope.getFilename = function () {
+            return $scope.filename || 'download.csv';
+          };
+        }
+      ],
       template: '<div class="csv-wrap">' +
         '<div class="element" ng-transclude></div>' +
         '<a class="hidden-link" ng-hide="true" ng-href="{{ csv }}"' +
@@ -101,6 +106,9 @@ angular.module('ngCsv.directives', []).
 
         subject.bind('click', function (e) {
           link[0].click();
+          if (!!scope.ngClick) {
+            scope.ngClick();
+          }
         });
       }
     };

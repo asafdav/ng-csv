@@ -40,6 +40,29 @@ describe('ngCsv directive', function () {
     expect(element.html()).toContain('download="download.csv"');
   });
 
+  it('Accepts ng-click attribute ', function () {
+    $rootScope.clicked = false;
+    // Create click handler
+    $rootScope.clickTest = function() {
+      $rootScope.clicked = true;
+    }
+
+    // Make sure clicked is false
+    expect($rootScope.clicked).toBeFalsy();
+
+    // Compile a piece of HTML containing the directive
+    var element = $compile("<div ng-csv='test' ng-click='clickTest()'></div>")($rootScope);
+    element.triggerHandler('click');
+
+    // fire all the watches, so the scope expression {{1 + 1}} will be evaluated
+    $rootScope.$digest();
+    // Check that the compiled element contains the templated content
+    expect(element.html()).toContain('download="download.csv"');
+
+    // Check if clickTest was executed
+    expect($rootScope.clicked).toBeTruthy();
+  });
+
   it('Sets the provided filename', function () {
     // Compile a piece of HTML containing the directive
     var element = $compile("<div ng-csv='test' filename='custom.csv'></div>")($rootScope);
