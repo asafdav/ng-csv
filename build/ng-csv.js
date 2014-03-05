@@ -51,6 +51,20 @@ angular.module('ngCsv.directives', []).
         '$attrs',
         '$transclude',
         function ($scope, $element, $attrs, $transclude) {
+          var stringifyCell = function(data) {
+            if (typeof data === 'string') {
+              data = data.replace(/"/g, '""'); // Escape double qoutes
+              if ($scope.txtDelim) data = $scope.txtDelim + data + $scope.txtDelim;
+              return data;
+            }
+
+            if (typeof data === 'boolean') {
+              return data ? 'TRUE' : 'FALSE';
+            }
+
+            return data;
+          };
+
           $scope.csv = '';
 
           $scope.$watch(function (newValue) {
@@ -77,10 +91,7 @@ angular.module('ngCsv.directives', []).
             angular.forEach(data, function (row, index) {
               var infoArray = [];
               angular.forEach(row, function (field) {
-                if (typeof field === 'string' && $scope.txtDelim) {
-                  field = $scope.txtDelim + field + $scope.txtDelim;
-                }
-                this.push(field);
+                this.push(stringifyCell(field));
               }, infoArray);
               dataString = infoArray.join($scope.fieldSep || ',');
               csvContent += index < data.length ? dataString + '\r\n' : dataString;
