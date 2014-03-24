@@ -61,21 +61,13 @@ angular.module('ngCsv.directives', []).
             }
 
             // Process the data
-            var arrData = data();
-            angular.forEach(arrData, function(row, index){
-              var dataString, infoArray;
-
-              if (angular.isArray(row)) {
-                infoArray = row;
-              } else {
-                infoArray = [];
-                angular.forEach(row, function(field, key){
-                  this.push(field);
-                }, infoArray);
-              }
-
-              dataString = infoArray.join(",");
-              csvContent += index < arrData.length ? dataString + "\n" : dataString;
+            angular.forEach(data, function (row, index) {
+              var infoArray = [];
+              angular.forEach(row, function (field) {
+                this.push(stringifyCell(field));
+              }, infoArray);
+              dataString = infoArray.join($scope.fieldSep || ',');
+              csvContent += index < data.length ? dataString + '\r\n' : dataString;
             });
 
             $scope.csv = encodeURI(csvContent);
@@ -87,10 +79,11 @@ angular.module('ngCsv.directives', []).
           };
         }
       ],
-      template: '<div class="csv-wrap" style="display: inline">' +
-        '<button class="btn btn-default element" ng-transclude></button>' +
-        '<a class="hidden-link" ng-hide="true" ng-href="{{ csv }}" download="{{ getFilename() }}"></a>' +
-      '</div>',
+      template: '<div class="csv-wrap">' +
+        '<div class="element" ng-transclude></div>' +
+        '<a class="hidden-link" ng-hide="true" ng-href="{{ csv }}"' +
+        ' download="{{ getFilename() }}"></a>' +
+        '</div>',
       link: function (scope, element, attrs) {
         var subject = angular.element(element.children()[0]),
             link = angular.element(element.children()[1]);
