@@ -41,7 +41,7 @@ angular.module('ngCsv.directives', []).
 
           $scope.csv = '';
 
-          if (angular.isDefined($scope.lazyLoad) && $scope.lazyLoad == "true")
+          if (!angular.isDefined($scope.lazyLoad) || $scope.lazyLoad != "true")
           {
             $scope.$watch(function (newValue) {
               $scope.buildCsv($scope.data(), function() { } );
@@ -80,7 +80,12 @@ angular.module('ngCsv.directives', []).
                 csvContent += headerString + "\n";
               }
 
-              var arrData = data();
+              var arrData;
+
+              if (angular.isArray(data))
+                arrData = data;
+              else
+                arrData = data();
 
               angular.forEach(arrData, function(row, index)
               {
