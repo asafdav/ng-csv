@@ -70,9 +70,12 @@ angular.module('ngCsv.directives', []).
 
           if (!angular.isDefined($scope.lazyLoad) || $scope.lazyLoad != "true")
           {
-            $scope.$watch(function (newValue) {
-              $scope.buildCsv($scope.data(), function() { } );
-            }, true);
+            if (angular.isArray($scope.data))
+            {
+              $scope.$watch("data", function (newValue) {
+                $scope.buildCsv($scope.data(), function() { } );
+              }, true);
+            }
           }
 
           $scope.buildCsv = function (data, callback) 
