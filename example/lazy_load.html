@@ -12,7 +12,7 @@
     <div class="container" ng-controller="myctrl">
 
       <div class="page-header">
-        <h1>ngCsv <small>example</small></h1>
+        <h1>ngCsv <small>example with lazy load</small></h1>
       </div>
 
       <div class="form-group">
@@ -26,15 +26,8 @@
       </div>
 
       <button class="btn btn-default"
-              ng-csv="getArray" filename="{{ filename }}.csv" field-separator="{{separator}}"
-              >Export to CSV</button>
-      <button class="btn btn-default"
-              ng-csv="getArray" csv-header="getHeader()" filename="{{ filename }}" field-separator="{{separator}}"
-              >Export to CSV with header</button>
-
-      <button class="btn btn-default"
-              ng-csv="getArray" csv-header="getHeader()" filename="{{ filename }}" field-separator="{{separator}}"
-              ng-click="clickFn()">Export with ng-click</button>
+              ng-csv="getArray" lazy-load="true" filename="{{ filename }}.csv" field-separator="{{separator}}"
+              >Export to CSV (Lazy Load)</button>
 
       <button class="btn btn-default" ng-click="addRandomRow()">Add row</button>
     </div>
