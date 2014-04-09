@@ -29,6 +29,7 @@ ngCsv attributes
 
 * field-separator: Defines the field separator character (default is)
 * text-delimiter: If provided, will use this characters to "escape" string values
+* lazy-load: If defined and set to true, ngCsv will generate the data string only on demand. See the lazy_load example for more details. 
 
 
 ## Example
