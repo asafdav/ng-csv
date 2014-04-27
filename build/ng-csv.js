@@ -82,10 +82,7 @@ angular.module('ngCsv.directives', []).
           {
             var csvContent = "data:text/csv;charset=utf-8,";
 
-            var deferred = $q.defer();
-            var promise = deferred.promise;
-
-            promise.then(function () 
+            $q.when(data).then(function ()
             {
               // Check if there's a provided header array
               if (angular.isDefined($attrs.csvHeader)) 
@@ -141,12 +138,10 @@ angular.module('ngCsv.directives', []).
 
               $scope.csv = encodeURI(csvContent);
 
-              }).then(function () 
-              {
+              }).then(function() {
                 callback();
               });
 
-              deferred.resolve();
             };
 
             $scope.getFilename = function () 
