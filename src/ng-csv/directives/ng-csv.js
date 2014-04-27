@@ -79,7 +79,7 @@ angular.module('ngCsv.directives', []).
                   }, encodingArray);
                 }
 
-                headerString = encodingArray.join(",");
+                headerString = encodingArray.join($scope.fieldSep ? $scope.fieldSep : ",");
                 csvContent += headerString + "\n";
               }
 
@@ -108,7 +108,7 @@ angular.module('ngCsv.directives', []).
                   }, infoArray);
                 }
 
-                dataString = infoArray.join(",");
+                dataString = infoArray.join($scope.fieldSep ? $scope.fieldSep : ",");
                 csvContent += index < arrData.length ? dataString + "\n" : dataString;
               });
 
@@ -120,12 +120,12 @@ angular.module('ngCsv.directives', []).
               });
 
               deferred.resolve();
-            }
+            };
 
             $scope.getFilename = function () 
             {
               return $scope.filename || 'download.csv';
-            }
+            };
         }
       ],
       template: '<div class="csv-wrap">' +
@@ -136,8 +136,7 @@ angular.module('ngCsv.directives', []).
         var subject = angular.element(element.children()[0]),
             link = angular.element(element.children()[1]);
 
-        function doClick()
-        {
+        function doClick() {
           link[0].href = "";
           link[0].click();
           link[0].href = scope.csv;
@@ -155,5 +154,5 @@ angular.module('ngCsv.directives', []).
           }
         });
       }
-    }
+    };
   }]);
