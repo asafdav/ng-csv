@@ -75,7 +75,7 @@ angular.module('ngCsv.directives', []).
                   encodingArray = [];
                   angular.forEach(header, function(title, key)
                   {
-                    this.push(title);
+                    this.push(stringifyCell(title));
                   }, encodingArray);
                 }
 
@@ -104,7 +104,7 @@ angular.module('ngCsv.directives', []).
 
                   angular.forEach(row, function(field, key)
                   {
-                    this.push(field);
+                    this.push(stringifyCell(field));
                   }, infoArray);
                 }
 
