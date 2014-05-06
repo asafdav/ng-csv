@@ -55,7 +55,7 @@ angular.module('ngCsv.directives', []).
           {
             var csvContent = "data:text/csv;charset=utf-8,";
 
-            $q.when(data).then(function ()
+            $q.when(data).then(function (responseData)
             {
               // Check if there's a provided header array
               if (angular.isDefined($attrs.csvHeader)) 
@@ -82,10 +82,12 @@ angular.module('ngCsv.directives', []).
 
               var arrData;
 
-              if (angular.isArray(data))
-                arrData = data;
-              else
-                arrData = data();
+              if (angular.isArray(responseData)) {
+                arrData = responseData;
+              }
+              else {
+                arrData = responseData();
+              }
 
               angular.forEach(arrData, function(row, index)
               {
