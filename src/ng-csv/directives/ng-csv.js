@@ -63,18 +63,11 @@ angular.module('ngCsv.directives', []).
                 var header = $scope.$eval($scope.header);
                 var encodingArray, headerString;
 
-                if (angular.isArray(header)) 
+                encodingArray = [];
+                angular.forEach(header, function(title, key)
                 {
-                  encodingArray = header;
-                } 
-                else 
-                {
-                  encodingArray = [];
-                  angular.forEach(header, function(title, key)
-                  {
-                    this.push(stringifyCell(title));
-                  }, encodingArray);
-                }
+                  this.push(stringifyCell(title));
+                }, encodingArray);
 
                 headerString = encodingArray.join($scope.fieldSep ? $scope.fieldSep : ",");
                 csvContent += headerString + "\n";
@@ -93,19 +86,12 @@ angular.module('ngCsv.directives', []).
               {
                 var dataString, infoArray;
 
-                if (angular.isArray(row)) 
-                {
-                  infoArray = row;
-                } 
-                else 
-                {
-                  infoArray = [];
+                infoArray = [];
 
-                  angular.forEach(row, function(field, key)
-                  {
-                    this.push(stringifyCell(field));
-                  }, infoArray);
-                }
+                angular.forEach(row, function(field, key)
+                {
+                  this.push(stringifyCell(field));
+                }, infoArray);
 
                 dataString = infoArray.join($scope.fieldSep ? $scope.fieldSep : ",");
                 csvContent += index < arrData.length ? dataString + "\n" : dataString;
