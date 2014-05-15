@@ -1,8 +1,6 @@
 basePath = '';
 
 files = [
-  JASMINE,
-  JASMINE_ADAPTER,
 
   // Libraries
   'bower_components/angular/angular.js',
@@ -17,6 +15,8 @@ files = [
   'test/unit/**/*.js',
   'test/unit/**/**/*.js'
 ];
+
+frameworks = ["jasmine"];
 
 autoWatch = true;
 

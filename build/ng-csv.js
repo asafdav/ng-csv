@@ -22,10 +22,29 @@ angular.module('ngCsv.directives', []);
 angular.module('ngCsv',
     [
         'ngCsv.config',
+        'ngCsv.services',
         'ngCsv.directives',
         'ngSanitize'
     ]);
 /**
+ * Created by asafdav on 15/05/14.
+ */
+angular.module('ngCsv.services', []).
+  service('CSV', function()  {
+    this.stringifyField = function(data, delimier) {
+      if (typeof data === 'string') {
+        data = data.replace(/"/g, '""'); // Escape double qoutes
+        if (delimier || data.indexOf(',') > -1 ) data = delimier + data + delimier;
+        return data;
+      }
+
+      if (typeof data === 'boolean') {
+        return data ? 'TRUE' : 'FALSE';
+      }
+
+      return data;
+    };
+  });/**
  * ng-csv module
  * Export Javascript's arrays to csv files from the browser
  *

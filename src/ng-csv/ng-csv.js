@@ -20,6 +20,7 @@ angular.module('ngCsv.directives', []);
 angular.module('ngCsv',
     [
         'ngCsv.config',
+        'ngCsv.services',
         'ngCsv.directives',
         'ngSanitize'
     ]);

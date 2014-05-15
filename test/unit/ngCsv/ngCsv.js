@@ -28,4 +28,8 @@ describe('ngCsv', function () {
     expect(hasModule('ngCsv.directives')).toBeTruthy();
   });
 
+  it('should load services module', function () {
+    expect(hasModule('ngCsv.services')).toBeTruthy();
+  });
+
 });

@@ -4,8 +4,8 @@
  *
  * Author: asafdav - https://github.com/asafdav
  */
-angular.module('ngCsv.directives', []).
-  directive('ngCsv', ['$parse', '$q', function ($parse, $q) {
+angular.module('ngCsv.directives', ['ngCsv.services']).
+  directive('ngCsv', ['$parse', '$q', 'CSV', function ($parse, $q, CSV) {
     return {
       restrict: 'AC',
       replace: true,
@@ -25,20 +25,6 @@ angular.module('ngCsv.directives', []).
         '$attrs',
         '$transclude',
         function ($scope, $element, $attrs, $transclude) {
-          var stringifyCell = function(data) {
-            if (typeof data === 'string') {
-              data = data.replace(/"/g, '""'); // Escape double qoutes
-              if ($scope.txtDelim) data = $scope.txtDelim + data + $scope.txtDelim;
-              return data;
-            }
-
-            if (typeof data === 'boolean') {
-              return data ? 'TRUE' : 'FALSE';
-            }
-
-            return data;
-          };
-
           $scope.csv = '';
 
           if (!angular.isDefined($scope.lazyLoad) || $scope.lazyLoad != "true")
@@ -72,7 +58,7 @@ angular.module('ngCsv.directives', []).
                   encodingArray = [];
                   angular.forEach(header, function(title, key)
                   {
-                    this.push(stringifyCell(title));
+                    this.push(CSV.stringifyField(title));
                   }, encodingArray);
                 }
 
@@ -103,7 +89,7 @@ angular.module('ngCsv.directives', []).
 
                   angular.forEach(row, function(field, key)
                   {
-                    this.push(stringifyCell(field));
+                    this.push(CSV.stringifyField(field));
                   }, infoArray);
                 }
 
