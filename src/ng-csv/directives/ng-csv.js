@@ -32,69 +32,38 @@ angular.module('ngCsv.directives', ['ngCsv.services']).
             if (angular.isArray($scope.data))
             {
               $scope.$watch("data", function (newValue) {
-                $scope.buildCsv($scope.data(), function() { } );
+                $scope.buildCSV();
               }, true);
             }
           }
 
-          $scope.buildCsv = function (data, callback) 
+          $scope.getFilename = function ()
           {
-            var csvContent = "data:text/csv;charset=utf-8,";
+            return $scope.filename || 'download.csv';
+          };
 
-            $q.when(data).then(function (responseData)
-            {
-              // Check if there's a provided header array
-              if (angular.isDefined($attrs.csvHeader)) 
-              {
-                var header = $scope.$eval($scope.header);
-                var encodingArray, headerString;
+          function getBuildCsvOptions() {
+            var options = {};
+            if (angular.isDefined($attrs.csvHeader)) options.header = $scope.$eval($scope.header);
+            options.fieldSep = $scope.fieldSep ? $scope.fieldSep : ",";
 
-                encodingArray = [];
-                angular.forEach(header, function(title, key)
-                {
-                  this.push(CSV.stringifyField(title));
-                }, encodingArray);
+            return options;
+          }
 
-                headerString = encodingArray.join($scope.fieldSep ? $scope.fieldSep : ",");
-                csvContent += headerString + "\n";
-              }
+          /**
+           * Creates the CSV and updates the scope
+           * @returns {*}
+           */
+          $scope.buildCSV = function() {
+            var deferred = $q.defer();
 
-              var arrData;
+            CSV.stringify($scope.data(), getBuildCsvOptions(), function(csv) {
+              $scope.csv = csv;
+              deferred.resolve(csv);
+            });
 
-              if (angular.isArray(responseData)) {
-                arrData = responseData;
-              }
-              else {
-                arrData = responseData();
-              }
-
-              angular.forEach(arrData, function(row, index)
-              {
-                var dataString, infoArray;
-
-                infoArray = [];
-
-                angular.forEach(row, function(field, key)
-                {
-                  this.push(CSV.stringifyField(field));
-                }, infoArray);
-
-                dataString = infoArray.join($scope.fieldSep ? $scope.fieldSep : ",");
-                csvContent += index < arrData.length ? dataString + "\n" : dataString;
-              });
-
-              $scope.csv = encodeURI(csvContent);
-
-              }).then(function() {
-                callback();
-              });
-
-            };
-
-            $scope.getFilename = function () 
-            {
-              return $scope.filename || 'download.csv';
-            };
+            return deferred.promise;
+          };
         }
       ],
       template: '<div class="csv-wrap">' +
@@ -114,7 +83,7 @@ angular.module('ngCsv.directives', ['ngCsv.services']).
 
         subject.bind('click', function (e) 
         {
-          scope.buildCsv(scope.data(), function(){
+          $scope.buildCSV().then(function(csv) {
             doClick();
           });
 

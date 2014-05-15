@@ -28,6 +28,8 @@ angular.module('ngCsv.services', []).
      * Creates a csv from a data array
      * @param data
      * @param options
+     *  * header - Provide the first row (optional)
+     *  * fieldSep - Field separator, default: ','
      * @param callback
      */
     this.stringify = function (data, options, callback)
@@ -39,22 +41,15 @@ angular.module('ngCsv.services', []).
       $q.when(data).then(function (responseData)
       {
         // Check if there's a provided header array
-        if (angular.isDefined(options.csvHeader))
+        if (angular.isDefined(options.header) && options.header)
         {
           var encodingArray, headerString;
 
-          if (angular.isArray(header))
+          encodingArray = [];
+          angular.forEach(options.header, function(title, key)
           {
-            encodingArray = header;
-          }
-          else
-          {
-            encodingArray = [];
-            angular.forEach(header, function(title, key)
-            {
-              this.push(that.stringifyField(title));
-            }, encodingArray);
-          }
+            this.push(CSV.stringifyField(title));
+          }, encodingArray);
 
           headerString = encodingArray.join(options.fieldSep ? options.fieldSep : ",");
           csvContent += headerString + "\n";
@@ -73,21 +68,14 @@ angular.module('ngCsv.services', []).
         {
           var dataString, infoArray;
 
-          if (angular.isArray(row))
-          {
-            infoArray = row;
-          }
-          else
-          {
-            infoArray = [];
+          infoArray = [];
 
-            angular.forEach(row, function(field, key)
-            {
-              this.push(options.stringifyField(field));
-            }, infoArray);
-          }
+          angular.forEach(row, function(field, key)
+          {
+            this.push(CSV.stringifyField(field));
+          }, infoArray);
 
-          dataString = infoArray.join(options.fieldSep ? options.fieldSep : ",");
+          dataString = infoArray.join($scope.fieldSep ? $scope.fieldSep : ",");
           csvContent += index < arrData.length ? dataString + "\n" : dataString;
         });
 
