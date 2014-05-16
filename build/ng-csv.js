@@ -69,7 +69,7 @@ angular.module('ngCsv.services').
       var csvContent = "data:text/csv;charset=utf-8,";
       var csv;
 
-      $q.when(data).then(function (responseData)
+      var dataPromise = $q.when(data).then(function (responseData)
       {
         responseData = angular.copy(responseData);
         // Check if there's a provided header array
@@ -113,9 +113,13 @@ angular.module('ngCsv.services').
 
         csv = encodeURI(csvContent);
         def.resolve(csv);
-      }).catch(function(err) {
-        def.reject(err);
       });
+
+      if (typeof dataPromise.catch === 'function') {
+        dataPromise.catch(function(err) {
+          def.reject(err);
+        });
+      }
 
       return def.promise;
     };
