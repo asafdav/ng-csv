@@ -83,11 +83,9 @@ angular.module('ngCsv.services').
         });
 
         csv = encodeURI(csvContent);
-
-      }, function(err) {
-        def.reject(err);
-      }).then(function() {
         def.resolve(csv);
+      }).catch(function(err) {
+        def.reject(err);
       });
 
       return def.promise;
