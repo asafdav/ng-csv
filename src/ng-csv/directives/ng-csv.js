@@ -15,6 +15,7 @@ angular.module('ngCsv.directives').
         filename:'@filename',
         header: '&csvHeader',
         txtDelim: '@textDelimiter',
+        quoteStrings: '@quoteStrings',
         fieldSep: '@fieldSeparator',
         lazyLoad: '@lazyLoad',
         ngClick: '&'
@@ -43,7 +44,10 @@ angular.module('ngCsv.directives').
           };
 
           function getBuildCsvOptions() {
-            var options = {};
+            var options = {
+              txtDelim: $scope.txtDelim ? $scope.txtDelim : '"',
+              quoteStrings: $scope.quoteStrings
+            };
             if (angular.isDefined($attrs.csvHeader)) options.header = $scope.$eval($scope.header);
             options.fieldSep = $scope.fieldSep ? $scope.fieldSep : ",";
 
@@ -57,7 +61,7 @@ angular.module('ngCsv.directives').
           $scope.buildCSV = function() {
             var deferred = $q.defer();
 
-            CSV.stringify($scope.data(), getBuildCsvOptions(), function(csv) {
+            CSV.stringify($scope.data(), getBuildCsvOptions()).then(function(csv) {
               $scope.csv = csv;
               deferred.resolve(csv);
             });

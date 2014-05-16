@@ -39,10 +39,10 @@ angular.module('ngCsv.services').
      * @param delimier
      * @returns {*}
      */
-    this.stringifyField = function(data, delimier) {
+    this.stringifyField = function(data, delimier, quoteText) {
       if (typeof data === 'string') {
         data = data.replace(/"/g, '""'); // Escape double qoutes
-        if (delimier || data.indexOf(',') > -1 ) data = delimier + data + delimier;
+        if (quoteText || data.indexOf(',') > -1 ) data = delimier + data + delimier;
         return data;
       }
 
@@ -61,14 +61,17 @@ angular.module('ngCsv.services').
      *  * fieldSep - Field separator, default: ','
      * @param callback
      */
-    this.stringify = function (data, options, callback)
+    this.stringify = function (data, options)
     {
+      var def = $q.defer();
+
       var that = this;
       var csvContent = "data:text/csv;charset=utf-8,";
       var csv;
 
       $q.when(data).then(function (responseData)
       {
+        responseData = angular.copy(responseData);
         // Check if there's a provided header array
         if (angular.isDefined(options.header) && options.header)
         {
@@ -77,7 +80,7 @@ angular.module('ngCsv.services').
           encodingArray = [];
           angular.forEach(options.header, function(title, key)
           {
-            this.push(that.stringifyField(title));
+            this.push(that.stringifyField(title, options.txtDelim, options.quoteStrings));
           }, encodingArray);
 
           headerString = encodingArray.join(options.fieldSep ? options.fieldSep : ",");
@@ -101,7 +104,7 @@ angular.module('ngCsv.services').
 
           angular.forEach(row, function(field, key)
           {
-            this.push(that.stringifyField(field));
+            this.push(that.stringifyField(field, options.txtDelim, options.quoteStrings));
           }, infoArray);
 
           dataString = infoArray.join(options.fieldSep ? options.fieldSep : ",");
@@ -110,10 +113,13 @@ angular.module('ngCsv.services').
 
         csv = encodeURI(csvContent);
 
-      }).then(function() {
-        callback(csv);
+      }, function(err) {
+        def.reject();
+      }).finally(function() {
+        def.resolve(csv);
       });
 
+      return def.promise;
     };
   }]);/**
  * ng-csv module
@@ -132,6 +138,7 @@ angular.module('ngCsv.directives').
         filename:'@filename',
         header: '&csvHeader',
         txtDelim: '@textDelimiter',
+        quoteStrings: '@quoteStrings',
         fieldSep: '@fieldSeparator',
         lazyLoad: '@lazyLoad',
         ngClick: '&'
@@ -160,7 +167,10 @@ angular.module('ngCsv.directives').
           };
 
           function getBuildCsvOptions() {
-            var options = {};
+            var options = {
+              txtDelim: $scope.txtDelim ? $scope.txtDelim : '"',
+              quoteStrings: $scope.quoteStrings
+            };
             if (angular.isDefined($attrs.csvHeader)) options.header = $scope.$eval($scope.header);
             options.fieldSep = $scope.fieldSep ? $scope.fieldSep : ",";
 
@@ -174,7 +184,7 @@ angular.module('ngCsv.directives').
           $scope.buildCSV = function() {
             var deferred = $q.defer();
 
-            CSV.stringify($scope.data(), getBuildCsvOptions(), function(csv) {
+            CSV.stringify($scope.data(), getBuildCsvOptions()).then(function(csv) {
               $scope.csv = csv;
               deferred.resolve(csv);
             });

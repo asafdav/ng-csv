@@ -1,33 +1,35 @@
-basePath = '';
+module.exports = function(config) {
+  config.set({
+    basePath: "",
 
-files = [
+    files: [
 
-  // Libraries
-  'bower_components/angular/angular.js',
-  'bower_components/angular-sanitize/angular-sanitize.js',
-  'bower_components/angular-mocks/angular-mocks.js',
+      // Libraries
+      'bower_components/angular/angular.js',
+      'bower_components/angular-sanitize/angular-sanitize.js',
+      'bower_components/angular-mocks/angular-mocks.js',
 
-  // App
-  'src/ng-csv/*.js',
-  'src/ng-csv/directives/*.js',
-  'src/ng-csv/services/*.js',
+      // App
+      'src/ng-csv/*.js',
+      'src/ng-csv/directives/*.js',
+      'src/ng-csv/services/*.js',
 
-  // Test specs
-  'test/unit/**/*.js',
-  'test/unit/**/**/*.js'
-];
+      // Test specs
+      'test/unit/**/*.js',
+      'test/unit/**/**/*.js'
+    ],
 
-frameworks = ["jasmine"];
+    frameworks: ["jasmine"],
 
-autoWatch = true;
+    autoWatch: true,
 
-browsers = ['PhantomJS'];
+    browsers: ['PhantomJS'],
 
 // reporters = ['progress'];
 
-junitReporter = {
-  outputFile: 'test_out/unit.xml',
-  suite: 'unit'
-};
-
-plugins = ['karma-phantomjs-launcher', 'karma-jasmine'];
+    junitReporter: {
+      outputFile: 'test_out/unit.xml',
+      suite: 'unit'
+    }
+  });
+}
