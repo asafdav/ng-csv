@@ -14,9 +14,9 @@ module.exports = function (grunt) {
         src: [
           'src/<%= library.name %>/<%= library.name %>.prefix',
           'src/<%= library.name %>/<%= library.name %>.js',
+          'src/<%= library.name %>/services/**/*.js',
           'src/<%= library.name %>/directives/**/*.js',
           'src/<%= library.name %>/filters/**/*.js',
-          'src/<%= library.name %>/services/**/*.js',
           'src/<%= library.name %>/<%= library.name %>.suffix'
         ],
         dest: 'build/<%= library.name %>.js'
@@ -53,16 +53,13 @@ module.exports = function (grunt) {
         globalstrict: false
       }
     },
-    testFiles: {
-      karmaUnit: 'karma.conf.js'
-    },
     karma: {
       unit: {
         options: {
-          configFile: '<%= testFiles.karmaUnit %>',
+          configFile: 'karma.conf.js',
           autoWatch: false,
           singleRun: true,
-          browsers: browsers || ['Chrome']
+          browsers: browsers || ['PhantomJS']
         }
       }
     },

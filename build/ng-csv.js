@@ -18,7 +18,8 @@ angular.module('ngCsv.config', []).
   }]);
 
 // Modules
-angular.module('ngCsv.directives', []);
+angular.module('ngCsv.directives', ['ngCsv.services']);
+angular.module('ngCsv.services', []);
 angular.module('ngCsv',
     [
         'ngCsv.config',
@@ -29,7 +30,7 @@ angular.module('ngCsv',
 /**
  * Created by asafdav on 15/05/14.
  */
-angular.module('ngCsv.services', []).
+angular.module('ngCsv.services').
   service('CSV', ['$q', function($q)  {
 
     /**
@@ -76,7 +77,7 @@ angular.module('ngCsv.services', []).
           encodingArray = [];
           angular.forEach(options.header, function(title, key)
           {
-            this.push(CSV.stringifyField(title));
+            this.push(that.stringifyField(title));
           }, encodingArray);
 
           headerString = encodingArray.join(options.fieldSep ? options.fieldSep : ",");
@@ -100,10 +101,10 @@ angular.module('ngCsv.services', []).
 
           angular.forEach(row, function(field, key)
           {
-            this.push(CSV.stringifyField(field));
+            this.push(that.stringifyField(field));
           }, infoArray);
 
-          dataString = infoArray.join($scope.fieldSep ? $scope.fieldSep : ",");
+          dataString = infoArray.join(options.fieldSep ? options.fieldSep : ",");
           csvContent += index < arrData.length ? dataString + "\n" : dataString;
         });
 
@@ -120,7 +121,7 @@ angular.module('ngCsv.services', []).
  *
  * Author: asafdav - https://github.com/asafdav
  */
-angular.module('ngCsv.directives', ['ngCsv.services']).
+angular.module('ngCsv.directives').
   directive('ngCsv', ['$parse', '$q', 'CSV', function ($parse, $q, CSV) {
     return {
       restrict: 'AC',
@@ -199,7 +200,7 @@ angular.module('ngCsv.directives', ['ngCsv.services']).
 
         subject.bind('click', function (e) 
         {
-          $scope.buildCSV().then(function(csv) {
+          scope.buildCSV().then(function(csv) {
             doClick();
           });
 

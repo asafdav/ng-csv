@@ -4,7 +4,7 @@
  *
  * Author: asafdav - https://github.com/asafdav
  */
-angular.module('ngCsv.directives', ['ngCsv.services']).
+angular.module('ngCsv.directives').
   directive('ngCsv', ['$parse', '$q', 'CSV', function ($parse, $q, CSV) {
     return {
       restrict: 'AC',
@@ -83,7 +83,7 @@ angular.module('ngCsv.directives', ['ngCsv.services']).
 
         subject.bind('click', function (e) 
         {
-          $scope.buildCSV().then(function(csv) {
+          scope.buildCSV().then(function(csv) {
             doClick();
           });
 

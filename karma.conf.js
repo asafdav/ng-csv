@@ -10,6 +10,7 @@ files = [
   // App
   'src/ng-csv/*.js',
   'src/ng-csv/directives/*.js',
+  'src/ng-csv/services/*.js',
 
   // Test specs
   'test/unit/**/*.js',
@@ -20,7 +21,7 @@ frameworks = ["jasmine"];
 
 autoWatch = true;
 
-browsers = ['Chrome'];
+browsers = ['PhantomJS'];
 
 // reporters = ['progress'];
 
@@ -28,3 +29,5 @@ junitReporter = {
   outputFile: 'test_out/unit.xml',
   suite: 'unit'
 };
+
+plugins = ['karma-phantomjs-launcher', 'karma-jasmine'];

@@ -12,6 +12,7 @@ module.exports = function(config) {
       // App
       'src/ng-csv/*.js',
       'src/ng-csv/directives/*.js',
+      'src/ng-csv/services/*.js',
 
       // Test specs
       'test/unit/**/*.js',
@@ -22,7 +23,7 @@ module.exports = function(config) {
 
     autoWatch: true,
 
-    browsers: ['Chrome'],
+    browsers: ['PhantomJS'],
 
 // reporters = ['progress'];
 

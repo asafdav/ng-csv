@@ -1,7 +1,7 @@
 /**
  * Created by asafdav on 15/05/14.
  */
-angular.module('ngCsv.services', []).
+angular.module('ngCsv.services').
   service('CSV', ['$q', function($q)  {
 
     /**
@@ -48,7 +48,7 @@ angular.module('ngCsv.services', []).
           encodingArray = [];
           angular.forEach(options.header, function(title, key)
           {
-            this.push(CSV.stringifyField(title));
+            this.push(that.stringifyField(title));
           }, encodingArray);
 
           headerString = encodingArray.join(options.fieldSep ? options.fieldSep : ",");
@@ -72,10 +72,10 @@ angular.module('ngCsv.services', []).
 
           angular.forEach(row, function(field, key)
           {
-            this.push(CSV.stringifyField(field));
+            this.push(that.stringifyField(field));
           }, infoArray);
 
-          dataString = infoArray.join($scope.fieldSep ? $scope.fieldSep : ",");
+          dataString = infoArray.join(options.fieldSep ? options.fieldSep : ",");
           csvContent += index < arrData.length ? dataString + "\n" : dataString;
         });
 

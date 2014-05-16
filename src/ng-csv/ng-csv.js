@@ -16,7 +16,8 @@ angular.module('ngCsv.config', []).
   }]);
 
 // Modules
-angular.module('ngCsv.directives', []);
+angular.module('ngCsv.directives', ['ngCsv.services']);
+angular.module('ngCsv.services', []);
 angular.module('ngCsv',
     [
         'ngCsv.config',
