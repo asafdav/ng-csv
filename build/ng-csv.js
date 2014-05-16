@@ -188,6 +188,7 @@ angular.module('ngCsv.directives').
               $scope.csv = csv;
               deferred.resolve(csv);
             });
+            $scope.$apply(); // Old angular support
 
             return deferred.promise;
           };
