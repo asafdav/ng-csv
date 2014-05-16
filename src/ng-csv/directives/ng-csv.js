@@ -91,6 +91,7 @@ angular.module('ngCsv.directives').
           scope.buildCSV().then(function(csv) {
             doClick();
           });
+          scope.$apply();
 
           if (!!scope.ngClick) {
             scope.ngClick();
