@@ -3,6 +3,7 @@ ngCsv - Export to CSV using AngularJS
 
 An AngularJS simple directive that turns arrays and objects into downloadable CSV files,
 
+[![Build Status](https://travis-ci.org/asafdav/ng-csv.svg?branch=master)](https://travis-ci.org/asafdav/ng-csv)
 
 ## Usage
 1. Add ng-csv.min.js to your main file (index.html)
