@@ -193,6 +193,27 @@ describe('ngCsv directive', function () {
     scope.$apply();
   });
 
+  it('Handles CLR in fields properly', function (done) {
+    $rootScope.testDelim = [{a: 1, b: 'a\nb', c: 2}, {a: 'b', b: 'c', c: 3}];
+    var element = $compile(
+        '<div ng-csv="testDelim"' +
+        ' filename="custom.csv">' +
+        '</div>')($rootScope);
+
+    $rootScope.$digest();
+
+    var scope = element.isolateScope();
+
+    // Check that the compiled element contains the templated content
+    expect(scope.$eval(scope.data)).toEqual($rootScope.testDelim);
+
+    scope.buildCSV(scope.data).then(function() {
+      expect(scope.csv).toBe('data:text/csv;charset=utf-8,1,%22a%0Ab%22,2%0Ab,c,3%0A');
+      done();
+    });
+    scope.$apply();
+  });
+
   it('Accepts optional field-separator attribute (input array)', function (done) {
     var element = $compile(
       '<div ng-csv="test" field-separator=\';\'' +

@@ -13,7 +13,7 @@ angular.module('ngCsv.services').
     this.stringifyField = function(data, delimier, quoteText) {
       if (typeof data === 'string') {
         data = data.replace(/"/g, '""'); // Escape double qoutes
-        if (quoteText || data.indexOf(',') > -1 ) data = delimier + data + delimier;
+        if (quoteText || data.indexOf(',') > -1 || data.indexOf('\n') > -1 || data.indexOf('\r') > -1) data = delimier + data + delimier;
         return data;
       }
 
