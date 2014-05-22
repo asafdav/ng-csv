@@ -37,8 +37,14 @@ angular.module('ngCsv.services').
       var def = $q.defer();
 
       var that = this;
-      var csvContent = "data:text/csv;charset=utf-8,";
       var csv;
+      var csvContent;
+
+      if(window.navigator.msSaveOrOpenBlob) {
+        csvContent = "";
+      }else{
+        csvContent = "data:text/csv;charset=utf-8,";
+      }
 
       var dataPromise = $q.when(data).then(function (responseData)
       {
@@ -82,7 +88,11 @@ angular.module('ngCsv.services').
           csvContent += index < arrData.length ? dataString + "\n" : dataString;
         });
 
-        csv = encodeURI(csvContent);
+        if(window.navigator.msSaveOrOpenBlob) {
+          csv = csvContent;
+        }else{
+          csv = encodeURI(csvContent);
+        }
         def.resolve(csv);
       });
 
