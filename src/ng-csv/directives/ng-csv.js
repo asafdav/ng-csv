@@ -82,8 +82,15 @@ angular.module('ngCsv.directives').
         function doClick() {
           link[0].href = "";
           link[0].click();
-          link[0].href = scope.csv;
-          link[0].click();
+          if(window.navigator.msSaveOrOpenBlob) {
+            var blob = new Blob([scope.csv],{
+                    type: "text/csv;charset=utf-8;"
+                });
+            navigator.msSaveBlob(blob, scope.getFilename());
+          } else {
+             link[0].href = scope.csv;
+             link[0].click();
+          }
         }
 
         subject.bind('click', function (e) 
