@@ -140,7 +140,7 @@ angular.module('ngCsv.services').
  * Author: asafdav - https://github.com/asafdav
  */
 angular.module('ngCsv.directives').
-  directive('ngCsv', ['$parse', '$q', 'CSV', '$document', function ($parse, $q, CSV, $document) {
+  directive('ngCsv', ['$parse', '$q', 'CSV', '$document', '$timeout', function ($parse, $q, CSV, $document, $timeout) {
     return {
       restrict: 'AC',
       scope: {
@@ -218,8 +218,10 @@ angular.module('ngCsv.directives').
             downloadLink.attr('download',scope.getFilename());
 
             $document.find('body').append(downloadLink);
-            downloadLink[0].click();
-            downloadLink.remove(downloadLink);
+            $timeout(function() {
+              downloadLink[0].click();
+              downloadLink.remove(downloadLink);
+            }, null);
           }
 
         }
