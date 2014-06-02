@@ -21,25 +21,6 @@ describe('ngCsv directive', function () {
     $rootScope.testObj = [{a: 1, b: 2, c: 3}, {a: 4, b: 5, c: 6}];
   }));
 
-  it('Replaces the element with the appropriate content', function () {
-    // Compile a piece of HTML containing the directive
-    var element = $compile("<div ng-csv='test'></div>") ($rootScope);
-    // fire all the watches
-    $rootScope.$digest();
-    // Check that the compiled element contains the templated content
-    expect(element.html()).toMatch(/<div class="element"/);
-    expect(element.html()).toMatch(/a class="hidden.*" ng-hide="true"/gi);
-  });
-
-  it('Sets default filename', function () {
-    // Compile a piece of HTML containing the directive
-    var element = $compile("<div ng-csv='test'></div>")($rootScope);
-    // fire all the watches, so the scope expression {{1 + 1}} will be evaluated
-    $rootScope.$digest();
-    // Check that the compiled element contains the templated content
-    expect(element.html()).toContain('download="download.csv"');
-  });
-
   it('Accepts ng-click attribute ', function () {
     $rootScope.clicked = false;
     // Create click handler
@@ -56,22 +37,10 @@ describe('ngCsv directive', function () {
 
     // fire all the watches, so the scope expression {{1 + 1}} will be evaluated
     $rootScope.$digest();
-    // Check that the compiled element contains the templated content
-    expect(element.html()).toContain('download="download.csv"');
 
     // Check if clickTest was executed
     expect($rootScope.clicked).toBeTruthy();
   });
-
-  it('Sets the provided filename', function () {
-    // Compile a piece of HTML containing the directive
-    var element = $compile("<div ng-csv='test' filename='custom.csv'></div>")($rootScope);
-    // fire all the watches, so the scope expression {{1 + 1}} will be evaluated
-    $rootScope.$digest();
-    // Check that the compiled element contains the templated content
-    expect(element.html()).toContain('download="custom.csv"');
-  });
-
 
   it('Builds the csv format correctly', function (done) {
     // Compile a piece of HTML containing the directive

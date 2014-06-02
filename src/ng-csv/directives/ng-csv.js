@@ -5,7 +5,7 @@
  * Author: asafdav - https://github.com/asafdav
  */
 angular.module('ngCsv.directives').
-  directive('ngCsv', ['$parse', '$q', 'CSV', function ($parse, $q, CSV) {
+  directive('ngCsv', ['$parse', '$q', 'CSV', '$document', function ($parse, $q, CSV, $document) {
     return {
       restrict: 'AC',
       scope: {
@@ -77,13 +77,14 @@ angular.module('ngCsv.directives').
                 });
             navigator.msSaveBlob(blob, scope.getFilename());
           } else {
-            var downloadLink = document.createElement("a");
-            downloadLink.href = scope.csv;
-            downloadLink.download = scope.getFilename();
 
-            document.body.appendChild(downloadLink);
-            downloadLink.click();
-            document.body.removeChild(downloadLink);
+            var downloadLink = angular.element('<a></a>');
+            downloadLink.attr('href',scope.csv);
+            downloadLink.attr('download',scope.getFilename());
+
+            $document.find('body').append(downloadLink);
+            downloadLink[0].click();
+            downloadLink.remove(downloadLink);
           }
 
         }
