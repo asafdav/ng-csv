@@ -37,6 +37,14 @@ ngCsv attributes
 ## Example
 You can check out this live example here: http://jsfiddle.net/asafdav/dR6Nb/
 
+Supported Browsers
+------------------
+| Browser         | Filenames     |
+| --------------- | ------------- |
+| Firefox 20+     | Yes           |
+| Chrome 14+      | Yes           |
+| Safari          | No            |
+| IE 10+          | Yes           |
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/asafdav/ng-csv/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
