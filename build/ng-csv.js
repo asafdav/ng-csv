@@ -66,8 +66,14 @@ angular.module('ngCsv.services').
       var def = $q.defer();
 
       var that = this;
-      var csvContent = "data:text/csv;charset=utf-8,";
       var csv;
+      var csvContent;
+
+      if(window.navigator.msSaveOrOpenBlob) {
+        csvContent = "";
+      }else{
+        csvContent = "data:text/csv;charset=utf-8,";
+      }
 
       var dataPromise = $q.when(data).then(function (responseData)
       {
@@ -111,7 +117,11 @@ angular.module('ngCsv.services').
           csvContent += index < arrData.length ? dataString + "\n" : dataString;
         });
 
-        csv = encodeURI(csvContent);
+        if(window.navigator.msSaveOrOpenBlob) {
+          csv = csvContent;
+        }else{
+          csv = encodeURI(csvContent);
+        }
         def.resolve(csv);
       });
 
@@ -133,8 +143,6 @@ angular.module('ngCsv.directives').
   directive('ngCsv', ['$parse', '$q', 'CSV', function ($parse, $q, CSV) {
     return {
       restrict: 'AC',
-      replace: true,
-      transclude: true,
       scope: {
         data:'&ngCsv',
         filename:'@filename',
@@ -196,31 +204,31 @@ angular.module('ngCsv.directives').
           };
         }
       ],
-      template: '<div class="csv-wrap">' +
-        '<div class="element" ng-transclude></div>' +
-        '<a class="hidden-link" ng-hide="true" ng-href="{{ csv }}" download="{{ getFilename() }}"></a>' +
-        '</div>',
       link: function (scope, element, attrs) {
-        var subject = angular.element(element.children()[0]),
-            link = angular.element(element.children()[1]);
-
         function doClick() {
-          link[0].href = "";
-          link[0].click();
-          link[0].href = scope.csv;
-          link[0].click();
+          if(window.navigator.msSaveOrOpenBlob) {
+            var blob = new Blob([scope.csv],{
+                    type: "text/csv;charset=utf-8;"
+                });
+            navigator.msSaveBlob(blob, scope.getFilename());
+          } else {
+            var downloadLink = document.createElement("a");
+            downloadLink.href = scope.csv;
+            downloadLink.download = scope.getFilename();
+
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+          }
+
         }
 
-        subject.bind('click', function (e) 
+        element.bind('click', function (e)
         {
           scope.buildCSV().then(function(csv) {
             doClick();
           });
           scope.$apply();
-
-          if (!!scope.ngClick) {
-            scope.ngClick();
-          }
         });
       }
     };
