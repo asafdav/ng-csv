@@ -70,7 +70,7 @@ angular.module('ngCsv.services').
       var csvContent;
 
       if(window.navigator.msSaveOrOpenBlob) {
-        csvContent = "";
+        csvContent = '\uFEFF';
       }else{
         csvContent = "data:text/csv;charset=utf-8,";
       }
