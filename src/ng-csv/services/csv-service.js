@@ -70,7 +70,7 @@ angular.module('ngCsv.services').
           arrData = responseData;
         }
         else {
-          arrData = responseData();
+          arrData = responseData;
         }
 
         angular.forEach(arrData, function(row, index)
