@@ -70,7 +70,7 @@ angular.module('ngCsv.services').
       var csvContent;
 
       if(window.navigator.msSaveOrOpenBlob) {
-        csvContent = "";
+        csvContent = '\uFEFF';
       }else{
         csvContent = "data:text/csv;charset=utf-8,";
       }
@@ -220,7 +220,7 @@ angular.module('ngCsv.directives').
             $document.find('body').append(downloadLink);
             $timeout(function() {
               downloadLink[0].click();
-              downloadLink.remove(downloadLink);
+              downloadLink.remove();
             }, null);
           }
 
