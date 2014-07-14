@@ -5,6 +5,11 @@ An AngularJS simple directive that turns arrays and objects into downloadable CS
 
 [![Build Status](https://travis-ci.org/asafdav/ng-csv.svg?branch=master)](https://travis-ci.org/asafdav/ng-csv)
 
+## Dependencies
+* angular.js (of course!), any version starting with 1
+* angular-sanitize.js, any version starting with 1
+
+
 ## Usage
 1. Add ng-csv.min.js to your main file (index.html)
 
