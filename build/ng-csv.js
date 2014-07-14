@@ -220,7 +220,7 @@ angular.module('ngCsv.directives').
             $document.find('body').append(downloadLink);
             $timeout(function() {
               downloadLink[0].click();
-              downloadLink.remove(downloadLink);
+              downloadLink.remove();
             }, null);
           }
 
