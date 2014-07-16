@@ -33,7 +33,8 @@ angular.module('ngCsv',
 angular.module('ngCsv.services').
   service('CSV', ['$q', function($q)  {
 
-    var EOL = '\r\n';
+    var EOL = encodeURIComponent('\r\n');
+    var DATA_URI_PREFIX = "data:text/csv;charset=utf-8,";
 
     /**
      * Stringify one field
@@ -45,7 +46,7 @@ angular.module('ngCsv.services').
       if (typeof data === 'string') {
         data = data.replace(/"/g, '""'); // Escape double qoutes
         if (quoteText || data.indexOf(',') > -1 || data.indexOf('\n') > -1 || data.indexOf('\r') > -1) data = delimier + data + delimier;
-        return data;
+        return encodeURIComponent(data);
       }
 
       if (typeof data === 'boolean') {
@@ -69,13 +70,7 @@ angular.module('ngCsv.services').
 
       var that = this;
       var csv;
-      var csvContent;
-
-      if(window.navigator.msSaveOrOpenBlob) {
-        csvContent = "";
-      }else{
-        csvContent = "data:text/csv;charset=utf-8,";
-      }
+      var csvContent = "";
 
       var dataPromise = $q.when(data).then(function (responseData)
       {
@@ -122,7 +117,7 @@ angular.module('ngCsv.services').
         if(window.navigator.msSaveOrOpenBlob) {
           csv = csvContent;
         }else{
-          csv = encodeURI(csvContent);
+          csv = DATA_URI_PREFIX + csvContent;
         }
         def.resolve(csv);
       });

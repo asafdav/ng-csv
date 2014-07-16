@@ -156,7 +156,7 @@ describe('ngCsv directive', function () {
     expect(scope.$eval(scope.data)).toEqual($rootScope.testDelim);
 
     scope.buildCSV(scope.data).then(function() {
-      expect(scope.csv).toBe('data:text/csv;charset=utf-8,1,%22a,b%22,2%0D%0Ab,c,3%0D%0A');
+      expect(scope.csv).toBe('data:text/csv;charset=utf-8,1,%22a%2Cb%22,2%0D%0Ab,c,3%0D%0A');
       done();
     });
     scope.$apply();
@@ -178,6 +178,27 @@ describe('ngCsv directive', function () {
 
     scope.buildCSV(scope.data).then(function() {
       expect(scope.csv).toBe('data:text/csv;charset=utf-8,1,%22a%0Ab%22,2%0D%0Ab,c,3%0D%0A');
+      done();
+    });
+    scope.$apply();
+  });
+
+  it('Handles # in fields properly', function (done) {
+    $rootScope.testDelim = [{a: 1, b: 'a#b', c: 2}, {a: 'b', b: 'c', c: 3}];
+    var element = $compile(
+        '<div ng-csv="testDelim"' +
+        ' filename="custom.csv">' +
+        '</div>')($rootScope);
+
+    $rootScope.$digest();
+
+    var scope = element.isolateScope();
+
+    // Check that the compiled element contains the templated content
+    expect(scope.$eval(scope.data)).toEqual($rootScope.testDelim);
+
+    scope.buildCSV(scope.data).then(function() {
+      expect(scope.csv).toBe('data:text/csv;charset=utf-8,1,a%23b,2%0D%0Ab,c,3%0D%0A');
       done();
     });
     scope.$apply();
