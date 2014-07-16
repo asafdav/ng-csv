@@ -4,6 +4,8 @@
 angular.module('ngCsv.services').
   service('CSV', ['$q', function($q)  {
 
+    var EOL = '\r\n';
+
     /**
      * Stringify one field
      * @param data
@@ -61,7 +63,7 @@ angular.module('ngCsv.services').
           }, encodingArray);
 
           headerString = encodingArray.join(options.fieldSep ? options.fieldSep : ",");
-          csvContent += headerString + "\n";
+          csvContent += headerString + EOL;
         }
 
         var arrData;
@@ -85,7 +87,7 @@ angular.module('ngCsv.services').
           }, infoArray);
 
           dataString = infoArray.join(options.fieldSep ? options.fieldSep : ",");
-          csvContent += index < arrData.length ? dataString + "\n" : dataString;
+          csvContent += index < arrData.length ? dataString + EOL : dataString;
         });
 
         if(window.navigator.msSaveOrOpenBlob) {
