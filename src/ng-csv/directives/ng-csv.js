@@ -78,12 +78,12 @@ angular.module('ngCsv.directives').
             navigator.msSaveBlob(blob, scope.getFilename());
           } else {
             //Blob Way
-            var blob,cvsUrl;
+            var blobW,cvsUrl;
             try{
-              blob = new Blob([scope.csv],{ 
+              blobW = new Blob([scope.csv],{ 
                 type: 'text/csv' 
               });
-              csvUrl = URL.createObjectURL(blob);
+              csvUrl = URL.createObjectURL(blobW);
             }
             catch(e){
               // Old Chrome and FF and IE
@@ -92,9 +92,9 @@ angular.module('ngCsv.directives').
                                 window.MozBlobBuilder || 
                                 window.MSBlobBuilder;
               if(e.name == 'TypeError' && BlobBuilder){
-                blob = new BlobBuilder();
-                blob.append(scope.csv);
-                cvsUrl = URL.createObjectURL(blob.getBlob('text/csv'));
+                blobW = new BlobBuilder();
+                blobW.append(scope.csv);
+                cvsUrl = URL.createObjectURL(blobW.getBlob('text/csv'));
               }else{
                 // We're screwed, blob constructor unsupported entirely
                 csvUrl = scope.csv;
