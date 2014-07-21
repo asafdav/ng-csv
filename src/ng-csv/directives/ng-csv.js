@@ -82,7 +82,7 @@ angular.module('ngCsv.directives').
             var URL_V = window.URL || window.webkitURL;
             try{
               blobW = new Blob([scope.csv],{ 
-                type: 'text/csv' 
+                type: "text/csv;charset=utf-8;"
               });
               csvUrl =  URL_V.createObjectURL(blobW);
             }
@@ -95,7 +95,7 @@ angular.module('ngCsv.directives').
               if(e.name == 'TypeError' && BlobBuilder){
                 blobW = new BlobBuilder();
                 blobW.append(scope.csv);
-                csvUrl =  URL_V.createObjectURL(blobW.getBlob('text/csv'));
+                csvUrl =  URL_V.createObjectURL(blobW.getBlob("text/csv;charset=utf-8;"));
               }else{
                 // We're screwed, blob constructor unsupported entirely
                 csvUrl = scope.csv;

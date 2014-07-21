@@ -33,7 +33,7 @@ angular.module('ngCsv',
 angular.module('ngCsv.services').
   service('CSV', ['$q', function($q)  {
 
-    var EOL = encodeURIComponent('\r\n');
+    var EOL = '\r\n';
     var DATA_URI_PREFIX = "data:text/csv;charset=utf-8,";
 
     /**
@@ -46,7 +46,7 @@ angular.module('ngCsv.services').
       if (typeof data === 'string') {
         data = data.replace(/"/g, '""'); // Escape double qoutes
         if (quoteText || data.indexOf(',') > -1 || data.indexOf('\n') > -1 || data.indexOf('\r') > -1) data = delimier + data + delimier;
-        return encodeURIComponent(data);
+        return data;
       }
 
       if (typeof data === 'boolean') {
@@ -114,10 +114,10 @@ angular.module('ngCsv.services').
           csvContent += index < arrData.length ? dataString + EOL : dataString;
         });
 
-        if(window.navigator.msSaveOrOpenBlob) {
+        if(window.navigator.msSaveOrOpenBlob || Blob ) {
           csv = csvContent;
         }else{
-          csv = DATA_URI_PREFIX + csvContent;
+          csv = DATA_URI_PREFIX + encodeURIComponent(csvContent);
         }
         def.resolve(csv);
       });
@@ -214,7 +214,7 @@ angular.module('ngCsv.directives').
             var URL_V = window.URL || window.webkitURL;
             try{
               blobW = new Blob([scope.csv],{ 
-                type: 'text/csv' 
+                type: "text/csv;charset=utf-8;"
               });
               csvUrl =  URL_V.createObjectURL(blobW);
             }
@@ -227,7 +227,7 @@ angular.module('ngCsv.directives').
               if(e.name == 'TypeError' && BlobBuilder){
                 blobW = new BlobBuilder();
                 blobW.append(scope.csv);
-                csvUrl =  URL_V.createObjectURL(blobW.getBlob('text/csv'));
+                csvUrl =  URL_V.createObjectURL(blobW.getBlob("text/csv;charset=utf-8;"));
               }else{
                 // We're screwed, blob constructor unsupported entirely
                 csvUrl = scope.csv;

@@ -1,0 +1,689 @@
+
+> ngcsv@0.0.0 test /home/jmtt/HubRep/ng-csv
+> grunt test --verbose
+
+[4mInitializing[24m
+Command-line options: [36m--verbose[39m
+
+Reading "Gruntfile.js" Gruntfile...[32mOK[39m
+
+[1mRegistering Gruntfile tasks.[22m
+Reading package.json...[32mOK[39m
+Parsing package.json...[32mOK[39m
+Reading bower.json...[32mOK[39m
+Parsing bower.json...[32mOK[39m
+Initializing config...[32mOK[39m
+
+[1mRegistering "grunt-karma" local Npm module tasks.[22m
+Reading /home/jmtt/HubRep/ng-csv/node_modules/grunt-karma/package.json...[32mOK[39m
+Parsing /home/jmtt/HubRep/ng-csv/node_modules/grunt-karma/package.json...[32mOK[39m
+Loading "grunt-karma.js" tasks...[32mOK[39m
++ [36mkarma[39m
+
+[1mRegistering "grunt-contrib-uglify" local Npm module tasks.[22m
+Reading /home/jmtt/HubRep/ng-csv/node_modules/grunt-contrib-uglify/package.json...[32mOK[39m
+Parsing /home/jmtt/HubRep/ng-csv/node_modules/grunt-contrib-uglify/package.json...[32mOK[39m
+Loading "uglify.js" tasks...[32mOK[39m
++ [36muglify[39m
+
+[1mRegistering "grunt-contrib-jshint" local Npm module tasks.[22m
+Reading /home/jmtt/HubRep/ng-csv/node_modules/grunt-contrib-jshint/package.json...[32mOK[39m
+Parsing /home/jmtt/HubRep/ng-csv/node_modules/grunt-contrib-jshint/package.json...[32mOK[39m
+Loading "jshint.js" tasks...[32mOK[39m
++ [36mjshint[39m
+
+[1mRegistering "grunt-contrib-concat" local Npm module tasks.[22m
+Reading /home/jmtt/HubRep/ng-csv/node_modules/grunt-contrib-concat/package.json...[32mOK[39m
+Parsing /home/jmtt/HubRep/ng-csv/node_modules/grunt-contrib-concat/package.json...[32mOK[39m
+Loading "concat.js" tasks...[32mOK[39m
++ [36mconcat[39m
+
+[1mRegistering "grunt-contrib-watch" local Npm module tasks.[22m
+Reading /home/jmtt/HubRep/ng-csv/node_modules/grunt-contrib-watch/package.json...[32mOK[39m
+Parsing /home/jmtt/HubRep/ng-csv/node_modules/grunt-contrib-watch/package.json...[32mOK[39m
+Loading "watch.js" tasks...[32mOK[39m
++ [36mwatch[39m
+Loading "Gruntfile.js" tasks...[32mOK[39m
++ [36mdefault[39m, [36mlivereload[39m, [36mtest[39m
+
+Running tasks: [36mtest[39m
+
+[4mRunning "test" task[24m
+
+[4mRunning "jshint" task[24m
+
+[4mRunning "jshint:beforeConcat" (jshint) task[24m
+Verifying property [36mjshint.beforeConcat[39m exists in config...[32mOK[39m
+Files: [33m[no src][39m
+Options: [36mforce=false[39m, [36mreporterOutput=null[39m, [36mglobals={"jQuery":true,"console":true,"module":true,"document":true,"angular":true}[39m, [36mglobalstrict=false[39m
+JSHint options: [36mforce=false[39m, [36mreporterOutput=null[39m, [36mglobals={"jQuery":true,"console":true,"module":true,"document":true,"angular":true}[39m, [36mglobalstrict=false[39m
+[31m>> [39m0 files linted. Please check your ignored files.
+
+[4mRunning "jshint:afterConcat" (jshint) task[24m
+Verifying property [36mjshint.afterConcat[39m exists in config...[32mOK[39m
+Files: [36mbuild/ng-csv.js[39m
+Options: [36mforce=false[39m, [36mreporterOutput=null[39m, [36mglobals={"jQuery":true,"console":true,"module":true,"document":true,"angular":true}[39m, [36mglobalstrict=false[39m
+JSHint options: [36mforce=false[39m, [36mreporterOutput=null[39m, [36mglobals={"jQuery":true,"console":true,"module":true,"document":true,"angular":true}[39m, [36mglobalstrict=false[39m
+[32mOK[39m
+[32m>> [39m1 file lint free.
+
+[4mRunning "karma:unit" (karma) task[24m
+Verifying property [36mkarma.unit[39m exists in config...[32mOK[39m
+File: [33m[no files][39m
+Options: [36mbackground=false[39m, [36mconfigFile="karma.conf.js"[39m, [36msingleRun[39m
+[32mINFO [karma]: [39mKarma v0.12.17 server started at http://localhost:9876/
+[32mINFO [launcher]: [39mStarting browser PhantomJS
+[32mINFO [PhantomJS 1.9.7 (Linux)]: [39mConnected on socket 4jHeLBpUhKzGE3Niwyb9 with id 63236559
+PhantomJS 1.9.7 (Linux): Executed 0 of 15[32m SUCCESS[39m (0 secs / 0 secs)
+[1A[2KPhantomJS 1.9.7 (Linux): Executed 1 of 15[32m SUCCESS[39m (0 secs / 0.038 secs)
+[1A[2KLOG: [36m'debug'[39m
+PhantomJS 1.9.7 (Linux): Executed 1 of 15[32m SUCCESS[39m (0 secs / 0.038 secs)
+[1A[2KLOG: [36m'1,2,3
+4,5,6
+'[39m
+PhantomJS 1.9.7 (Linux): Executed 1 of 15[32m SUCCESS[39m (0 secs / 0.038 secs)
+[1A[2K[31mPhantomJS 1.9.7 (Linux) ngCsv directive Builds the csv format correctly FAILED[39m
+	Expected '1,2,3
+	4,5,6
+	' to be 'data:text/csv;charset=utf-8,1,2,3%0D%0A4,5,6%0D%0A'.
+	Error: Expected '1,2,3
+	4,5,6
+	' to be 'data:text/csv;charset=utf-8,1,2,3%0D%0A4,5,6%0D%0A'.
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:61
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:64
+	    at /home/jmtt/HubRep/ng-csv/node_modules/karma-jasmine/lib/boot.js:117
+	    at /home/jmtt/HubRep/ng-csv/node_modules/karma-jasmine/lib/adapter.js:171
+	    at http://localhost:9876/karma.js:189
+	    at http://localhost:9876/context.html:55
+PhantomJS 1.9.7 (Linux): Executed 2 of 15[31m (1 FAILED)[39m (0 secs / 0.087 secs)
+[1A[2K[31mPhantomJS 1.9.7 (Linux) ngCsv directive Accepts $scope expressions as ng-csv FAILED[39m
+	Expected '1,2,3
+	4,5,6
+	' to be 'data:text/csv;charset=utf-8,1,2,3%0D%0A4,5,6%0D%0A'.
+	Error: Expected '1,2,3
+	4,5,6
+	' to be 'data:text/csv;charset=utf-8,1,2,3%0D%0A4,5,6%0D%0A'.
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:81
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:84
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:62
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:64
+	    at /home/jmtt/HubRep/ng-csv/node_modules/karma-jasmine/lib/boot.js:117
+	    at /home/jmtt/HubRep/ng-csv/node_modules/karma-jasmine/lib/adapter.js:171
+	    at http://localhost:9876/karma.js:189
+	    at http://localhost:9876/context.html:55
+PhantomJS 1.9.7 (Linux): Executed 3 of 15[31m (2 FAILED)[39m (0 secs / 0.092 secs)
+[1A[2K[31mPhantomJS 1.9.7 (Linux) ngCsv directive Creates a header row if provided FAILED[39m
+	Expected 'A,B,C
+	1,2,3
+	4,5,6
+	' to be 'data:text/csv;charset=utf-8,A,B,C%0D%0A1,2,3%0D%0A4,5,6%0D%0A'.
+	Error: Expected 'A,B,C
+	1,2,3
+	4,5,6
+	' to be 'data:text/csv;charset=utf-8,A,B,C%0D%0A1,2,3%0D%0A4,5,6%0D%0A'.
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:105
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:108
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:82
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:84
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:62
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:64
+	    at /home/jmtt/HubRep/ng-csv/node_modules/karma-jasmine/lib/boot.js:117
+	    at /home/jmtt/HubRep/ng-csv/node_modules/karma-jasmine/lib/adapter.js:171
+	    at http://localhost:9876/karma.js:189
+	    at http://localhost:9876/context.html:55
+PhantomJS 1.9.7 (Linux): Executed 4 of 15[31m (3 FAILED)[39m (0 secs / 0.102 secs)
+[1A[2K[31mPhantomJS 1.9.7 (Linux) ngCsv directive Accepts optional text-delimiter attribute (input array) FAILED[39m
+	Expected '1,"a",2
+	"b","c",3
+	' to be 'data:text/csv;charset=utf-8,1,%22a%22,2%0D%0A%22b%22,%22c%22,3%0D%0A'.
+	Error: Expected '1,"a",2
+	"b","c",3
+	' to be 'data:text/csv;charset=utf-8,1,%22a%22,2%0D%0A%22b%22,%22c%22,3%0D%0A'.
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:128
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:131
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:106
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:108
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:82
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:84
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:62
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:64
+	    at /home/jmtt/HubRep/ng-csv/node_modules/karma-jasmine/lib/boot.js:117
+	    at /home/jmtt/HubRep/ng-csv/node_modules/karma-jasmine/lib/adapter.js:171
+	    at http://localhost:9876/karma.js:189
+	    at http://localhost:9876/context.html:55
+PhantomJS 1.9.7 (Linux): Executed 5 of 15[31m (4 FAILED)[39m (0 secs / 0.106 secs)
+[1A[2K[31mPhantomJS 1.9.7 (Linux) ngCsv directive Accepts optional text-delimiter attribute (input object) FAILED[39m
+	Expected '1,"a",2
+	"b","c",3
+	' to be 'data:text/csv;charset=utf-8,1,%22a%22,2%0D%0A%22b%22,%22c%22,3%0D%0A'.
+	Error: Expected '1,"a",2
+	"b","c",3
+	' to be 'data:text/csv;charset=utf-8,1,%22a%22,2%0D%0A%22b%22,%22c%22,3%0D%0A'.
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:151
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:154
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:129
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:131
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:106
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:108
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:82
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:84
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:62
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:64
+	    at /home/jmtt/HubRep/ng-csv/node_modules/karma-jasmine/lib/boot.js:117
+	    at /home/jmtt/HubRep/ng-csv/node_modules/karma-jasmine/lib/adapter.js:171
+	    at http://localhost:9876/karma.js:189
+	    at http://localhost:9876/context.html:55
+PhantomJS 1.9.7 (Linux): Executed 6 of 15[31m (5 FAILED)[39m (0 secs / 0.115 secs)
+[1A[2K[31mPhantomJS 1.9.7 (Linux) ngCsv directive Handles commas in fields properly FAILED[39m
+	Expected '1,"a,b",2
+	b,c,3
+	' to be 'data:text/csv;charset=utf-8,1,%22a%2Cb%22,2%0D%0Ab,c,3%0D%0A'.
+	Error: Expected '1,"a,b",2
+	b,c,3
+	' to be 'data:text/csv;charset=utf-8,1,%22a%2Cb%22,2%0D%0Ab,c,3%0D%0A'.
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:174
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:177
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:152
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:154
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:129
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:131
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:106
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:108
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:82
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:84
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:62
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:64
+	    at /home/jmtt/HubRep/ng-csv/node_modules/karma-jasmine/lib/boot.js:117
+	    at /home/jmtt/HubRep/ng-csv/node_modules/karma-jasmine/lib/adapter.js:171
+	    at http://localhost:9876/karma.js:189
+	    at http://localhost:9876/context.html:55
+PhantomJS 1.9.7 (Linux): Executed 7 of 15[31m (6 FAILED)[39m (0 secs / 0.119 secs)
+[1A[2K[31mPhantomJS 1.9.7 (Linux) ngCsv directive Handles CLR in fields properly FAILED[39m
+	Expected '1,"a
+	b",2
+	b,c,3
+	' to be 'data:text/csv;charset=utf-8,1,%22a%0Ab%22,2%0D%0Ab,c,3%0D%0A'.
+	Error: Expected '1,"a
+	b",2
+	b,c,3
+	' to be 'data:text/csv;charset=utf-8,1,%22a%0Ab%22,2%0D%0Ab,c,3%0D%0A'.
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:197
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:200
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:175
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:177
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:152
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:154
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:129
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:131
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:106
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:108
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:82
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:84
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:62
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:64
+	    at /home/jmtt/HubRep/ng-csv/node_modules/karma-jasmine/lib/boot.js:117
+	    at /home/jmtt/HubRep/ng-csv/node_modules/karma-jasmine/lib/adapter.js:171
+	    at http://localhost:9876/karma.js:189
+	    at http://localhost:9876/context.html:55
+PhantomJS 1.9.7 (Linux): Executed 8 of 15[31m (7 FAILED)[39m (0 secs / 0.134 secs)
+[1A[2K[31mPhantomJS 1.9.7 (Linux) ngCsv directive Handles # in fields properly FAILED[39m
+	Expected '1,a#b,2
+	b,c,3
+	' to be 'data:text/csv;charset=utf-8,1,a%23b,2%0D%0Ab,c,3%0D%0A'.
+	Error: Expected '1,a#b,2
+	b,c,3
+	' to be 'data:text/csv;charset=utf-8,1,a%23b,2%0D%0Ab,c,3%0D%0A'.
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:218
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:221
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:198
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:200
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:175
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:177
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:152
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:154
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:129
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:131
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:106
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:108
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:82
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:84
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:62
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:64
+	    at /home/jmtt/HubRep/ng-csv/node_modules/karma-jasmine/lib/boot.js:117
+	    at /home/jmtt/HubRep/ng-csv/node_modules/karma-jasmine/lib/adapter.js:171
+	    at http://localhost:9876/karma.js:189
+	    at http://localhost:9876/context.html:55
+PhantomJS 1.9.7 (Linux): Executed 9 of 15[31m (8 FAILED)[39m (0 secs / 0.142 secs)
+[1A[2K[31mPhantomJS 1.9.7 (Linux) ngCsv directive Accepts optional field-separator attribute (input array) FAILED[39m
+	Expected '1;2;3
+	4;5;6
+	' to be 'data:text/csv;charset=utf-8,1;2;3%0D%0A4;5;6%0D%0A'.
+	Error: Expected '1;2;3
+	4;5;6
+	' to be 'data:text/csv;charset=utf-8,1;2;3%0D%0A4;5;6%0D%0A'.
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:236
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:239
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:219
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:221
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:198
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:200
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:175
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:177
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:152
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:154
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:129
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:131
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:106
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:108
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:82
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:84
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:62
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:64
+	    at /home/jmtt/HubRep/ng-csv/node_modules/karma-jasmine/lib/boot.js:117
+	    at /home/jmtt/HubRep/ng-csv/node_modules/karma-jasmine/lib/adapter.js:171
+	    at http://localhost:9876/karma.js:189
+	    at http://localhost:9876/context.html:55
+PhantomJS 1.9.7 (Linux): Executed 10 of 15[31m (9 FAILED)[39m (0 secs / 0.151 secs)
+[1A[2K[31mPhantomJS 1.9.7 (Linux) ngCsv directive Accepts optional field-separator attribute (input object) FAILED[39m
+	Expected '1;2;3
+	4;5;6
+	' to be 'data:text/csv;charset=utf-8,1;2;3%0D%0A4;5;6%0D%0A'.
+	Error: Expected '1;2;3
+	4;5;6
+	' to be 'data:text/csv;charset=utf-8,1;2;3%0D%0A4;5;6%0D%0A'.
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:254
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:257
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:237
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:239
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:219
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:221
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:198
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:200
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:175
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:177
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:152
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:154
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:129
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:131
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:106
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:108
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:82
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:84
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:62
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:64
+	    at /home/jmtt/HubRep/ng-csv/node_modules/karma-jasmine/lib/boot.js:117
+	    at /home/jmtt/HubRep/ng-csv/node_modules/karma-jasmine/lib/adapter.js:171
+	    at http://localhost:9876/karma.js:189
+	    at http://localhost:9876/context.html:55
+PhantomJS 1.9.7 (Linux): Executed 11 of 15[31m (10 FAILED)[39m (0 secs / 0.155 secs)
+[1A[2K[31mPhantomJS 1.9.7 (Linux) ngCsv directive Accepts dynamic field-separator attribute (input object) FAILED[39m
+	Expected '1;2;3
+	4;5;6
+	' to be 'data:text/csv;charset=utf-8,1;2;3%0D%0A4;5;6%0D%0A'.
+	Error: Expected '1;2;3
+	4;5;6
+	' to be 'data:text/csv;charset=utf-8,1;2;3%0D%0A4;5;6%0D%0A'.
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:276
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:279
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:255
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:257
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:237
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:239
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:219
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:221
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:198
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:200
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:175
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:177
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:152
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:154
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:129
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:131
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:106
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:108
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:82
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:84
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:62
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11498
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:11584
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12608
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12420
+	    at /home/jmtt/HubRep/ng-csv/bower_components/angular/angular.js:12712
+	    at /home/jmtt/HubRep/ng-csv/test/unit/ngCsv/directives/ngCsv.js:64
+	    at /home/jmtt/HubRep/ng-csv/node_modules/karma-jasmine/lib/boot.js:117
+	    at /home/jmtt/HubRep/ng-csv/node_modules/karma-jasmine/lib/adapter.js:171
+	    at http://localhost:9876/karma.js:189
+	    at http://localhost:9876/context.html:55
+PhantomJS 1.9.7 (Linux): Executed 12 of 15[31m (11 FAILED)[39m (0 secs / 0.161 secs)
+[1A[2KPhantomJS 1.9.7 (Linux): Executed 13 of 15[31m (11 FAILED)[39m (0 secs / 0.162 secs)
+[1A[2KPhantomJS 1.9.7 (Linux): Executed 14 of 15[31m (11 FAILED)[39m (0 secs / 0.162 secs)
+[1A[2KPhantomJS 1.9.7 (Linux): Executed 15 of 15[31m (11 FAILED)[39m (0 secs / 0.162 secs)
+[1A[2KPhantomJS 1.9.7 (Linux): Executed 15 of 15[31m (11 FAILED)[39m (0.053 secs / 0.162 secs)
+[33mWarning: Task "karma:unit" failed. Use --force to continue.[39m
+
+[31mAborted due to warnings.[39m
