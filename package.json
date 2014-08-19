@@ -54,11 +54,13 @@
   "scripts": {
     "test": "grunt test --verbose"
   },
-  "npmName": "ng-csv",
-  "npmFileMap": [{
-    "basePath": "/build/",
+  "autoupdate": {
+    "source": "git",
+    "target": "https://github.com/asafdav/ng-csv.git",
+    "basePath": "",
     "files": [
-      "*.js"
+      "build/ng-csv.min.js",
+      "build/ng-csv.js"
     ]
-  }],  
+  }
 }
