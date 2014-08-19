@@ -53,5 +53,12 @@
   },
   "scripts": {
     "test": "grunt test --verbose"
-  }
+  },
+  "npmName": "ng-csv",
+  "npmFileMap": [{
+    "basePath": "/build/",
+    "files": [
+      "*.js"
+    ]
+  }],  
 }
