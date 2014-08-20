@@ -77,9 +77,33 @@ angular.module('ngCsv.directives').
                 });
             navigator.msSaveBlob(blob, scope.getFilename());
           } else {
+            //Blob Way
+            var blobW,cvsUrl;
+            var URL_V = window.URL || window.webkitURL;
+            try{
+              blobW = new Blob([scope.csv],{ 
+                type: "text/csv;charset=utf-8;"
+              });
+              csvUrl =  URL_V.createObjectURL(blobW);
+            }
+            catch(e){
+              // Old Chrome and FF and IE
+              var BlobBuilder = window.BlobBuilder || 
+                                window.WebKitBlobBuilder || 
+                                window.MozBlobBuilder || 
+                                window.MSBlobBuilder;
+              if(e.name == 'TypeError' && BlobBuilder){
+                blobW = new BlobBuilder();
+                blobW.append(scope.csv);
+                csvUrl =  URL_V.createObjectURL(blobW.getBlob("text/csv;charset=utf-8;"));
+              }else{
+                // We're screwed, blob constructor unsupported entirely
+                csvUrl = scope.csv;
+              }
+            }
 
             var downloadLink = angular.element('<a></a>');
-            downloadLink.attr('href',scope.csv);
+            downloadLink.attr('href',csvUrl);
             downloadLink.attr('download',scope.getFilename());
 
             $document.find('body').append(downloadLink);
@@ -88,7 +112,6 @@ angular.module('ngCsv.directives').
               downloadLink.remove();
             }, null);
           }
-
         }
 
         element.bind('click', function (e)
