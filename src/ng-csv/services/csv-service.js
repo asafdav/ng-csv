@@ -93,8 +93,8 @@ angular.module('ngCsv.services').
         def.resolve(csv);
       });
 
-      if (typeof dataPromise.catch === 'function') {
-        dataPromise.catch(function(err) {
+      if (typeof dataPromise['catch'] === 'function') {
+        dataPromise['catch'](function(err) {
           def.reject(err);
         });
       }

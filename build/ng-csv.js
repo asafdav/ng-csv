@@ -122,15 +122,16 @@ angular.module('ngCsv.services').
         def.resolve(csv);
       });
 
-      if (typeof dataPromise.catch === 'function') {
-        dataPromise.catch(function(err) {
+      if (typeof dataPromise['catch'] === 'function') {
+        dataPromise['catch'](function(err) {
           def.reject(err);
         });
       }
 
       return def.promise;
     };
-  }]);/**
+  }]);
+/**
  * ng-csv module
  * Export Javascript's arrays to csv files from the browser
  *
