@@ -59,8 +59,11 @@ angular.module('ngCsv.directives').
           $scope.buildCSV = function() {
             var deferred = $q.defer();
 
+            $element.addClass($attrs.ngCsvLoadingClass || 'ng-csv-loading');
+
             CSV.stringify($scope.data(), getBuildCsvOptions()).then(function(csv) {
               $scope.csv = csv;
+              $element.removeClass($attrs.ngCsvLoadingClass || 'ng-csv-loading');
               deferred.resolve(csv);
             });
             $scope.$apply(); // Old angular support
