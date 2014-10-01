@@ -17,7 +17,12 @@ Download the from [here](https://github.com/asafdav/ng-csv/releases)
 
 #### Bower 
 ```
-bower install ng-csv --save
+bower install ng-csv
+```
+
+#### Npm
+```
+npm install ng-csv
 ```
 
 #### CDN
