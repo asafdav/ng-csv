@@ -10,6 +10,20 @@ An AngularJS simple directive that turns arrays and objects into downloadable CS
 * angular-sanitize.js, any version starting with 1
 
 
+## How to get it ? 
+
+#### Manual Download
+Download the from [here](https://github.com/asafdav/ng-csv/releases)
+
+#### Bower 
+```
+bower install ng-csv --save
+```
+
+#### CDN
+ng-csv is available at [cdnjs](http://www.cdnjs.com/libraries/ng-csv)
+
+
 ## Usage
 1. Add ng-csv.min.js to your main file (index.html)
 
