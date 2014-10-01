@@ -13,12 +13,16 @@ describe('ngCsv directive', function () {
 
   // Store references to $rootScope and $compile
   // so they are available to all tests in this describe block
-  beforeEach(inject(function (_$compile_, _$rootScope_) {
+  beforeEach(inject(function (_$compile_, _$rootScope_, $q) {
     // The injector unwraps the underscores (_) from around the parameter names when matching
     $compile = _$compile_;
     $rootScope = _$rootScope_;
     $rootScope.test = [[1, 2, 3], [4, 5, 6]];
     $rootScope.testObj = [{a: 1, b: 2, c: 3}, {a: 4, b: 5, c: 6}];
+    
+    var _deferred = $q.defer();
+    _deferred.resolve([[1, 2, 3], [4, 5, 6]]);
+    $rootScope.testPromise = _deferred.promise;
   }));
 
   it('Accepts ng-click attribute ', function () {
@@ -52,6 +56,22 @@ describe('ngCsv directive', function () {
 
     // Check that the compiled element contains the templated content
     expect(scope.$eval(scope.data)).toBe($rootScope.test);
+    scope.buildCSV(scope.data).then(function() {
+      expect(scope.csv).toBe('data:text/csv;charset=utf-8,1,2,3%0D%0A4,5,6%0D%0A');
+      done();
+    });
+    scope.$apply();
+  });
+
+  it('accepts promise as data', function (done) {
+    // Compile a piece of HTML containing the directive
+    var element = $compile("<div ng-csv='testPromise' filename='custom.csv'></div>")($rootScope);
+    // fire all the watches, so the scope expression {{1 + 1}} will be evaluated
+    $rootScope.$digest();
+
+    var scope = element.isolateScope();
+
+    // Check that the compiled element contains the templated content
     scope.buildCSV(scope.data).then(function() {
       expect(scope.csv).toBe('data:text/csv;charset=utf-8,1,2,3%0D%0A4,5,6%0D%0A');
       done();
