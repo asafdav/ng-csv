@@ -44,7 +44,7 @@ ng-csv is available at [cdnjs](http://www.cdnjs.com/libraries/ng-csv)
 
 ngCsv attributes
 ----------------
-* ng-csv: The data array
+* ng-csv: The data array - Could be an expression, a value or a promise. 
 * filename: The filename that will be stored on the user's computer
 * csv-header: If provided, would use this attribute to create a header row
 
