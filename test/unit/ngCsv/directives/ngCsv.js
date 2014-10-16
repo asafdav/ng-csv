@@ -166,6 +166,22 @@ describe('ngCsv directive', function () {
     });
     scope.$apply();
   });
+  
+  it('Add optional Byte Order Mark', function (done) {
+      // Compile a piece of HTML containing the directive
+    var element = $compile("<div ng-csv='testPromise' filename='custom.csv' add-bom='true'></div>")($rootScope);
+    // fire all the watches, so the scope expression {{1 + 1}} will be evaluated
+    $rootScope.$digest();
+
+    var scope = element.isolateScope();
+
+    // Check that the compiled element contains the templated content
+    scope.buildCSV(scope.data).then(function() {
+      expect(scope.csv).toBe('data:text/csv;charset=utf-8,%ef%bb%bf1,2,3%0D%0A4,5,6%0D%0A');
+      done();
+    });
+    scope.$apply();
+  });
 
   it('Handles commas in fields properly', function (done) {
     $rootScope.testDelim = [{a: 1, b: 'a,b', c: 2}, {a: 'b', b: 'c', c: 3}];
