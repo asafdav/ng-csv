@@ -5,6 +5,7 @@ angular.module('ngCsv.services').
   service('CSV', ['$q', function($q)  {
 
     var EOL = encodeURIComponent('\r\n');
+    var BOM = "%ef%bb%bf";
     var DATA_URI_PREFIX = "data:text/csv;charset=utf-8,";
 
     /**
@@ -32,7 +33,8 @@ angular.module('ngCsv.services').
      * @param data
      * @param options
      *  * header - Provide the first row (optional)
-     *  * fieldSep - Field separator, default: ','
+     *  * fieldSep - Field separator, default: ',',
+     *  * addByteOrderMarker - Add Byte order mark, default(false)
      * @param callback
      */
     this.stringify = function (data, options)
@@ -88,7 +90,11 @@ angular.module('ngCsv.services').
         if(window.navigator.msSaveOrOpenBlob) {
           csv = csvContent;
         }else{
-          csv = DATA_URI_PREFIX + csvContent;
+          csv = DATA_URI_PREFIX;
+          if (options.addByteOrderMarker){
+              csv += BOM;
+          }
+          csv += csvContent;
         }
         def.resolve(csv);
       });

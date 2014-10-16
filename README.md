@@ -52,11 +52,11 @@ ngCsv attributes
   <button type="button" ng-csv="getArray()" csv-header="['Field A', 'Field B', 'Field C']" filename="test.csv">Export</button>
   ```
 
-* field-separator: Defines the field separator character (default is)
+* field-separator: Defines the field separator character (default is ,)
 * text-delimiter: If provided, will use this characters to "escape" fields, otherwise will use double quotes as deafult
 * quote-strings: If provided, will force escaping of every string field.
 * lazy-load: If defined and set to true, ngCsv will generate the data string only on demand. See the lazy_load example for more details. 
-
+* add-bom: Add the Byte Order Mark, use this option if you are getting an unexpected char when opening the file on any windows App.
 
 ## Example
 You can check out this live example here: http://jsfiddle.net/asafdav/dR6Nb/

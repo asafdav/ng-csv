@@ -22,6 +22,8 @@ module.exports = function(config) {
     frameworks: ["jasmine"],
 
     autoWatch: true,
+	
+	singleRune:false,
 
     browsers: ['PhantomJS'],
 
