@@ -6,6 +6,7 @@ module.exports = function (grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     library: grunt.file.readJSON('bower.json'),
+
     concat: {
       options: {
         separator: ''
@@ -70,6 +71,38 @@ module.exports = function (grunt) {
         'src/**/*'
       ],
       tasks: ['default']
+    },
+
+    copy: {
+      dist: {
+        files: [
+          {
+            expand: true,
+            dot: true,
+            cwd: '.',
+            dest: 'dist',
+            src: [
+              'example/**',
+              'build/**'
+            ]
+          }
+        ]
+      }
+    },
+
+    buildcontrol: {
+      options: {
+        dir: 'dist',
+        commit: true,
+        push: true,
+        message: 'Built %sourceName% from commit %sourceCommit% on branch %sourceBranch%'
+      },
+      pages: {
+        options: {
+          remote: 'git@github.com:asafdav/ng-csv.git',
+          branch: 'gh-pages'
+        }
+      }
     }
   });
 
@@ -80,9 +113,12 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-build-control');
 
   grunt.registerTask('test', ['jshint', 'karma:unit']);
   grunt.registerTask('default', ['jshint:beforeConcat', 'concat', 'jshint:afterConcat', 'uglify']);
   grunt.registerTask('livereload', ['default', 'watch']);
+  grunt.registerTask('deploy', ['copy:dist', 'buildcontrol:pages']);
 
 };
