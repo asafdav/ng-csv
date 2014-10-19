@@ -58,8 +58,9 @@ ngCsv attributes
 * lazy-load: If defined and set to true, ngCsv will generate the data string only on demand. See the lazy_load example for more details. 
 * add-bom: Add the Byte Order Mark, use this option if you are getting an unexpected char when opening the file on any windows App.
 
-## Example
-You can check out this live example here: http://jsfiddle.net/asafdav/dR6Nb/
+## Examples
+You can check out this live example here: https://asafdav.github.io/ng-csv/example/
+For lazy load example using promises see this example: https://asafdav.github.io/ng-csv/example/lazy_load.html
 
 Supported Browsers
 ------------------
