@@ -73,6 +73,22 @@ module.exports = function (grunt) {
       tasks: ['default']
     },
 
+    // Empties folders to start fresh
+    clean: {
+      dist: {
+        files: [{
+          dot: false,
+          src: [
+            '.tmp',
+            'dist{,*/}*',
+            '!dist/.git*'
+          ]
+        }]
+      },
+      server: '.tmp'
+    },
+
+    // Create examples folder to be deployed to github pages
     copy: {
       dist: {
         files: [
@@ -90,6 +106,7 @@ module.exports = function (grunt) {
       }
     },
 
+    // Deploy
     buildcontrol: {
       options: {
         dir: 'dist',
@@ -114,11 +131,12 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-build-control');
 
   grunt.registerTask('test', ['jshint', 'karma:unit']);
   grunt.registerTask('default', ['jshint:beforeConcat', 'concat', 'jshint:afterConcat', 'uglify']);
   grunt.registerTask('livereload', ['default', 'watch']);
-  grunt.registerTask('deploy', ['copy:dist', 'buildcontrol:pages']);
+  grunt.registerTask('deploy', ['clean:dist', 'copy:dist', 'buildcontrol:pages']);
 
 };
