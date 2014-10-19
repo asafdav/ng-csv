@@ -60,6 +60,7 @@ ngCsv attributes
 
 ## Examples
 You can check out this live example here: https://asafdav.github.io/ng-csv/example/
+
 For lazy load example using promises see this example: https://asafdav.github.io/ng-csv/example/lazy_load.html
 
 Supported Browsers
