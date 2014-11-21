@@ -25,8 +25,8 @@ module.exports = function(config) {
 
 	singleRune:false,
 
-    //browsers: ['PhantomJS'],
-    browsers: ['Chrome'],
+    browsers: ['PhantomJS'],
+    //browsers: ['Chrome'],
 
 // reporters = ['progress'];
 
