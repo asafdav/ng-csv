@@ -33,9 +33,8 @@ angular.module('ngCsv',
 angular.module('ngCsv.services').
   service('CSV', ['$q', function($q)  {
 
-    var EOL = encodeURIComponent('\r\n');
+    var EOL = '\r\n';
     var BOM = "%ef%bb%bf";
-    var DATA_URI_PREFIX = "data:text/csv;charset=utf-8,";
 
     /**
      * Stringify one field
@@ -47,7 +46,7 @@ angular.module('ngCsv.services').
       if (typeof data === 'string') {
         data = data.replace(/"/g, '""'); // Escape double qoutes
         if (quoteText || data.indexOf(',') > -1 || data.indexOf('\n') > -1 || data.indexOf('\r') > -1) data = delimier + data + delimier;
-        return encodeURIComponent(data);
+        return data;
       }
 
       if (typeof data === 'boolean') {
@@ -71,7 +70,7 @@ angular.module('ngCsv.services').
       var def = $q.defer();
 
       var that = this;
-      var csv;
+      var csv = "";
       var csvContent = "";
 
       var dataPromise = $q.when(data).then(function (responseData)
@@ -119,7 +118,6 @@ angular.module('ngCsv.services').
         if(window.navigator.msSaveOrOpenBlob) {
           csv = csvContent;
         }else{
-          csv = DATA_URI_PREFIX;
           if (options.addByteOrderMarker){
               csv += BOM;
           }
@@ -172,9 +170,8 @@ angular.module('ngCsv',
 angular.module('ngCsv.services').
   service('CSV', ['$q', function($q)  {
 
-    var EOL = encodeURIComponent('\r\n');
+    var EOL = '\r\n';
     var BOM = "%ef%bb%bf";
-    var DATA_URI_PREFIX = "data:text/csv;charset=utf-8,";
 
     /**
      * Stringify one field
@@ -185,8 +182,10 @@ angular.module('ngCsv.services').
     this.stringifyField = function(data, delimier, quoteText) {
       if (typeof data === 'string') {
         data = data.replace(/"/g, '""'); // Escape double qoutes
-        if (quoteText || data.indexOf(',') > -1 || data.indexOf('\n') > -1 || data.indexOf('\r') > -1) data = delimier + data + delimier;
-        return encodeURIComponent(data);
+        if (quoteText || data.indexOf(',') > -1 || data.indexOf('\n') > -1 || data.indexOf('\r') > -1) {
+          data = delimier + data + delimier;
+        }
+        return data;
       }
 
       if (typeof data === 'boolean') {
@@ -210,7 +209,7 @@ angular.module('ngCsv.services').
       var def = $q.defer();
 
       var that = this;
-      var csv;
+      var csv = "";
       var csvContent = "";
 
       var dataPromise = $q.when(data).then(function (responseData)
@@ -258,7 +257,6 @@ angular.module('ngCsv.services').
         if(window.navigator.msSaveOrOpenBlob) {
           csv = csvContent;
         }else{
-          csv = DATA_URI_PREFIX;
           if (options.addByteOrderMarker){
               csv += BOM;
           }
@@ -354,16 +352,17 @@ angular.module('ngCsv.directives').
       ],
       link: function (scope, element, attrs) {
         function doClick() {
+          var blob = new Blob([scope.csv],{
+            type: "text/csv;charset=utf-8;"
+          });
+
           if(window.navigator.msSaveOrOpenBlob) {
-            var blob = new Blob([scope.csv],{
-                    type: "text/csv;charset=utf-8;"
-                });
             navigator.msSaveBlob(blob, scope.getFilename());
           } else {
 
             var downloadLink = angular.element('<a></a>');
-            downloadLink.attr('href',scope.csv);
-            downloadLink.attr('download',scope.getFilename());
+            downloadLink.attr('href', window.URL.createObjectURL(blob));
+            downloadLink.attr('download', scope.getFilename());
 
             $document.find('body').append(downloadLink);
             $timeout(function() {
@@ -371,7 +370,6 @@ angular.module('ngCsv.directives').
               downloadLink.remove();
             }, null);
           }
-
         }
 
         element.bind('click', function (e)
@@ -384,4 +382,5 @@ angular.module('ngCsv.directives').
       }
     };
   }]);
-})(window, document);})(window, document);
+})(window, document);
+})(window, document);

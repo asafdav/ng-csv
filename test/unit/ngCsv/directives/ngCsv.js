@@ -21,11 +21,11 @@ describe('ngCsv directive', function () {
     $timeout = _$timeout_;
     $rootScope.test = [[1, 2, 3], [4, 5, 6]];
     $rootScope.testObj = [{a: 1, b: 2, c: 3}, {a: 4, b: 5, c: 6}];
-    
+
     var _deferred = $q.defer();
     _deferred.resolve([[1, 2, 3], [4, 5, 6]]);
     $rootScope.testPromise = _deferred.promise;
-    
+
     _deferred = $q.defer();
     $timeout(function(){_deferred.resolve([[1, 2, 3], [4, 5, 6]])});
     $rootScope.longPromise = _deferred.promise;
@@ -36,7 +36,7 @@ describe('ngCsv directive', function () {
     // Create click handler
     $rootScope.clickTest = function() {
       $rootScope.clicked = true;
-    }
+    };
 
     // Make sure clicked is false
     expect($rootScope.clicked).toBeFalsy();
@@ -63,7 +63,7 @@ describe('ngCsv directive', function () {
     // Check that the compiled element contains the templated content
     expect(scope.$eval(scope.data)).toBe($rootScope.test);
     scope.buildCSV(scope.data).then(function() {
-      expect(scope.csv).toBe('data:text/csv;charset=utf-8,1,2,3%0D%0A4,5,6%0D%0A');
+      expect(scope.csv).toBe('1,2,3\r\n4,5,6\r\n');
       done();
     });
     scope.$apply();
@@ -79,7 +79,7 @@ describe('ngCsv directive', function () {
 
     // Check that the compiled element contains the templated content
     scope.buildCSV(scope.data).then(function() {
-      expect(scope.csv).toBe('data:text/csv;charset=utf-8,1,2,3%0D%0A4,5,6%0D%0A');
+      expect(scope.csv).toBe('1,2,3\r\n4,5,6\r\n');
       done();
     });
     scope.$apply();
@@ -97,7 +97,7 @@ describe('ngCsv directive', function () {
     // Check that the compiled element contains the templated content
     expect(scope.$eval(scope.data)).toEqual($rootScope.getTest());
     scope.buildCSV(scope.data).then(function() {
-      expect(scope.csv).toBe('data:text/csv;charset=utf-8,1,2,3%0D%0A4,5,6%0D%0A');
+      expect(scope.csv).toBe('1,2,3\r\n4,5,6\r\n');
       done();
     });
     scope.$apply();
@@ -119,7 +119,7 @@ describe('ngCsv directive', function () {
     expect(scope.$eval(scope.header)).toEqual(['A', 'B', 'C']);
 
     scope.buildCSV(scope.data).then(function() {
-      expect(scope.csv).toBe('data:text/csv;charset=utf-8,A,B,C%0D%0A1,2,3%0D%0A4,5,6%0D%0A');
+      expect(scope.csv).toBe('A,B,C\r\n1,2,3\r\n4,5,6\r\n');
       done();
     });
     scope.$apply();
@@ -140,7 +140,7 @@ describe('ngCsv directive', function () {
     expect(scope.$eval(scope.data)).toEqual($rootScope.testDelim);
 
     scope.buildCSV(scope.data).then(function() {
-      expect(scope.csv).toBe('data:text/csv;charset=utf-8,1,%22a%22,2%0D%0A%22b%22,%22c%22,3%0D%0A');
+      expect(scope.csv).toBe('1,"a",2\r\n"b","c",3\r\n');
       done();
     });
     scope.$apply();
@@ -161,12 +161,12 @@ describe('ngCsv directive', function () {
     expect(scope.$eval(scope.data)).toEqual($rootScope.testDelim);
 
     scope.buildCSV(scope.data).then(function() {
-      expect(scope.csv).toBe('data:text/csv;charset=utf-8,1,%22a%22,2%0D%0A%22b%22,%22c%22,3%0D%0A');
+      expect(scope.csv).toBe('1,"a",2\r\n"b","c",3\r\n');
       done();
     });
     scope.$apply();
   });
-  
+
   it('Add optional Byte Order Mark', function (done) {
       // Compile a piece of HTML containing the directive
     var element = $compile("<div ng-csv='testPromise' filename='custom.csv' add-bom='true'></div>")($rootScope);
@@ -177,7 +177,7 @@ describe('ngCsv directive', function () {
 
     // Check that the compiled element contains the templated content
     scope.buildCSV(scope.data).then(function() {
-      expect(scope.csv).toBe('data:text/csv;charset=utf-8,%ef%bb%bf1,2,3%0D%0A4,5,6%0D%0A');
+      expect(scope.csv).toBe('%ef%bb%bf1,2,3\r\n4,5,6\r\n');
       done();
     });
     scope.$apply();
@@ -198,7 +198,7 @@ describe('ngCsv directive', function () {
     expect(scope.$eval(scope.data)).toEqual($rootScope.testDelim);
 
     scope.buildCSV(scope.data).then(function() {
-      expect(scope.csv).toBe('data:text/csv;charset=utf-8,1,%22a%2Cb%22,2%0D%0Ab,c,3%0D%0A');
+      expect(scope.csv).toBe('1,"a,b",2\r\nb,c,3\r\n');
       done();
     });
     scope.$apply();
@@ -219,7 +219,7 @@ describe('ngCsv directive', function () {
     expect(scope.$eval(scope.data)).toEqual($rootScope.testDelim);
 
     scope.buildCSV(scope.data).then(function() {
-      expect(scope.csv).toBe('data:text/csv;charset=utf-8,1,%22a%0Ab%22,2%0D%0Ab,c,3%0D%0A');
+      expect(scope.csv).toBe('1,"a\nb",2\r\nb,c,3\r\n');
       done();
     });
     scope.$apply();
@@ -240,7 +240,7 @@ describe('ngCsv directive', function () {
     expect(scope.$eval(scope.data)).toEqual($rootScope.testDelim);
 
     scope.buildCSV(scope.data).then(function() {
-      expect(scope.csv).toBe('data:text/csv;charset=utf-8,1,a%23b,2%0D%0Ab,c,3%0D%0A');
+      expect(scope.csv).toBe('1,a#b,2\r\nb,c,3\r\n');
       done();
     });
     scope.$apply();
@@ -258,7 +258,7 @@ describe('ngCsv directive', function () {
     expect(scope.$eval(scope.data)).toEqual($rootScope.test);
 
     scope.buildCSV(scope.data).then(function() {
-      expect(scope.csv).toBe('data:text/csv;charset=utf-8,1;2;3%0D%0A4;5;6%0D%0A');
+      expect(scope.csv).toBe('1;2;3\r\n4;5;6\r\n');
       done();
     });
     scope.$apply();
@@ -276,7 +276,7 @@ describe('ngCsv directive', function () {
     expect(scope.$eval(scope.data)).toEqual($rootScope.testObj);
 
     scope.buildCSV(scope.data).then(function() {
-      expect(scope.csv).toBe('data:text/csv;charset=utf-8,1;2;3%0D%0A4;5;6%0D%0A');
+      expect(scope.csv).toBe('1;2;3\r\n4;5;6\r\n');
       done();
     });
     scope.$apply();
@@ -298,7 +298,7 @@ describe('ngCsv directive', function () {
     expect(scope.$eval(scope.data)).toEqual($rootScope.testObj);
 
     scope.buildCSV(scope.data).then(function() {
-      expect(scope.csv).toBe('data:text/csv;charset=utf-8,1;2;3%0D%0A4;5;6%0D%0A');
+      expect(scope.csv).toBe('1;2;3\r\n4;5;6\r\n');
       done();
     });
     scope.$apply();
@@ -315,7 +315,7 @@ describe('ngCsv directive', function () {
 	  expect(element.hasClass('ng-csv-loading')).toBe(false);
       done();
     });
-    
+
 	expect(element.hasClass('ng-csv-loading')).toBe(true);
 	$timeout.flush();
     scope.$apply();

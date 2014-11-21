@@ -4,9 +4,8 @@
 angular.module('ngCsv.services').
   service('CSV', ['$q', function($q)  {
 
-    var EOL = encodeURIComponent('\r\n');
+    var EOL = '\r\n';
     var BOM = "%ef%bb%bf";
-    var DATA_URI_PREFIX = "data:text/csv;charset=utf-8,";
 
     /**
      * Stringify one field
@@ -18,7 +17,7 @@ angular.module('ngCsv.services').
       if (typeof data === 'string') {
         data = data.replace(/"/g, '""'); // Escape double qoutes
         if (quoteText || data.indexOf(',') > -1 || data.indexOf('\n') > -1 || data.indexOf('\r') > -1) data = delimier + data + delimier;
-        return encodeURIComponent(data);
+        return data;
       }
 
       if (typeof data === 'boolean') {
@@ -42,7 +41,7 @@ angular.module('ngCsv.services').
       var def = $q.defer();
 
       var that = this;
-      var csv;
+      var csv = "";
       var csvContent = "";
 
       var dataPromise = $q.when(data).then(function (responseData)
@@ -90,7 +89,6 @@ angular.module('ngCsv.services').
         if(window.navigator.msSaveOrOpenBlob) {
           csv = csvContent;
         }else{
-          csv = DATA_URI_PREFIX;
           if (options.addByteOrderMarker){
               csv += BOM;
           }
