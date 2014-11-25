@@ -87,15 +87,18 @@ angular.module('ngCsv.services').
           csvContent += index < arrData.length ? dataString + EOL : dataString;
         });
 
-        if(window.navigator.msSaveOrOpenBlob) {
-          csv = csvContent;
-        }else{
+        // IE uses the BLOB way so no need for DATA_URI_PREFIX
+        if(!window.navigator.msSaveOrOpenBlob) {
           csv = DATA_URI_PREFIX;
-          if (options.addByteOrderMarker){
-              csv += BOM;
-          }
-          csv += csvContent;
         }
+
+        // Add BOM if needed
+        if (options.addByteOrderMarker){
+            csv += BOM;
+        }
+
+        // Append the content and resolve.
+        csv += csvContent;
         def.resolve(csv);
       });
 
