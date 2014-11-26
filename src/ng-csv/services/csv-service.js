@@ -4,9 +4,8 @@
 angular.module('ngCsv.services').
   service('CSV', ['$q', function($q)  {
 
-    var EOL = encodeURIComponent('\r\n');
+    var EOL = '\r\n';
     var BOM = "%ef%bb%bf";
-    var DATA_URI_PREFIX = "data:text/csv;charset=utf-8,";
 
     /**
      * Stringify one field
@@ -18,7 +17,7 @@ angular.module('ngCsv.services').
       if (typeof data === 'string') {
         data = data.replace(/"/g, '""'); // Escape double qoutes
         if (quoteText || data.indexOf(',') > -1 || data.indexOf('\n') > -1 || data.indexOf('\r') > -1) data = delimier + data + delimier;
-        return encodeURIComponent(data);
+        return data;
       }
 
       if (typeof data === 'boolean') {
@@ -42,7 +41,7 @@ angular.module('ngCsv.services').
       var def = $q.defer();
 
       var that = this;
-      var csv;
+      var csv = "";
       var csvContent = "";
 
       var dataPromise = $q.when(data).then(function (responseData)
@@ -87,14 +86,9 @@ angular.module('ngCsv.services').
           csvContent += index < arrData.length ? dataString + EOL : dataString;
         });
 
-        // IE uses the BLOB way so no need for DATA_URI_PREFIX
-        if(!window.navigator.msSaveOrOpenBlob) {
-          csv = DATA_URI_PREFIX;
-        }
-
         // Add BOM if needed
         if (options.addByteOrderMarker){
-            csv += BOM;
+          csv += BOM;
         }
 
         // Append the content and resolve.
