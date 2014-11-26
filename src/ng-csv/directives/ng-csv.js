@@ -76,16 +76,17 @@ angular.module('ngCsv.directives').
       ],
       link: function (scope, element, attrs) {
         function doClick() {
+          var blob = new Blob([scope.csv],{
+            type: "text/csv;charset=utf-8;"
+          });
+
           if(window.navigator.msSaveOrOpenBlob) {
-            var blob = new Blob([decodeURIComponent(scope.csv)],{
-                    type: "text/csv;charset=utf-8;"
-                });
             navigator.msSaveBlob(blob, scope.getFilename());
           } else {
 
             var downloadLink = angular.element('<a></a>');
-            downloadLink.attr('href',scope.csv);
-            downloadLink.attr('download',scope.getFilename());
+            downloadLink.attr('href', window.URL.createObjectURL(blob));
+            downloadLink.attr('download', scope.getFilename());
 
             $document.find('body').append(downloadLink);
             $timeout(function() {
@@ -93,7 +94,6 @@ angular.module('ngCsv.directives').
               downloadLink.remove();
             }, null);
           }
-
         }
 
         element.bind('click', function (e)
