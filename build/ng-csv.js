@@ -114,6 +114,7 @@ angular.module('ngCsv.services').
           dataString = infoArray.join(options.fieldSep ? options.fieldSep : ",");
           csvContent += index < arrData.length ? dataString + EOL : dataString;
         });
+
         // Add BOM if needed
         if (options.addByteOrderMarker){
             csv += BOM;
@@ -216,9 +217,6 @@ angular.module('ngCsv.directives').
           });
 
           if(window.navigator.msSaveOrOpenBlob) {
-            var blob = new Blob([scope.csv],{
-                    type: "text/csv;charset=utf-8;"
-                });
             navigator.msSaveBlob(blob, scope.getFilename());
           } else {
 
