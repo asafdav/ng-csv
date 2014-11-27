@@ -74,35 +74,54 @@ angular.module('ngCsv.directives').
           };
         }
       ],
-      link: function (scope, element, attrs) {
-        function doClick() {
-          if(window.navigator.msSaveOrOpenBlob) {
-            var blob = new Blob([decodeURIComponent(scope.csv)],{
-                    type: "text/csv;charset=utf-8;"
-                });
-            navigator.msSaveBlob(blob, scope.getFilename());
-          } else {
+     link: function (scope, element, attrs) {
+					function doClick() {
+						if (window.navigator.msSaveOrOpenBlob) {
+							var blob = new Blob([decodeURIComponent(scope.csv)], {
+								type: "text/csv;charset=utf-8;"
+							});
+							navigator.msSaveBlob(blob, scope.getFilename());
+						} else {
+							if (window.navigator.appName === 'Microsoft Internet Explorer') {
+								var iframe = angular.element('<iframe></iframe>');
+								iframe[0].style.display = "none";
+								element.append(iframe);
 
-            var downloadLink = angular.element('<a></a>');
-            downloadLink.attr('href',scope.csv);
-            downloadLink.attr('download',scope.getFilename());
+								var doc = null;
+								if (iframe[0].contentDocument) // FF Chrome
+									doc = iframe[0].contentDocument;
+								else if (iframe[0].contentWindow) // IE
+									doc = iframe[0].contentWindow.document;
 
-            $document.find('body').append(downloadLink);
-            $timeout(function() {
-              downloadLink[0].click();
-              downloadLink.remove();
-            }, null);
-          }
 
-        }
 
-        element.bind('click', function (e)
-        {
-          scope.buildCSV().then(function(csv) {
-            doClick();
-          });
-          scope.$apply();
-        });
-      }
+
+								doc.open("text/plain", "replace");
+								doc.write([decodeURIComponent(scope.csv)]);
+								doc.close();
+								iframe.focus();
+								doc.execCommand('SaveAs', true, scope.getFilename());
+							} else {
+								var downloadLink = angular.element('<a></a>');
+								downloadLink.attr('href', scope.csv);
+								downloadLink.attr('download', scope.getFilename());
+
+								$document.find('body').append(downloadLink);
+								$timeout(function () {
+									downloadLink[0].click();
+									downloadLink.remove();
+								}, null);
+							}
+						}
+
+					}
+
+					element.bind('click', function (e) {
+						scope.buildCSV().then(function (csv) {
+							doClick();
+						});
+						scope.$apply();
+					});
+				}
     };
   }]);
