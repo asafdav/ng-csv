@@ -2,11 +2,10 @@
  * Created by asafdav on 15/05/14.
  */
 angular.module('ngCsv.services').
-  service('CSV', ['$q', function($q)  {
+  service('CSV', ['$q', function ($q) {
 
-    var EOL = encodeURIComponent('\r\n');
+    var EOL = '\r\n';
     var BOM = "%ef%bb%bf";
-    var DATA_URI_PREFIX = "data:text/csv;charset=utf-8,";
 
     /**
      * Stringify one field
@@ -14,11 +13,11 @@ angular.module('ngCsv.services').
      * @param delimier
      * @returns {*}
      */
-    this.stringifyField = function(data, delimier, quoteText) {
+    this.stringifyField = function (data, delimier, quoteText) {
       if (typeof data === 'string') {
         data = data.replace(/"/g, '""'); // Escape double qoutes
         if (quoteText || data.indexOf(',') > -1 || data.indexOf('\n') > -1 || data.indexOf('\r') > -1) data = delimier + data + delimier;
-        return encodeURIComponent(data);
+        return data;
       }
 
       if (typeof data === 'boolean') {
@@ -37,25 +36,21 @@ angular.module('ngCsv.services').
      *  * addByteOrderMarker - Add Byte order mark, default(false)
      * @param callback
      */
-    this.stringify = function (data, options)
-    {
+    this.stringify = function (data, options) {
       var def = $q.defer();
 
       var that = this;
-      var csv;
+      var csv = "";
       var csvContent = "";
 
-      var dataPromise = $q.when(data).then(function (responseData)
-      {
+      var dataPromise = $q.when(data).then(function (responseData) {
         responseData = angular.copy(responseData);
         // Check if there's a provided header array
-        if (angular.isDefined(options.header) && options.header)
-        {
+        if (angular.isDefined(options.header) && options.header) {
           var encodingArray, headerString;
 
           encodingArray = [];
-          angular.forEach(options.header, function(title, key)
-          {
+          angular.forEach(options.header, function (title, key) {
             this.push(that.stringifyField(title, options.txtDelim, options.quoteStrings));
           }, encodingArray);
 
@@ -72,14 +67,12 @@ angular.module('ngCsv.services').
           arrData = responseData();
         }
 
-        angular.forEach(arrData, function(row, index)
-        {
+        angular.forEach(arrData, function (row, index) {
           var dataString, infoArray;
 
           infoArray = [];
 
-          angular.forEach(row, function(field, key)
-          {
+          angular.forEach(row, function (field, key) {
             this.push(that.stringifyField(field, options.txtDelim, options.quoteStrings));
           }, infoArray);
 
@@ -87,14 +80,9 @@ angular.module('ngCsv.services').
           csvContent += index < arrData.length ? dataString + EOL : dataString;
         });
 
-        // IE uses the BLOB way so no need for DATA_URI_PREFIX
-        if(!window.navigator.msSaveOrOpenBlob) {
-          csv = DATA_URI_PREFIX;
-        }
-
         // Add BOM if needed
-        if (options.addByteOrderMarker){
-            csv += BOM;
+        if (options.addByteOrderMarker) {
+          csv += BOM;
         }
 
         // Append the content and resolve.
@@ -103,7 +91,7 @@ angular.module('ngCsv.services').
       });
 
       if (typeof dataPromise['catch'] === 'function') {
-        dataPromise['catch'](function(err) {
+        dataPromise['catch'](function (err) {
           def.reject(err);
         });
       }

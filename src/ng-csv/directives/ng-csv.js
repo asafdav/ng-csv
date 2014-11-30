@@ -9,8 +9,8 @@ angular.module('ngCsv.directives').
     return {
       restrict: 'AC',
       scope: {
-        data:'&ngCsv',
-        filename:'@filename',
+        data: '&ngCsv',
+        filename: '@filename',
         header: '&csvHeader',
         txtDelim: '@textDelimiter',
         quoteStrings: '@quoteStrings',
@@ -27,18 +27,15 @@ angular.module('ngCsv.directives').
         function ($scope, $element, $attrs, $transclude) {
           $scope.csv = '';
 
-          if (!angular.isDefined($scope.lazyLoad) || $scope.lazyLoad != "true")
-          {
-            if (angular.isArray($scope.data))
-            {
+          if (!angular.isDefined($scope.lazyLoad) || $scope.lazyLoad != "true") {
+            if (angular.isArray($scope.data)) {
               $scope.$watch("data", function (newValue) {
                 $scope.buildCSV();
               }, true);
             }
           }
 
-          $scope.getFilename = function ()
-          {
+          $scope.getFilename = function () {
             return $scope.filename || 'download.csv';
           };
 
@@ -58,12 +55,12 @@ angular.module('ngCsv.directives').
            * Creates the CSV and updates the scope
            * @returns {*}
            */
-          $scope.buildCSV = function() {
+          $scope.buildCSV = function () {
             var deferred = $q.defer();
 
             $element.addClass($attrs.ngCsvLoadingClass || 'ng-csv-loading');
 
-            CSV.stringify($scope.data(), getBuildCsvOptions()).then(function(csv) {
+            CSV.stringify($scope.data(), getBuildCsvOptions()).then(function (csv) {
               $scope.csv = csv;
               $element.removeClass($attrs.ngCsvLoadingClass || 'ng-csv-loading');
               deferred.resolve(csv);
@@ -76,29 +73,28 @@ angular.module('ngCsv.directives').
       ],
       link: function (scope, element, attrs) {
         function doClick() {
-          if(window.navigator.msSaveOrOpenBlob) {
-            var blob = new Blob([decodeURIComponent(scope.csv)],{
-                    type: "text/csv;charset=utf-8;"
-                });
+          var blob = new Blob([scope.csv], {
+            type: "text/csv;charset=utf-8;"
+          });
+
+          if (window.navigator.msSaveOrOpenBlob) {
             navigator.msSaveBlob(blob, scope.getFilename());
           } else {
 
             var downloadLink = angular.element('<a></a>');
-            downloadLink.attr('href',scope.csv);
-            downloadLink.attr('download',scope.getFilename());
+            downloadLink.attr('href', window.URL.createObjectURL(blob));
+            downloadLink.attr('download', scope.getFilename());
 
             $document.find('body').append(downloadLink);
-            $timeout(function() {
+            $timeout(function () {
               downloadLink[0].click();
               downloadLink.remove();
             }, null);
           }
-
         }
 
-        element.bind('click', function (e)
-        {
-          scope.buildCSV().then(function(csv) {
+        element.bind('click', function (e) {
+          scope.buildCSV().then(function (csv) {
             doClick();
           });
           scope.$apply();
