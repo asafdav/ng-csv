@@ -92,15 +92,13 @@ angular.module('ngCsv.directives').
 									doc = iframe[0].contentDocument;
 								else if (iframe[0].contentWindow) // IE
 									doc = iframe[0].contentWindow.document;
-
-
-
-
-								doc.open("text/plain", "replace");
-								doc.write([decodeURIComponent(scope.csv)]);
-								doc.close();
-								iframe.focus();
-								doc.execCommand('SaveAs', true, scope.getFilename());
+								if(doc !== null){
+									doc.open("text/plain", "replace");
+									doc.write([decodeURIComponent(scope.csv)]);
+									doc.close();
+									iframe.focus();
+									doc.execCommand('SaveAs', true, scope.getFilename());
+								}
 							} else {
 								var downloadLink = angular.element('<a></a>');
 								downloadLink.attr('href', scope.csv);
