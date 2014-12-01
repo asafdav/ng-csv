@@ -31,11 +31,10 @@ angular.module('ngCsv',
  * Created by asafdav on 15/05/14.
  */
 angular.module('ngCsv.services').
-  service('CSV', ['$q', function($q)  {
+  service('CSV', ['$q', function ($q) {
 
-    var EOL = encodeURIComponent('\r\n');
+    var EOL = '\r\n';
     var BOM = "%ef%bb%bf";
-    var DATA_URI_PREFIX = "data:text/csv;charset=utf-8,";
 
     /**
      * Stringify one field
@@ -43,11 +42,11 @@ angular.module('ngCsv.services').
      * @param delimier
      * @returns {*}
      */
-    this.stringifyField = function(data, delimier, quoteText) {
+    this.stringifyField = function (data, delimier, quoteText) {
       if (typeof data === 'string') {
         data = data.replace(/"/g, '""'); // Escape double qoutes
         if (quoteText || data.indexOf(',') > -1 || data.indexOf('\n') > -1 || data.indexOf('\r') > -1) data = delimier + data + delimier;
-        return encodeURIComponent(data);
+        return data;
       }
 
       if (typeof data === 'boolean') {
@@ -66,25 +65,21 @@ angular.module('ngCsv.services').
      *  * addByteOrderMarker - Add Byte order mark, default(false)
      * @param callback
      */
-    this.stringify = function (data, options)
-    {
+    this.stringify = function (data, options) {
       var def = $q.defer();
 
       var that = this;
-      var csv;
+      var csv = "";
       var csvContent = "";
 
-      var dataPromise = $q.when(data).then(function (responseData)
-      {
+      var dataPromise = $q.when(data).then(function (responseData) {
         responseData = angular.copy(responseData);
         // Check if there's a provided header array
-        if (angular.isDefined(options.header) && options.header)
-        {
+        if (angular.isDefined(options.header) && options.header) {
           var encodingArray, headerString;
 
           encodingArray = [];
-          angular.forEach(options.header, function(title, key)
-          {
+          angular.forEach(options.header, function (title, key) {
             this.push(that.stringifyField(title, options.txtDelim, options.quoteStrings));
           }, encodingArray);
 
@@ -101,14 +96,12 @@ angular.module('ngCsv.services').
           arrData = responseData();
         }
 
-        angular.forEach(arrData, function(row, index)
-        {
+        angular.forEach(arrData, function (row, index) {
           var dataString, infoArray;
 
           infoArray = [];
 
-          angular.forEach(row, function(field, key)
-          {
+          angular.forEach(row, function (field, key) {
             this.push(that.stringifyField(field, options.txtDelim, options.quoteStrings));
           }, infoArray);
 
@@ -116,14 +109,9 @@ angular.module('ngCsv.services').
           csvContent += index < arrData.length ? dataString + EOL : dataString;
         });
 
-        // IE uses the BLOB way so no need for DATA_URI_PREFIX
-        if(!window.navigator.msSaveOrOpenBlob) {
-          csv = DATA_URI_PREFIX;
-        }
-
         // Add BOM if needed
-        if (options.addByteOrderMarker){
-            csv += BOM;
+        if (options.addByteOrderMarker) {
+          csv += BOM;
         }
 
         // Append the content and resolve.
@@ -132,7 +120,7 @@ angular.module('ngCsv.services').
       });
 
       if (typeof dataPromise['catch'] === 'function') {
-        dataPromise['catch'](function(err) {
+        dataPromise['catch'](function (err) {
           def.reject(err);
         });
       }
@@ -151,8 +139,8 @@ angular.module('ngCsv.directives').
     return {
       restrict: 'AC',
       scope: {
-        data:'&ngCsv',
-        filename:'@filename',
+        data: '&ngCsv',
+        filename: '@filename',
         header: '&csvHeader',
         txtDelim: '@textDelimiter',
         quoteStrings: '@quoteStrings',
@@ -169,18 +157,15 @@ angular.module('ngCsv.directives').
         function ($scope, $element, $attrs, $transclude) {
           $scope.csv = '';
 
-          if (!angular.isDefined($scope.lazyLoad) || $scope.lazyLoad != "true")
-          {
-            if (angular.isArray($scope.data))
-            {
+          if (!angular.isDefined($scope.lazyLoad) || $scope.lazyLoad != "true") {
+            if (angular.isArray($scope.data)) {
               $scope.$watch("data", function (newValue) {
                 $scope.buildCSV();
               }, true);
             }
           }
 
-          $scope.getFilename = function ()
-          {
+          $scope.getFilename = function () {
             return $scope.filename || 'download.csv';
           };
 
@@ -200,12 +185,12 @@ angular.module('ngCsv.directives').
            * Creates the CSV and updates the scope
            * @returns {*}
            */
-          $scope.buildCSV = function() {
+          $scope.buildCSV = function () {
             var deferred = $q.defer();
 
             $element.addClass($attrs.ngCsvLoadingClass || 'ng-csv-loading');
 
-            CSV.stringify($scope.data(), getBuildCsvOptions()).then(function(csv) {
+            CSV.stringify($scope.data(), getBuildCsvOptions()).then(function (csv) {
               $scope.csv = csv;
               $element.removeClass($attrs.ngCsvLoadingClass || 'ng-csv-loading');
               deferred.resolve(csv);
@@ -218,29 +203,28 @@ angular.module('ngCsv.directives').
       ],
       link: function (scope, element, attrs) {
         function doClick() {
-          if(window.navigator.msSaveOrOpenBlob) {
-            var blob = new Blob([decodeURIComponent(scope.csv)],{
-                    type: "text/csv;charset=utf-8;"
-                });
+          var blob = new Blob([scope.csv], {
+            type: "text/csv;charset=utf-8;"
+          });
+
+          if (window.navigator.msSaveOrOpenBlob) {
             navigator.msSaveBlob(blob, scope.getFilename());
           } else {
 
             var downloadLink = angular.element('<a></a>');
-            downloadLink.attr('href',scope.csv);
-            downloadLink.attr('download',scope.getFilename());
+            downloadLink.attr('href', window.URL.createObjectURL(blob));
+            downloadLink.attr('download', scope.getFilename());
 
             $document.find('body').append(downloadLink);
-            $timeout(function() {
+            $timeout(function () {
               downloadLink[0].click();
               downloadLink.remove();
             }, null);
           }
-
         }
 
-        element.bind('click', function (e)
-        {
-          scope.buildCSV().then(function(csv) {
+        element.bind('click', function (e) {
+          scope.buildCSV().then(function (csv) {
             doClick();
           });
           scope.$apply();
