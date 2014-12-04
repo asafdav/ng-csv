@@ -58,12 +58,12 @@ angular.module('ngCsv.services').
           csvContent += headerString + EOL;
         }
 
-        var arrData;
+        var arrData = [];
 
         if (angular.isArray(responseData)) {
           arrData = responseData;
         }
-        else {
+        else if (angular.isFunction(responseData)) {
           arrData = responseData();
         }
 
