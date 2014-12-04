@@ -323,4 +323,24 @@ describe('ngCsv directive', function () {
     $timeout.flush();
     scope.$apply();
   });
+
+  it('Handles undefined variables without raising any exception', function (done) {
+    var element = $compile(
+      '<div ng-csv="undefinedVariable" field-separator="{{sep}}"' +
+      ' filename="custom.csv">' +
+      '</div>')($rootScope);
+    $rootScope.$digest();
+    $rootScope.sep = ';';
+    $rootScope.$digest();
+
+    var scope = element.isolateScope();
+    // Check that the compiled element has indeed undefined variable
+    expect(scope.$eval(scope.data)).toEqual(undefined);
+
+    scope.buildCSV(scope.data).then(function() {
+      expect(scope.csv).toBe('');
+      done();
+    });
+    scope.$apply();
+  });
 });
