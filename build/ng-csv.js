@@ -34,7 +34,7 @@ angular.module('ngCsv.services').
   service('CSV', ['$q', function ($q) {
 
     var EOL = '\r\n';
-    var BOM = "%ef%bb%bf";
+    var BOM = "\ufeff";
 
     /**
      * Stringify one field
