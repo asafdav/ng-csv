@@ -180,7 +180,7 @@ describe('ngCsv directive', function () {
 
     // Check that the compiled element contains the templated content
     scope.buildCSV(scope.data).then(function() {
-      expect(scope.csv).toBe('%ef%bb%bf1,2,3\r\n4,5,6\r\n');
+      expect(scope.csv).toBe('\ufeff1,2,3\r\n4,5,6\r\n');
       done();
     });
     scope.$apply();
