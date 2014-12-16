@@ -5,7 +5,7 @@ angular.module('ngCsv.services').
   service('CSV', ['$q', function ($q) {
 
     var EOL = '\r\n';
-    var BOM = "%ef%bb%bf";
+    var BOM = "\ufeff";
 
     /**
      * Stringify one field
@@ -58,12 +58,12 @@ angular.module('ngCsv.services').
           csvContent += headerString + EOL;
         }
 
-        var arrData;
+        var arrData = [];
 
         if (angular.isArray(responseData)) {
           arrData = responseData;
         }
-        else {
+        else if (angular.isFunction(responseData)) {
           arrData = responseData();
         }
 
