@@ -76,8 +76,13 @@ angular.module('ngCsv.services').
         responseData = angular.copy(responseData);
         // Check if there's a provided header array
         if (angular.isDefined(options.header) && options.header) {
-          var encodingArray, headerString;
+          var encodingArray, headerString, descriptionString;
 
+          if(options.description) {
+            descriptionString = options.description.join(EOL);
+            csvContent += descriptionString + EOL;
+          }
+          
           encodingArray = [];
           angular.forEach(options.header, function (title, key) {
             this.push(that.stringifyField(title, options.txtDelim, options.quoteStrings));
@@ -142,6 +147,7 @@ angular.module('ngCsv.directives').
         data: '&ngCsv',
         filename: '@filename',
         header: '&csvHeader',
+        description: '&csvDescription',
         txtDelim: '@textDelimiter',
         quoteStrings: '@quoteStrings',
         fieldSep: '@fieldSeparator',
@@ -176,6 +182,7 @@ angular.module('ngCsv.directives').
               addByteOrderMarker: $scope.addByteOrderMarker
             };
             if (angular.isDefined($attrs.csvHeader)) options.header = $scope.$eval($scope.header);
+            if (angular.isDefined($attrs.csvDescription)) options.description = $scope.$eval($scope.description);
             options.fieldSep = $scope.fieldSep ? $scope.fieldSep : ",";
 
             return options;
