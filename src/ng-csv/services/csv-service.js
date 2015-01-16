@@ -47,8 +47,13 @@ angular.module('ngCsv.services').
         responseData = angular.copy(responseData);
         // Check if there's a provided header array
         if (angular.isDefined(options.header) && options.header) {
-          var encodingArray, headerString;
+          var encodingArray, headerString, descriptionString;
 
+          if(options.description) {
+            descriptionString = options.description.join(EOL);
+            csvContent += descriptionString + EOL;
+          }
+          
           encodingArray = [];
           angular.forEach(options.header, function (title, key) {
             this.push(that.stringifyField(title, options.txtDelim, options.quoteStrings));
