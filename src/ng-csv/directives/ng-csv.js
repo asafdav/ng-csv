@@ -17,7 +17,8 @@ angular.module('ngCsv.directives').
         fieldSep: '@fieldSeparator',
         lazyLoad: '@lazyLoad',
         addByteOrderMarker: "@addBom",
-        ngClick: '&'
+        ngClick: '&',
+        charset: '@charset'
       },
       controller: [
         '$scope',
@@ -73,8 +74,9 @@ angular.module('ngCsv.directives').
       ],
       link: function (scope, element, attrs) {
         function doClick() {
+          var charset = scope.charset || "utf-8";
           var blob = new Blob([scope.csv], {
-            type: "text/csv;charset=utf-8;"
+            type: "text/csv;charset="+ charset + ";"
           });
 
           if (window.navigator.msSaveOrOpenBlob) {

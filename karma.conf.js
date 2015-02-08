@@ -14,16 +14,15 @@ module.exports = function(config) {
       'src/ng-csv/directives/*.js',
       'src/ng-csv/services/*.js',
 
+      // Test helper
+      'test/unit/helper/*.js',
       // Test specs
-      'test/unit/**/*.js',
-      'test/unit/**/**/*.js'
+      'test/unit/**/*.js'
     ],
 
     frameworks: ["jasmine"],
 
     autoWatch: true,
-	
-	singleRune:false,
 
     browsers: ['PhantomJS'],
 
