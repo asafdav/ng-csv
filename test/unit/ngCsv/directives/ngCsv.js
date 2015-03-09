@@ -343,4 +343,64 @@ describe('ngCsv directive', function () {
     });
     scope.$apply();
   });
+
+  describe('charset attribute', function () {
+
+    beforeEach(function () {
+      helper.enableBlobForTesting();
+      helper.mockCreateObjectURL();
+    });
+
+    afterEach(function () {
+      helper.unmockCreateObjectURL();
+    });
+
+    it('is UTF-8 as default', function () {
+      var element = $compile(
+        '<div ng-csv="testObj" ' +
+        ' filename="custom.csv">' +
+        '</div>')($rootScope);
+
+      window.URL.createObjectURL = function (blob) {
+        expect(blob).toBeDefined();
+        // for some reason blob.type can't be querried with PhantomJS - therefore I created typeForTest.
+        // It will be available only in test!
+        // It shall be removed when updating PhantomJS to 2.0
+        expect(blob.type || blob.typeForTest()).toBe("text/csv;charset=utf-8;");
+      };
+
+      angular.element(element).triggerHandler('click');
+    });
+
+    it('can be set to UTF-8', function () {
+
+      var element = $compile(
+        '<div ng-csv="testObj" ' +
+        ' filename="custom.csv"' +
+        ' charset="utf-8">' +
+        '</div>')($rootScope);
+
+      window.URL.createObjectURL = function (blob) {
+        expect(blob.type).toBe("text/csv;charset=utf-8;");
+      };
+
+      angular.element(element).triggerHandler('click');
+    });
+
+    it('can be set to ISO-8859-1', function () {
+      var element = $compile(
+        '<div ng-csv="testObj" ' +
+        ' filename="custom.csv"' +
+        ' charset="iso-8859-1">' +
+        '</div>')($rootScope);
+
+      window.URL.createObjectURL = function (blob) {
+        expect(blob.type).toBe("text/csv;charset=iso-8859-1;");
+      };
+
+      angular.element(element).triggerHandler('click');
+    });
+
+  });
+
 });
