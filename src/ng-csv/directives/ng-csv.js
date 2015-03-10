@@ -86,6 +86,7 @@ angular.module('ngCsv.directives').
             var downloadLink = angular.element('<a></a>');
             downloadLink.attr('href', window.URL.createObjectURL(blob));
             downloadLink.attr('download', scope.getFilename());
+            downloadLink.attr('target', '_blank');
 
             $document.find('body').append(downloadLink);
             $timeout(function () {
