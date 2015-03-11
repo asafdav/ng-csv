@@ -21,6 +21,7 @@ describe('ngCsv directive', function () {
     $timeout = _$timeout_;
     $rootScope.test = [[1, 2, 3], [4, 5, 6]];
     $rootScope.testObj = [{a: 1, b: 2, c: 3}, {a: 4, b: 5, c: 6}];
+    $rootScope.testDecimal = [[13.37]];
 
     var _deferred = $q.defer();
     _deferred.resolve([[1, 2, 3], [4, 5, 6]]);
@@ -403,4 +404,49 @@ describe('ngCsv directive', function () {
 
   });
 
+  it('should convert decimal values to localeString if decimal-separator="locale"', function(done) {
+    $rootScope.decSep = 'locale';
+
+    var element = $compile(
+      '<div ng-csv="testDecimal" decimal-separator="{{decSep}}"' +
+      ' filename="custom.csv">' +
+      '</div>')($rootScope);
+
+      $rootScope.$digest();
+
+      var scope = element.isolateScope();
+
+      expect(scope.decimalSep).toBe($rootScope.decSep);
+
+      scope.buildCSV(scope.data).then(function() {
+        var locale = $rootScope.testDecimal[0][0].toLocaleString();
+
+        expect(scope.csv).toBe(locale + '\r\n');
+        done();
+      });
+
+    scope.$apply();
+  });
+
+  it('should convert decimal values using the decimal-separator option', function(done) {
+    $rootScope.decSep = ',';
+
+    var element = $compile(
+      '<div ng-csv="testDecimal" decimal-separator="{{decSep}}"' +
+      ' filename="custom.csv">' +
+      '</div>')($rootScope);
+
+      $rootScope.$digest();
+
+      var scope = element.isolateScope();
+
+      expect(scope.decimalSep).toBe($rootScope.decSep);
+
+      scope.buildCSV(scope.data).then(function() {
+        expect(scope.csv).toBe('13,37\r\n');
+        done();
+      });
+
+    scope.$apply();
+  });
 });

@@ -13,6 +13,7 @@ angular.module('ngCsv.directives').
         filename: '@filename',
         header: '&csvHeader',
         txtDelim: '@textDelimiter',
+        decimalSep: '@decimalSeparator',
         quoteStrings: '@quoteStrings',
         fieldSep: '@fieldSeparator',
         lazyLoad: '@lazyLoad',
@@ -43,6 +44,7 @@ angular.module('ngCsv.directives').
           function getBuildCsvOptions() {
             var options = {
               txtDelim: $scope.txtDelim ? $scope.txtDelim : '"',
+              decimalSep: $scope.decimalSep ? $scope.decimalSep : '.',
               quoteStrings: $scope.quoteStrings,
               addByteOrderMarker: $scope.addByteOrderMarker
             };
