@@ -39,13 +39,25 @@ angular.module('ngCsv.services').
     /**
      * Stringify one field
      * @param data
-     * @param delimier
+     * @param options
      * @returns {*}
      */
-    this.stringifyField = function (data, delimier, quoteText) {
+    this.stringifyField = function (data, options) {
+      if (options.decimalSep === 'locale' && this.isFloat(data)) {
+        return data.toLocaleString();
+      }
+
+      if (options.decimalSep !== '.' && this.isFloat(data)) {
+        return data.toString().replace('.', options.decimalSep);
+      }
+
       if (typeof data === 'string') {
         data = data.replace(/"/g, '""'); // Escape double qoutes
-        if (quoteText || data.indexOf(',') > -1 || data.indexOf('\n') > -1 || data.indexOf('\r') > -1) data = delimier + data + delimier;
+
+        if (options.quoteStrings || data.indexOf(',') > -1 || data.indexOf('\n') > -1 || data.indexOf('\r') > -1) {
+            data = options.txtDelim + data + options.txtDelim;
+        }
+
         return data;
       }
 
@@ -54,6 +66,15 @@ angular.module('ngCsv.services').
       }
 
       return data;
+    };
+
+    /**
+     * Helper function to check if input is float
+     * @param input
+     * @returns {boolean}
+     */
+    this.isFloat = function (input) {
+      return +input === input && (!isFinite(input) || Boolean(input % 1));
     };
 
     /**
@@ -80,7 +101,7 @@ angular.module('ngCsv.services').
 
           encodingArray = [];
           angular.forEach(options.header, function (title, key) {
-            this.push(that.stringifyField(title, options.txtDelim, options.quoteStrings));
+            this.push(that.stringifyField(title, options));
           }, encodingArray);
 
           headerString = encodingArray.join(options.fieldSep ? options.fieldSep : ",");
@@ -102,7 +123,7 @@ angular.module('ngCsv.services').
           infoArray = [];
 
           angular.forEach(row, function (field, key) {
-            this.push(that.stringifyField(field, options.txtDelim, options.quoteStrings));
+            this.push(that.stringifyField(field, options));
           }, infoArray);
 
           dataString = infoArray.join(options.fieldSep ? options.fieldSep : ",");
@@ -143,6 +164,7 @@ angular.module('ngCsv.directives').
         filename: '@filename',
         header: '&csvHeader',
         txtDelim: '@textDelimiter',
+        decimalSep: '@decimalSeparator',
         quoteStrings: '@quoteStrings',
         fieldSep: '@fieldSeparator',
         lazyLoad: '@lazyLoad',
@@ -173,6 +195,7 @@ angular.module('ngCsv.directives').
           function getBuildCsvOptions() {
             var options = {
               txtDelim: $scope.txtDelim ? $scope.txtDelim : '"',
+              decimalSep: $scope.decimalSep ? $scope.decimalSep : '.',
               quoteStrings: $scope.quoteStrings,
               addByteOrderMarker: $scope.addByteOrderMarker
             };
