@@ -1,6 +1,6 @@
 {
   "name": "ng-csv",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "main": "build/ng-csv.min.js",
   "dependencies": {
     "angular": "~1",
