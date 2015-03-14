@@ -25,20 +25,25 @@
         <input type="text" id="separator" class="form-control" ng-model="separator" ng-init="separator=','">
       </div>
 
+      <div class="form-group">
+        <label for="decimal-separator">Decimal separator</label>
+        <input type="text" id="decimal-separator" class="form-control" ng-model="decimalSeparator" ng-init="decimalSeparator='.'">
+      </div>            
+
       <button class="btn btn-default"
-              ng-csv="getArray" filename="{{ filename }}.csv" field-separator="{{separator}}"
+              ng-csv="getArray" filename="{{ filename }}.csv" field-separator="{{separator}}" decimal-separator="{{decimalSeparator}}"
               >Export to CSV</button>
 
       <button class="btn btn-default"
-              ng-csv="getArray" csv-header="getHeader()" filename="{{ filename }}" field-separator="{{separator}}"
+              ng-csv="getArray" csv-header="getHeader()" filename="{{ filename }}" field-separator="{{separator}}" decimal-separator="{{decimalSeparator}}"
               >Export to CSV with header</button>
 
       <button class="btn btn-default"
-              ng-csv="getArray" csv-header="getHeader()" filename="{{ filename }}" field-separator="{{separator}}"
+              ng-csv="getArray" csv-header="getHeader()" filename="{{ filename }}" field-separator="{{separator}}" decimal-separator="{{decimalSeparator}}"
               ng-click="clickFn()">Export with ng-click</button>
 
       <button class="btn btn-default"
-              ng-csv="getArray" filename="{{ filename }}.csv" field-separator="{{separator}}" add-bom="true"
+              ng-csv="getArray" filename="{{ filename }}.csv" field-separator="{{separator}}" decimal-separator="{{decimalSeparator}}" add-bom="true"
         >With BOM</button>
 
       <button class="btn btn-default" ng-click="addRandomRow()">Add row</button>

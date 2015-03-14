@@ -34,18 +34,30 @@ angular.module('ngCsv.services').
   service('CSV', ['$q', function ($q) {
 
     var EOL = '\r\n';
-    var BOM = "%ef%bb%bf";
+    var BOM = "\ufeff";
 
     /**
      * Stringify one field
      * @param data
-     * @param delimier
+     * @param options
      * @returns {*}
      */
-    this.stringifyField = function (data, delimier, quoteText) {
+    this.stringifyField = function (data, options) {
+      if (options.decimalSep === 'locale' && this.isFloat(data)) {
+        return data.toLocaleString();
+      }
+
+      if (options.decimalSep !== '.' && this.isFloat(data)) {
+        return data.toString().replace('.', options.decimalSep);
+      }
+
       if (typeof data === 'string') {
         data = data.replace(/"/g, '""'); // Escape double qoutes
-        if (quoteText || data.indexOf(',') > -1 || data.indexOf('\n') > -1 || data.indexOf('\r') > -1) data = delimier + data + delimier;
+
+        if (options.quoteStrings || data.indexOf(',') > -1 || data.indexOf('\n') > -1 || data.indexOf('\r') > -1) {
+            data = options.txtDelim + data + options.txtDelim;
+        }
+
         return data;
       }
 
@@ -54,6 +66,15 @@ angular.module('ngCsv.services').
       }
 
       return data;
+    };
+
+    /**
+     * Helper function to check if input is float
+     * @param input
+     * @returns {boolean}
+     */
+    this.isFloat = function (input) {
+      return +input === input && (!isFinite(input) || Boolean(input % 1));
     };
 
     /**
@@ -80,19 +101,19 @@ angular.module('ngCsv.services').
 
           encodingArray = [];
           angular.forEach(options.header, function (title, key) {
-            this.push(that.stringifyField(title, options.txtDelim, options.quoteStrings));
+            this.push(that.stringifyField(title, options));
           }, encodingArray);
 
           headerString = encodingArray.join(options.fieldSep ? options.fieldSep : ",");
           csvContent += headerString + EOL;
         }
 
-        var arrData;
+        var arrData = [];
 
         if (angular.isArray(responseData)) {
           arrData = responseData;
         }
-        else {
+        else if (angular.isFunction(responseData)) {
           arrData = responseData();
         }
 
@@ -102,7 +123,7 @@ angular.module('ngCsv.services').
           infoArray = [];
 
           angular.forEach(row, function (field, key) {
-            this.push(that.stringifyField(field, options.txtDelim, options.quoteStrings));
+            this.push(that.stringifyField(field, options));
           }, infoArray);
 
           dataString = infoArray.join(options.fieldSep ? options.fieldSep : ",");
@@ -143,11 +164,13 @@ angular.module('ngCsv.directives').
         filename: '@filename',
         header: '&csvHeader',
         txtDelim: '@textDelimiter',
+        decimalSep: '@decimalSeparator',
         quoteStrings: '@quoteStrings',
         fieldSep: '@fieldSeparator',
         lazyLoad: '@lazyLoad',
         addByteOrderMarker: "@addBom",
-        ngClick: '&'
+        ngClick: '&',
+        charset: '@charset'
       },
       controller: [
         '$scope',
@@ -172,6 +195,7 @@ angular.module('ngCsv.directives').
           function getBuildCsvOptions() {
             var options = {
               txtDelim: $scope.txtDelim ? $scope.txtDelim : '"',
+              decimalSep: $scope.decimalSep ? $scope.decimalSep : '.',
               quoteStrings: $scope.quoteStrings,
               addByteOrderMarker: $scope.addByteOrderMarker
             };
@@ -203,8 +227,9 @@ angular.module('ngCsv.directives').
       ],
       link: function (scope, element, attrs) {
         function doClick() {
+          var charset = scope.charset || "utf-8";
           var blob = new Blob([scope.csv], {
-            type: "text/csv;charset=utf-8;"
+            type: "text/csv;charset="+ charset + ";"
           });
 
           if (window.navigator.msSaveOrOpenBlob) {
@@ -214,6 +239,7 @@ angular.module('ngCsv.directives').
             var downloadLink = angular.element('<a></a>');
             downloadLink.attr('href', window.URL.createObjectURL(blob));
             downloadLink.attr('download', scope.getFilename());
+            downloadLink.attr('target', '_blank');
 
             $document.find('body').append(downloadLink);
             $timeout(function () {
