@@ -59,6 +59,7 @@ ngCsv attributes
 * quote-strings: If provided, will force escaping of every string field.
 * lazy-load: If defined and set to true, ngCsv will generate the data string only on demand. See the lazy_load example for more details.
 * add-bom: Add the Byte Order Mark, use this option if you are getting an unexpected char when opening the file on any windows App.
+* charset: Defines the charset of the downloadable Csv file. Default is "utf-8".
 
 ## Examples
 You can check out this live example here: https://asafdav.github.io/ng-csv/example/
