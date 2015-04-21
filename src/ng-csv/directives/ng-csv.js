@@ -50,6 +50,9 @@ angular.module('ngCsv.directives').
             };
             if (angular.isDefined($attrs.csvHeader)) options.header = $scope.$eval($scope.header);
             options.fieldSep = $scope.fieldSep ? $scope.fieldSep : ",";
+            
+            // can handle tab separated value
+            options.fieldSep = (options.fieldSep === "\\t") ? "\t" : options.fieldSep;
 
             return options;
           }
