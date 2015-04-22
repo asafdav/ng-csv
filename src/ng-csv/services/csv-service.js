@@ -7,6 +7,14 @@ angular.module('ngCsv.services').
     var EOL = '\r\n';
     var BOM = "\ufeff";
 
+    var specialChars = {
+      '\\t': '\t',
+      '\\b': '\b',
+      '\\v': '\v',
+      '\\f': '\f',
+      '\\r': '\r'
+    };
+
     /**
      * Stringify one field
      * @param data
@@ -119,4 +127,25 @@ angular.module('ngCsv.services').
 
       return def.promise;
     };
+
+    /**
+     * Helper function to check if input is really a special character
+     * @param input
+     * @returns {boolean}
+     */
+    this.isSpecialChar = function(input){
+      return specialChars[input] !== undefined;
+    };
+
+    /**
+     * Helper function to get what the special character was supposed to be
+     * since Angular escapes the first backslash
+     * @param input
+     * @returns {special character string}
+     */
+    this.getSpecialChar = function (input) {
+      return specialChars[input];
+    };
+
+
   }]);

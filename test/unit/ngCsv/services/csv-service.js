@@ -61,4 +61,41 @@ describe('ngCsv service', function () {
       });
     });
   });
+
+  describe('isSpecialChar', function () {
+    it('should return true if input is a special char with an escaped backslash', function () {
+      var testCases = [
+        '\\t',
+        '\\b',
+        '\\v',
+        '\\f',
+        '\\r'
+      ];
+
+      angular.forEach(testCases, function (testCase) {
+        expect(CSV.isSpecialChar(testCase)).toBeTruthy();
+      });
+    });
+
+    it('should return false if input is NOT a special char with an escaped backslash ', function () {
+      var testCases = [
+        '\t',
+        '\b',
+        '\v',
+        '\f',
+        '\r',
+         6,
+        'A',
+        true
+      ];
+
+      angular.forEach(testCases, function (testCase) {
+        expect(CSV.isSpecialChar(testCase)).toBeFalsy();
+      });
+    });    
+
+
+  });
+
+
 });
