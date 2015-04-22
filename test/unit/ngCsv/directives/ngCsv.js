@@ -308,6 +308,26 @@ describe('ngCsv directive', function () {
     scope.$apply();
   });
 
+  it('Accepts special characters in field-separator attribute', function (done) {
+    $rootScope.sep = '\t';
+    var element = $compile(
+      '<div ng-csv="testObj" field-separator="{{sep}}"' +
+      ' filename="custom.csv">' +
+      '</div>')($rootScope);
+    $rootScope.$digest();
+
+    var scope = element.isolateScope();
+    // Check that the compiled element contains the templated content
+    expect(scope.fieldSep).toBe($rootScope.sep);
+    expect(scope.$eval(scope.data)).toEqual($rootScope.testObj);
+
+    scope.buildCSV(scope.data).then(function() {
+      expect(scope.csv).toBe('1\t2\t3\r\n4\t5\t6\r\n');
+      done();
+    });
+    scope.$apply();
+  });
+
   it('adds and removes loading class with promise', function (done) {
     // Compile a piece of HTML containing the directive
     var element = $compile("<div ng-csv='longPromise' filename='custom.csv'></div>")($rootScope);

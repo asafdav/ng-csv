@@ -49,7 +49,12 @@ angular.module('ngCsv.directives').
               addByteOrderMarker: $scope.addByteOrderMarker
             };
             if (angular.isDefined($attrs.csvHeader)) options.header = $scope.$eval($scope.header);
+
+
             options.fieldSep = $scope.fieldSep ? $scope.fieldSep : ",";
+
+            // Replaces any badly formatted special character string with correct special character
+            options.fieldSep = CSV.isSpecialChar(options.fieldSep) ? CSV.getSpecialChar(options.fieldSep) : options.fieldSep;
 
             return options;
           }
