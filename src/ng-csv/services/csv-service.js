@@ -107,7 +107,7 @@ angular.module('ngCsv.services').
           }, infoArray);
 
           dataString = infoArray.join(options.fieldSep ? options.fieldSep : ",");
-          csvContent += index < arrData.length ? dataString + EOL : dataString;
+          csvContent += index < arrData.length - 1 ? dataString + EOL : dataString;
         });
 
         // Add BOM if needed
