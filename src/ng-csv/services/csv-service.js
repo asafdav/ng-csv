@@ -73,7 +73,7 @@ angular.module('ngCsv.services').
       var csvContent = "";
 
       var dataPromise = $q.when(data).then(function (responseData) {
-        responseData = angular.copy(responseData);
+        //responseData = angular.copy(responseData);//moved to row creation
         // Check if there's a provided header array
         if (angular.isDefined(options.header) && options.header) {
           var encodingArray, headerString;
@@ -96,7 +96,8 @@ angular.module('ngCsv.services').
           arrData = responseData();
         }
 
-        angular.forEach(arrData, function (row, index) {
+        angular.forEach(arrData, function (oldRow, index) {
+          var row = angular.copy(arrData[index]);
           var dataString, infoArray;
 
           infoArray = [];
