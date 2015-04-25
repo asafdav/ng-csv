@@ -36,6 +36,14 @@ angular.module('ngCsv.services').
     var EOL = '\r\n';
     var BOM = "\ufeff";
 
+    var specialChars = {
+      '\\t': '\t',
+      '\\b': '\b',
+      '\\v': '\v',
+      '\\f': '\f',
+      '\\r': '\r'
+    };
+
     /**
      * Stringify one field
      * @param data
@@ -94,7 +102,7 @@ angular.module('ngCsv.services').
       var csvContent = "";
 
       var dataPromise = $q.when(data).then(function (responseData) {
-        responseData = angular.copy(responseData);
+        //responseData = angular.copy(responseData);//moved to row creation
         // Check if there's a provided header array
         if (angular.isDefined(options.header) && options.header) {
           var encodingArray, headerString;
@@ -117,7 +125,8 @@ angular.module('ngCsv.services').
           arrData = responseData();
         }
 
-        angular.forEach(arrData, function (row, index) {
+        angular.forEach(arrData, function (oldRow, index) {
+          var row = angular.copy(arrData[index]);
           var dataString, infoArray;
 
           infoArray = [];
@@ -148,6 +157,27 @@ angular.module('ngCsv.services').
 
       return def.promise;
     };
+
+    /**
+     * Helper function to check if input is really a special character
+     * @param input
+     * @returns {boolean}
+     */
+    this.isSpecialChar = function(input){
+      return specialChars[input] !== undefined;
+    };
+
+    /**
+     * Helper function to get what the special character was supposed to be
+     * since Angular escapes the first backslash
+     * @param input
+     * @returns {special character string}
+     */
+    this.getSpecialChar = function (input) {
+      return specialChars[input];
+    };
+
+
   }]);
 /**
  * ng-csv module
@@ -200,7 +230,12 @@ angular.module('ngCsv.directives').
               addByteOrderMarker: $scope.addByteOrderMarker
             };
             if (angular.isDefined($attrs.csvHeader)) options.header = $scope.$eval($scope.header);
+
+
             options.fieldSep = $scope.fieldSep ? $scope.fieldSep : ",";
+
+            // Replaces any badly formatted special character string with correct special character
+            options.fieldSep = CSV.isSpecialChar(options.fieldSep) ? CSV.getSpecialChar(options.fieldSep) : options.fieldSep;
 
             return options;
           }
