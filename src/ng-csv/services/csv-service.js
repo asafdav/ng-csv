@@ -73,15 +73,22 @@ angular.module('ngCsv.services').
       var csvContent = "";
 
       var dataPromise = $q.when(data).then(function (responseData) {
-        //responseData = angular.copy(responseData);//moved to row creation
         // Check if there's a provided header array
         if (angular.isDefined(options.header) && options.header) {
           var encodingArray, headerString;
 
           encodingArray = [];
-          angular.forEach(options.header, function (title, key) {
-            this.push(that.stringifyField(title, options));
-          }, encodingArray);
+
+          /* Check if there's a provided header function*/
+          if (typeof options.header === 'function') {
+            angular.forEach(options.header(), function (title, key) {
+              this.push(that.stringifyField(title, options));
+            }, encodingArray);
+          } else {
+            angular.forEach(options.header, function (title, key) {
+              this.push(that.stringifyField(title, options));
+            }, encodingArray);
+          }
 
           headerString = encodingArray.join(options.fieldSep ? options.fieldSep : ",");
           csvContent += headerString + EOL;
