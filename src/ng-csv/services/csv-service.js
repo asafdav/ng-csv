@@ -115,11 +115,13 @@ angular.module('ngCsv.services').
             if (typeof row[attribute] !== 'undefined' && row[attribute] !== null)
               this.push(that.stringifyField(row[attribute], options));
             else
-              this.push(that.stringifyField(null, options));
+              this.push(that.stringifyField('null', options));
           }, infoArray);
 
-          dataString = infoArray.join(options.fieldSep ? options.fieldSep : ",");
-          csvContent += index < arrData.length ? dataString + EOL : dataString;
+          if (infoArray.length !== 0) {
+            dataString = infoArray.join(options.fieldSep ? options.fieldSep : ",");
+            csvContent += index < arrData.length ? dataString + EOL : dataString;
+          }
         });
 
         // Add BOM if needed
