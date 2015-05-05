@@ -109,8 +109,13 @@ angular.module('ngCsv.services').
 
           infoArray = [];
 
-          angular.forEach(row, function (field, key) {
-            this.push(that.stringifyField(field, options));
+          angular.forEach(options.attributeList, function(attribute, index) {
+            if (typeof row === 'undefined' || row === null)
+              return;
+            if (typeof row[attribute] !== 'undefined' && row[attribute] !== null)
+              this.push(that.stringifyField(row[attribute], options));
+            else
+              this.push(that.stringifyField(null, options));
           }, infoArray);
 
           dataString = infoArray.join(options.fieldSep ? options.fieldSep : ",");

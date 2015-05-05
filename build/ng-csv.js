@@ -138,10 +138,19 @@ angular.module('ngCsv.services').
 
           infoArray = [];
 
+          angular.forEach(options.attributeList, function(attribute, index) {
+            if (typeof row === 'undefined' || row === null)
+              return;
+            if (typeof row[attribute] !== 'undefined' && row[attribute] !== null)
+              this.push(that.stringifyField(row[attribute], options));
+            else
+              this.push(that.stringifyField(null, options));
+          }, infoArray);
+/*
           angular.forEach(row, function (field, key) {
             this.push(that.stringifyField(field, options));
           }, infoArray);
-
+*/
           dataString = infoArray.join(options.fieldSep ? options.fieldSep : ",");
           csvContent += index < arrData.length ? dataString + EOL : dataString;
         });
@@ -207,7 +216,8 @@ angular.module('ngCsv.directives').
         lazyLoad: '@lazyLoad',
         addByteOrderMarker: "@addBom",
         ngClick: '&',
-        charset: '@charset'
+        charset: '@charset',
+        attributeList: '&'
       },
       controller: [
         '$scope',
@@ -237,7 +247,8 @@ angular.module('ngCsv.directives').
               txtDelim: $scope.txtDelim ? $scope.txtDelim : '"',
               decimalSep: $scope.decimalSep ? $scope.decimalSep : '.',
               quoteStrings: $scope.quoteStrings,
-              addByteOrderMarker: $scope.addByteOrderMarker
+              addByteOrderMarker: $scope.addByteOrderMarker,
+              attributeList: $scope.$eval($scope.attributeList())
             };
             if (angular.isDefined($attrs.csvHeader)) options.header = $scope.$eval($scope.header);
 
