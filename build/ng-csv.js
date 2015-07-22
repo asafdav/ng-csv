@@ -102,15 +102,22 @@ angular.module('ngCsv.services').
       var csvContent = "";
 
       var dataPromise = $q.when(data).then(function (responseData) {
-        //responseData = angular.copy(responseData);//moved to row creation
         // Check if there's a provided header array
         if (angular.isDefined(options.header) && options.header) {
           var encodingArray, headerString;
 
           encodingArray = [];
-          angular.forEach(options.header, function (title, key) {
-            this.push(that.stringifyField(title, options));
-          }, encodingArray);
+
+          /* Check if there's a provided header function*/
+          if (typeof options.header === 'function') {
+            angular.forEach(options.header(), function (title, key) {
+              this.push(that.stringifyField(title, options));
+            }, encodingArray);
+          } else {
+            angular.forEach(options.header, function (title, key) {
+              this.push(that.stringifyField(title, options));
+            }, encodingArray);
+          }
 
           headerString = encodingArray.join(options.fieldSep ? options.fieldSep : ",");
           csvContent += headerString + EOL;
@@ -131,12 +138,19 @@ angular.module('ngCsv.services').
 
           infoArray = [];
 
-          angular.forEach(row, function (field, key) {
-            this.push(that.stringifyField(field, options));
+          angular.forEach(options.attributeList, function(attribute, index) {
+            if (typeof row === 'undefined' || row === null)
+              return;
+            if (typeof row[attribute] !== 'undefined' && row[attribute] !== null)
+              this.push(that.stringifyField(row[attribute], options));
+            else
+              this.push(that.stringifyField('null', options));
           }, infoArray);
 
-          dataString = infoArray.join(options.fieldSep ? options.fieldSep : ",");
-          csvContent += index < arrData.length ? dataString + EOL : dataString;
+          if (infoArray.length !== 0) {
+            dataString = infoArray.join(options.fieldSep ? options.fieldSep : ",");
+            csvContent += index < arrData.length ? dataString + EOL : dataString;
+          }
         });
 
         // Add BOM if needed
@@ -191,7 +205,7 @@ angular.module('ngCsv.directives').
       restrict: 'AC',
       scope: {
         data: '&ngCsv',
-        filename: '@filename',
+        filename: '&filename',
         header: '&csvHeader',
         txtDelim: '@textDelimiter',
         decimalSep: '@decimalSeparator',
@@ -200,7 +214,8 @@ angular.module('ngCsv.directives').
         lazyLoad: '@lazyLoad',
         addByteOrderMarker: "@addBom",
         ngClick: '&',
-        charset: '@charset'
+        charset: '@charset',
+        attributeList: '&'
       },
       controller: [
         '$scope',
@@ -219,6 +234,9 @@ angular.module('ngCsv.directives').
           }
 
           $scope.getFilename = function () {
+            if (typeof $scope.filename() === 'function') {
+              return $scope.$eval($scope.filename()) || 'download.csv';
+            }
             return $scope.filename || 'download.csv';
           };
 
@@ -227,7 +245,8 @@ angular.module('ngCsv.directives').
               txtDelim: $scope.txtDelim ? $scope.txtDelim : '"',
               decimalSep: $scope.decimalSep ? $scope.decimalSep : '.',
               quoteStrings: $scope.quoteStrings,
-              addByteOrderMarker: $scope.addByteOrderMarker
+              addByteOrderMarker: $scope.addByteOrderMarker,
+              attributeList: $scope.$eval($scope.attributeList())
             };
             if (angular.isDefined($attrs.csvHeader)) options.header = $scope.$eval($scope.header);
 

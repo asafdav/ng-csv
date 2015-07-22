@@ -10,7 +10,7 @@ angular.module('ngCsv.directives').
       restrict: 'AC',
       scope: {
         data: '&ngCsv',
-        filename: '@filename',
+        filename: '&filename',
         header: '&csvHeader',
         txtDelim: '@textDelimiter',
         decimalSep: '@decimalSeparator',
@@ -19,7 +19,8 @@ angular.module('ngCsv.directives').
         lazyLoad: '@lazyLoad',
         addByteOrderMarker: "@addBom",
         ngClick: '&',
-        charset: '@charset'
+        charset: '@charset',
+        attributeList: '&'
       },
       controller: [
         '$scope',
@@ -38,6 +39,9 @@ angular.module('ngCsv.directives').
           }
 
           $scope.getFilename = function () {
+            if (typeof $scope.filename() === 'function') {
+              return $scope.$eval($scope.filename()) || 'download.csv';
+            }
             return $scope.filename || 'download.csv';
           };
 
@@ -46,7 +50,8 @@ angular.module('ngCsv.directives').
               txtDelim: $scope.txtDelim ? $scope.txtDelim : '"',
               decimalSep: $scope.decimalSep ? $scope.decimalSep : '.',
               quoteStrings: $scope.quoteStrings,
-              addByteOrderMarker: $scope.addByteOrderMarker
+              addByteOrderMarker: $scope.addByteOrderMarker,
+              attributeList: $scope.$eval($scope.attributeList())
             };
             if (angular.isDefined($attrs.csvHeader)) options.header = $scope.$eval($scope.header);
 
