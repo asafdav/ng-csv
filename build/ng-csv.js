@@ -146,14 +146,29 @@ angular.module('ngCsv.services').
           dataString = infoArray.join(options.fieldSep ? options.fieldSep : ",");
           csvContent += index < arrData.length ? dataString + EOL : dataString;
         });
+                
+        //deal with the character set   
+        options.charset = options.charset || "utf-8";
+        options.charset = options.charset.toLowerCase();  
+        if(options.charset === "utf-8") {
+          csv = that.utf8Encode(csvContent, options.addByteOrderMarker);
+        } else if(options.charset === "utf-16") {
+          csv = that.utf16Encode(csvContent, options.addByteOrderMarker);
+        } else if(options.charset === "utf-16le") {
+          csv = that.utf16leEncode(csvContent);
+        } else if(options.charset === "utf-16be") {
+          csv = that.utf16beEncode(csvContent);
+        } else {
+          // Add BOM if needed
+          if (options.addByteOrderMarker) {
+           csv += BOM;
+          }
 
-        // Add BOM if needed
-        if (options.addByteOrderMarker) {
-          csv += BOM;
+          // Append the content
+          csv += csvContent;
         }
-
-        // Append the content and resolve.
-        csv += csvContent;
+                
+        //resolve
         def.resolve(csv);
       });
 
@@ -184,8 +199,83 @@ angular.module('ngCsv.services').
     this.getSpecialChar = function (input) {
       return specialChars[input];
     };
+        
+    /**
+     * Helper function to encode the content as a utf-16 byte array
+     * @param content
+     * @param addBOM
+     * @returns {utf-16 encoded byte array}
+     */
+    this.utf16Encode = function(content, addBOM) {
+      var bytes = [];
+      if (addBOM) {
+        bytes.push(0xfe, 0xff);  //Big Endian Byte Order Marks
+      }
+            
+      for (var i = 0; i < content.length; i++) {
+        var charCode = content.charCodeAt(i);
+        bytes.push((charCode & 0xff00) >>> 8);  //high byte
+        bytes.push(charCode & 0xff);  //low byte
+      }
+      
+      return new Uint8Array(bytes);
+    };
+        
+    /**
+     * Helper function to encode the content as a utf-16be byte array
+     * @param content
+     * @returns {utf-16be encoded byte array}
+     */   
+    this.utf16beEncode = function (content) {
+      return this.utf16Encode(content);
+    };
+        
+    /**
+     * Helper function to encode the content as a utf-16le byte array
+     * @param content
+     * @returns {utf-16le encoded byte array}
+     */
+    this.utf16leEncode = function (content) {
+      var bytes = [];
+            
+      for (var i = 0; i < content.length; i++) {
+        var charCode = content.charCodeAt(i);
+        bytes.push(charCode & 0xff);  //low byte
+        bytes.push((charCode & 0xff00) >>> 0x8);  //high byte
+      }
 
-
+      return new Uint8Array(bytes);
+    };
+        
+    /**
+     * Helper function to encode the content as a utf-8 byte array
+     * @param content
+     * @param addBOM
+     * @returns {utf-8 encoded byte array}
+     */
+    this.utf8Encode = function(content, addBOM) {
+      var bytes = [];
+      if (addBOM) {
+        bytes.push(0xef, 0xbb, 0xbf);
+      }
+            
+      for (var i = 0; i < content.length; i++) {
+        var charCode = content.charCodeAt(i);
+                
+        if (charCode < 0x80) {
+          bytes.push(charCode);
+        } else if ((charCode > 0x7f) && (charCode < 0x800)) {
+          bytes.push((charCode >> 0x6) | 0xc0);
+          bytes.push((charCode & 0x3f) | 0x80);
+        } else {
+          bytes.push((charCode >> 0xc) | 0xe0);
+          bytes.push(((charCode >> 0x6) & 0x3f) | 0x80);
+          bytes.push((charCode & 0x3f) | 0x80);
+        }
+      }
+      
+      return new Uint8Array(bytes);
+    };
   }]);
 /**
  * ng-csv module
@@ -237,7 +327,8 @@ angular.module('ngCsv.directives').
               decimalSep: $scope.decimalSep ? $scope.decimalSep : '.',
               quoteStrings: $scope.quoteStrings,
               addByteOrderMarker: $scope.addByteOrderMarker,
-              addSeparator: $scope.addSeparator
+              addSeparator: $scope.addSeparator,
+              charset: $scope.charset
             };
             if (angular.isDefined($attrs.csvHeader)) options.header = $scope.$eval($scope.header);
 
