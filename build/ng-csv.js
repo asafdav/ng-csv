@@ -35,6 +35,7 @@ angular.module('ngCsv.services').
 
     var EOL = '\r\n';
     var BOM = "\ufeff";
+    var SEP = "sep=";
 
     var specialChars = {
       '\\t': '\t',
@@ -60,7 +61,7 @@ angular.module('ngCsv.services').
       }
 
       if (typeof data === 'string') {
-        data = data.replace(/"/g, '""'); // Escape double qoutes
+        data = data.replace(/"/g, '""'); // Escape double quotes
 
         if (options.quoteStrings || data.indexOf(',') > -1 || data.indexOf('\n') > -1 || data.indexOf('\r') > -1) {
             data = options.txtDelim + data + options.txtDelim;
@@ -103,6 +104,13 @@ angular.module('ngCsv.services').
 
       var dataPromise = $q.when(data).then(function (responseData) {
         //responseData = angular.copy(responseData);//moved to row creation
+                
+        // Add separator if needed
+        if (options.addSeparator) {
+            var sepString = SEP + (options.fieldSep ? options.fieldSep : ",");
+            csvContent += sepString + EOL;
+        }         
+                
         // Check if there's a provided header array
         if (angular.isDefined(options.header) && options.header) {
           var encodingArray, headerString;
@@ -199,6 +207,7 @@ angular.module('ngCsv.directives').
         fieldSep: '@fieldSeparator',
         lazyLoad: '@lazyLoad',
         addByteOrderMarker: "@addBom",
+        addSeparator: "@addSep",
         ngClick: '&',
         charset: '@charset'
       },
@@ -227,10 +236,10 @@ angular.module('ngCsv.directives').
               txtDelim: $scope.txtDelim ? $scope.txtDelim : '"',
               decimalSep: $scope.decimalSep ? $scope.decimalSep : '.',
               quoteStrings: $scope.quoteStrings,
-              addByteOrderMarker: $scope.addByteOrderMarker
+              addByteOrderMarker: $scope.addByteOrderMarker,
+              addSeparator: $scope.addSeparator
             };
             if (angular.isDefined($attrs.csvHeader)) options.header = $scope.$eval($scope.header);
-
 
             options.fieldSep = $scope.fieldSep ? $scope.fieldSep : ",";
 
