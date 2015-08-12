@@ -131,9 +131,16 @@ angular.module('ngCsv.services').
 
           infoArray = [];
 
-          angular.forEach(row, function (field, key) {
-            this.push(that.stringifyField(field, options));
-          }, infoArray);
+          if (options.columnOrder){
+            angular.forEach(options.columnOrder, function (col, key) {
+              this.push(that.stringifyField(row[col], options));
+            }, infoArray);
+          }
+          else{
+            angular.forEach(row, function (field, key) {
+              this.push(that.stringifyField(field, options));
+            }, infoArray);
+          }
 
           dataString = infoArray.join(options.fieldSep ? options.fieldSep : ",");
           csvContent += index < arrData.length ? dataString + EOL : dataString;
@@ -193,6 +200,7 @@ angular.module('ngCsv.directives').
         data: '&ngCsv',
         filename: '@filename',
         header: '&csvHeader',
+        columnOrder: '&csvColumnOrder',
         txtDelim: '@textDelimiter',
         decimalSep: '@decimalSeparator',
         quoteStrings: '@quoteStrings',
@@ -230,7 +238,7 @@ angular.module('ngCsv.directives').
               addByteOrderMarker: $scope.addByteOrderMarker
             };
             if (angular.isDefined($attrs.csvHeader)) options.header = $scope.$eval($scope.header);
-
+            if (angular.isDefined($attrs.csvColumnOrder)) options.columnOrder = $scope.$eval($scope.columnOrder);
 
             options.fieldSep = $scope.fieldSep ? $scope.fieldSep : ",";
 
