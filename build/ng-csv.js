@@ -131,9 +131,16 @@ angular.module('ngCsv.services').
 
           infoArray = [];
 
-          angular.forEach(options.columnOrder, function (field, key) {
-            this.push(that.stringifyField(row[field], options));
-          }, infoArray);
+          if (options.columnOrder){
+            angular.forEach(options.columnOrder, function (col, key) {
+              this.push(that.stringifyField(row[col], options));
+            }, infoArray);
+          }
+          else{
+            angular.forEach(row, function (field, key) {
+              this.push(that.stringifyField(field, options));
+            }, infoArray);
+          }
 
           dataString = infoArray.join(options.fieldSep ? options.fieldSep : ",");
           csvContent += index < arrData.length ? dataString + EOL : dataString;
