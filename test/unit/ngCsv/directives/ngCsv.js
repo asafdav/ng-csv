@@ -129,6 +129,27 @@ describe('ngCsv directive', function () {
     scope.$apply();
   });
 
+  it('Accepts optional csv-column-order attribute (input array)', function (done) {
+    $rootScope.testDelim = [ {a:1, b:2, c:3}, {a:4, b:5, c:6} ];
+    $rootScope.order = [ 'b', 'a', 'c' ];
+    var element = $compile(
+      '<div ng-csv="testDelim" csv-column-order="order" filename="custom.csv"></div>')($rootScope);
+
+    $rootScope.$digest();
+
+    var scope = element.isolateScope();
+
+    // Check that the compiled element contains the templated content
+    expect(scope.$eval(scope.data)).toEqual($rootScope.testDelim);
+    expect(scope.$eval(scope.columnOrder)).toEqual($rootScope.order);
+
+    scope.buildCSV(scope.data).then(function() {
+      expect(scope.csv).toBe('2,1,3\r\n5,4,6\r\n');
+      done();
+    });
+    scope.$apply();
+  });
+
   it('Accepts optional text-delimiter attribute (input array)', function (done) {
     $rootScope.testDelim = [[1, 'a', 2], ['b', 'c', 3]];
     var element = $compile(
