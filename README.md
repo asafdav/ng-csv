@@ -53,6 +53,7 @@ ngCsv attributes
   <button type="button" ng-csv="getArray()" csv-header="['Field A', 'Field B', 'Field C']" filename="test.csv">Export</button>
   ```
 
+* csv-column-order: Defines the column order to be set when creating the body of the CSV (may be according to the csv-headers) - use it when you have an array of objects.
 * field-separator: Defines the field separator character (default is ,)
 * decimal-separator: Defines the decimal separator character (default is .). If set to "locale", it uses the [language sensitive representation of the number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString).
 * text-delimiter: If provided, will use this characters to "escape" fields, otherwise will use double quotes as deafult
