@@ -102,8 +102,10 @@ angular.module('ngCsv.services').
 
           infoArray = [];
 
-          angular.forEach(row, function (field, key) {
-            this.push(that.stringifyField(field, options));
+          var iterator = !!options.columnOrder ? options.columnOrder : row;
+          angular.forEach(iterator, function (field, key) {
+            var val = !!options.columnOrder ? row[field] : field;
+            this.push(that.stringifyField(val, options));
           }, infoArray);
 
           dataString = infoArray.join(options.fieldSep ? options.fieldSep : ",");
