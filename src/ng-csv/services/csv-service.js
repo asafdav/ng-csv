@@ -87,6 +87,15 @@ angular.module('ngCsv.services').
           csvContent += headerString + EOL;
         }
 
+        var arrData = [];
+
+        if (angular.isArray(responseData)) {
+          arrData = responseData;
+        }
+        else if (angular.isFunction(responseData)) {
+          arrData = responseData();
+        }
+
         // Check if using keys as labels
         if (angular.isDefined(options.label) && options.label && typeof options.label === 'boolean') {
             var encodingArray, labelString;
@@ -97,15 +106,6 @@ angular.module('ngCsv.services').
             }, encodingArray);
             labelString = encodingArray.join(options.fieldSep ? options.fieldSep : ",");
             csvContent += labelString + EOL;
-        }
-
-        var arrData = [];
-
-        if (angular.isArray(responseData)) {
-          arrData = responseData;
-        }
-        else if (angular.isFunction(responseData)) {
-          arrData = responseData();
         }
 
         angular.forEach(arrData, function (oldRow, index) {
