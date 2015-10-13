@@ -98,13 +98,13 @@ angular.module('ngCsv.services').
 
         // Check if using keys as labels
         if (angular.isDefined(options.label) && options.label && typeof options.label === 'boolean') {
-            var encodingArray, labelString;
-            
-            encodingArray = [];
+            var labelArray, labelString;
+
+            labelArray = [];
             angular.forEach(arrData[0], function(value, label) {
                 this.push(that.stringifyField(label, options));
-            }, encodingArray);
-            labelString = encodingArray.join(options.fieldSep ? options.fieldSep : ",");
+            }, labelArray);
+            labelString = labelArray.join(options.fieldSep ? options.fieldSep : ",");
             csvContent += labelString + EOL;
         }
 
