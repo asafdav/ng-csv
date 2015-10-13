@@ -62,6 +62,7 @@ ngCsv attributes
 * add-bom: Add the Byte Order Mark, use this option if you are getting an unexpected char when opening the file on any windows App.
 * charset: Defines the charset of the downloadable Csv file. Default is "utf-8".
 * csv-label: Defines whether or not using keys as csv column value (default is false).
+
 ## Examples
 You can check out this live example here: https://asafdav.github.io/ng-csv/example/
 
