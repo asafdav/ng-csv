@@ -2,8 +2,8 @@
 <html>
 <head>
     <link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular-sanitize.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-sanitize.min.js"></script>
     <script src="../build/ng-csv.js"></script>
 </head>
 <body>
@@ -37,6 +37,10 @@
       <button class="btn btn-default"
               ng-csv="getArray" csv-header="getHeader()" filename="{{ filename }}" field-separator="{{separator}}" decimal-separator="{{decimalSeparator}}"
               >Export to CSV with header</button>
+
+      <button class="btn btn-default"
+      ng-csv="getArray" csv-label="true" filename="{{ filename }}" field-separator="{{separator}}" decimal-separator="{{decimalSeparator}}"
+      >Export to CSV with keys</button>
 
       <button class="btn btn-default"
               ng-csv="getArray" csv-header="getHeader()" filename="{{ filename }}" field-separator="{{separator}}" decimal-separator="{{decimalSeparator}}"
