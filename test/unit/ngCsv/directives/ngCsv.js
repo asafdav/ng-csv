@@ -134,14 +134,14 @@ describe('ngCsv directive', function () {
     $rootScope.testDelim = [ {a:1, b:2, c:3}, {a:4, b:5, c:6} ];
     var element = $compile(
       '<div ng-csv="testDelim" csv-label="true" filename="custom.csv"></div>')($rootScope);
-    
+
     $rootScope.$digest();
 
     var scope = element.isolateScope();
 
     // Check that the compiled element contains the templated content
     expect(scope.$eval(scope.data)).toEqual($rootScope.testDelim);
-    
+
 
     scope.buildCSV(scope.data).then(function() {
       expect(scope.csv).toBe('a,b,c\r\n1,2,3\r\n4,5,6\r\n');
@@ -190,6 +190,29 @@ describe('ngCsv directive', function () {
       done();
     });
     scope.$apply();
+  });
+
+  it('Accepts optional skip-empty attribute', function () {
+
+    $rootScope.noData = [];
+    var element = $compile(
+      '<div ng-csv="noData" skip-empty="true" ' +
+      ' filename="no-download.csv">' +
+      '</div>')($rootScope);
+
+    $rootScope.$digest();
+
+    var scope = element.isolateScope();
+
+    spyOn(scope, 'buildCSV');
+
+    // Check that the compiled element contains the templated content
+    expect(scope.$eval(scope.data)).toEqual($rootScope.noData);
+    expect(scope.skipEmpty).toBe('true');
+
+    scope.$apply();
+
+    expect(scope.buildCSV).not.toHaveBeenCalled();
   });
 
   it('Accepts optional text-delimiter attribute (input object)', function (done) {
