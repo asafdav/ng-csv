@@ -90,10 +90,10 @@ angular.module('ngCsv.services').
         var arrData = [];
 
         if (angular.isArray(responseData)) {
-          arrData = responseData;
+          angular.copy(responseData, arrData);
         }
         else if (angular.isFunction(responseData)) {
-          arrData = responseData();
+          angular.copy(responseData(), arrData);
         }
 
         // Check if using keys as labels
