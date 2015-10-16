@@ -90,10 +90,10 @@ angular.module('ngCsv.services').
         var arrData = [];
 
         if (angular.isArray(responseData)) {
-          angular.copy(responseData, arrData);
+          arrData = responseData;
         }
         else if (angular.isFunction(responseData)) {
-          angular.copy(responseData(), arrData);
+          arrData = responseData();
         }
         else if (angular.isObject(responseData)) {
           arrData = responseData;
@@ -110,9 +110,9 @@ angular.module('ngCsv.services').
         else {
           JsonObjectToCSV(arrData);
         }
-
-        // Check if using keys as labels
+        
         function addKeysColumnHeader(originData) {
+          // Check if using keys as labels
           if (angular.isDefined(options.label) && options.label && typeof options.label === 'boolean') {
             var labelArray, labelString;
 
@@ -127,8 +127,8 @@ angular.module('ngCsv.services').
 
         function JsonObjectToCSV(originData) {
           addKeysColumnHeader(originData);
-          angular.forEach(arrData, function (oldRow, index) {
-            var row = angular.copy(arrData[index]);
+          angular.forEach(originData, function (oldRow, index) {
+            var row = angular.copy(originData[index]);
             var dataString, infoArray;
 
             infoArray = [];
@@ -140,7 +140,7 @@ angular.module('ngCsv.services').
             }, infoArray);
 
             dataString = infoArray.join(options.fieldSep ? options.fieldSep : ",");
-            csvContent += index < arrData.length ? dataString + EOL : dataString;
+            csvContent += index < originData.length ? dataString + EOL : dataString;
           });
         }
 

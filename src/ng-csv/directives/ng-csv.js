@@ -32,7 +32,7 @@ angular.module('ngCsv.directives').
         function ($scope, $element, $attrs, $transclude) {
           $scope.csv = '';
 
-          if (!angular.isDefined($scope.lazyLoad) || $scope.lazyLoad != "true") {
+          if (!angular.isDefined($scope.lazyLoad) || $scope.lazyLoad !== "true") {
             if (angular.isArray($scope.data)) {
               $scope.$watch("data", function (newValue) {
                 $scope.buildCSV();
