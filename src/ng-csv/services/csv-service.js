@@ -90,14 +90,30 @@ angular.module('ngCsv.services').
         var arrData = [];
 
         if (angular.isArray(responseData)) {
-          angular.copy(responseData, arrData);
+          arrData = responseData;
         }
         else if (angular.isFunction(responseData)) {
-          angular.copy(responseData(), arrData);
+          arrData = responseData();
+        }
+        else if (angular.isObject(responseData)) {
+          arrData = responseData;
         }
 
-        // Check if using keys as labels
-        if (angular.isDefined(options.label) && options.label && typeof options.label === 'boolean') {
+        // Check if needs to write multiple csv files
+        if (angular.isDefined(options.multiCsv) && options.multiCsv && typeof options.multiCsv === 'boolean') {
+          angular.forEach(arrData, function(val, key) {
+            csvContent += key + EOL;
+            JsonObjectToCSV(val);
+            csvContent += EOL;
+          });
+        }
+        else {
+          JsonObjectToCSV(arrData);
+        }
+        
+        function addKeysColumnHeader(originData) {
+          // Check if using keys as labels
+          if (angular.isDefined(options.label) && options.label && typeof options.label === 'boolean') {
             var labelArray, labelString;
 
             labelArray = [];
@@ -106,23 +122,27 @@ angular.module('ngCsv.services').
             }, labelArray);
             labelString = labelArray.join(options.fieldSep ? options.fieldSep : ",");
             csvContent += labelString + EOL;
+          }  
         }
 
-        angular.forEach(arrData, function (oldRow, index) {
-          var row = angular.copy(arrData[index]);
-          var dataString, infoArray;
+        function JsonObjectToCSV(originData) {
+          addKeysColumnHeader(originData);
+          angular.forEach(originData, function (oldRow, index) {
+            var row = angular.copy(originData[index]);
+            var dataString, infoArray;
 
-          infoArray = [];
+            infoArray = [];
 
-          var iterator = !!options.columnOrder ? options.columnOrder : row;
-          angular.forEach(iterator, function (field, key) {
-            var val = !!options.columnOrder ? row[field] : field;
-            this.push(that.stringifyField(val, options));
-          }, infoArray);
+            var iterator = !!options.columnOrder ? options.columnOrder : row;
+            angular.forEach(iterator, function (field, key) {
+              var val = !!options.columnOrder ? row[field] : field;
+              this.push(that.stringifyField(val, options));
+            }, infoArray);
 
-          dataString = infoArray.join(options.fieldSep ? options.fieldSep : ",");
-          csvContent += index < arrData.length ? dataString + EOL : dataString;
-        });
+            dataString = infoArray.join(options.fieldSep ? options.fieldSep : ",");
+            csvContent += index < originData.length ? dataString + EOL : dataString;
+          });
+        }
 
         // Add BOM if needed
         if (options.addByteOrderMarker) {
