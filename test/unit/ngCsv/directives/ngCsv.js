@@ -150,6 +150,27 @@ describe('ngCsv directive', function () {
     scope.$apply();
   });
 
+  it('Creates multiple contents in one csv file if multi-csv sets to true', function (done) {
+    // Compile a piece of HTML containing the directive
+    $rootScope.testDelim = { array1: [{a:1, b:2, c:3}, {a:4, b:5, c:6}], array2: [{x:1, y:2, z:3, m:4}, {x:5, y:6, z:7, m:8}] };
+    var element = $compile(
+      '<div ng-csv="testDelim" multi-csv="true" filename="custom.csv"></div>')($rootScope);
+    
+    $rootScope.$digest();
+
+    var scope = element.isolateScope();
+
+    // Check that the compiled element contains the templated content
+    expect(scope.$eval(scope.data)).toEqual($rootScope.testDelim);
+    
+
+    scope.buildCSV(scope.data).then(function() {
+      expect(scope.csv).toBe('array1\r\n1,2,3\r\n4,5,6\r\n\r\narray2\r\n1,2,3,4\r\n5,6,7,8\r\n\r\n');
+      done();
+    });
+    scope.$apply();
+  });
+
   it('Accepts optional csv-column-order attribute (input array)', function (done) {
     $rootScope.testDelim = [ {a:1, b:2, c:3}, {a:4, b:5, c:6} ];
     $rootScope.order = [ 'b', 'a', 'c' ];
