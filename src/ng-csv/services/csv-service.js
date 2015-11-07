@@ -104,8 +104,8 @@ angular.module('ngCsv.services').
             angular.forEach(arrData[0], function(value, label) {
                 this.push(that.stringifyField(label, options));
             }, labelArray);
-            labelString = labelArray.join(options.fieldSep ? options.fieldSep : ",");
-            csvContent += labelString + EOL;
+            // insert labels as first row of arrData
+            arrData.unshift(labelArray);
         }
 
         angular.forEach(arrData, function (oldRow, index) {
