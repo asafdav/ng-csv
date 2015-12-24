@@ -134,6 +134,11 @@ angular.module('ngCsv.services').
 
         // Append the content and resolve.
         csv += csvContent;
+        
+        if(TextEncoder && options.encode){
+          csv = TextEncoder(options.charset).encode(csv);
+        }
+        
         def.resolve(csv);
       });
 
@@ -164,6 +169,4 @@ angular.module('ngCsv.services').
     this.getSpecialChar = function (input) {
       return specialChars[input];
     };
-
-
   }]);

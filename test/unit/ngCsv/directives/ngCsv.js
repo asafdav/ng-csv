@@ -457,7 +457,6 @@ describe('ngCsv directive', function () {
     });
 
     it('can be set to UTF-8', function () {
-
       var element = $compile(
         '<div ng-csv="testObj" ' +
         ' filename="custom.csv"' +
@@ -484,7 +483,6 @@ describe('ngCsv directive', function () {
 
       angular.element(element).triggerHandler('click');
     });
-
   });
 
   it('should convert decimal values to localeString if decimal-separator="locale"', function(done) {
@@ -530,6 +528,57 @@ describe('ngCsv directive', function () {
         done();
       });
 
+    scope.$apply();
+  });
+  
+  it('should encode the csv in utf-8', function (done) {
+    // Compile a piece of HTML containing the directive
+    var element = $compile("<div ng-csv='test' filename='custom.csv' encode='true'></div>")($rootScope);
+    // fire all the watches, so the scope expression {{1 + 1}} will be evaluated
+    $rootScope.$digest();
+
+    var scope = element.isolateScope();
+
+    // Check that the compiled element contains the templated content
+    expect(scope.$eval(scope.data)).toBe($rootScope.test);
+    scope.buildCSV(scope.data).then(function() {
+      expect(scope.csv).toEqual(TextEncoder('utf-8').encode('1,2,3\r\n4,5,6\r\n'));
+      done();
+    });
+    scope.$apply();
+  });
+  
+  it('should encode the csv in utf-16le', function (done) {
+    // Compile a piece of HTML containing the directive
+    var element = $compile("<div ng-csv='test' filename='custom.csv' encode='true' charset='utf-16le'></div>")($rootScope);
+    // fire all the watches, so the scope expression {{1 + 1}} will be evaluated
+    $rootScope.$digest();
+
+    var scope = element.isolateScope();
+
+    // Check that the compiled element contains the templated content
+    expect(scope.$eval(scope.data)).toBe($rootScope.test);
+    scope.buildCSV(scope.data).then(function() {
+      expect(scope.csv).toEqual(TextEncoder('utf-16le').encode('1,2,3\r\n4,5,6\r\n'));
+      done();
+    });
+    scope.$apply();
+  });
+  
+  it('should encode the csv in utf-16le and add BOM', function (done) {
+    // Compile a piece of HTML containing the directive
+    var element = $compile("<div ng-csv='test' filename='custom.csv' encode='true' charset='utf-16le' add-bom='true'></div>")($rootScope);
+    // fire all the watches, so the scope expression {{1 + 1}} will be evaluated
+    $rootScope.$digest();
+
+    var scope = element.isolateScope();
+
+    // Check that the compiled element contains the templated content
+    expect(scope.$eval(scope.data)).toBe($rootScope.test);
+    scope.buildCSV(scope.data).then(function() {
+      expect(scope.csv).toEqual(TextEncoder('utf-16le').encode('\ufeff1,2,3\r\n4,5,6\r\n'));
+      done();
+    });
     scope.$apply();
   });
 });

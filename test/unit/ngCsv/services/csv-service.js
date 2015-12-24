@@ -92,10 +92,6 @@ describe('ngCsv service', function () {
       angular.forEach(testCases, function (testCase) {
         expect(CSV.isSpecialChar(testCase)).toBeFalsy();
       });
-    });    
-
-
+    });
   });
-
-
 });
