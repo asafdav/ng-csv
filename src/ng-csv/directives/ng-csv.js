@@ -18,7 +18,7 @@ angular.module('ngCsv.directives').
         quoteStrings: '@quoteStrings',
         fieldSep: '@fieldSeparator',
         lazyLoad: '@lazyLoad',
-        addByteOrderMarker: "@addBom",
+        addByteOrderMarker: '@addBom',
         ngClick: '&',
         charset: '@charset',
         encode: '@encode',
