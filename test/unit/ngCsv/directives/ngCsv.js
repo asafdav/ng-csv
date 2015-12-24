@@ -542,7 +542,7 @@ describe('ngCsv directive', function () {
     // Check that the compiled element contains the templated content
     expect(scope.$eval(scope.data)).toBe($rootScope.test);
     scope.buildCSV(scope.data).then(function() {
-      expect(scope.csv).toEqual(TextEncoder('utf-8').encode('1,2,3\r\n4,5,6\r\n'));
+      expect(scope.csv).toEqual(new TextEncoder('utf-8').encode('1,2,3\r\n4,5,6\r\n'));
       done();
     });
     scope.$apply();
@@ -559,7 +559,7 @@ describe('ngCsv directive', function () {
     // Check that the compiled element contains the templated content
     expect(scope.$eval(scope.data)).toBe($rootScope.test);
     scope.buildCSV(scope.data).then(function() {
-      expect(scope.csv).toEqual(TextEncoder('utf-16le').encode('1,2,3\r\n4,5,6\r\n'));
+      expect(scope.csv).toEqual(new TextEncoder('utf-16le').encode('1,2,3\r\n4,5,6\r\n'));
       done();
     });
     scope.$apply();
@@ -576,7 +576,7 @@ describe('ngCsv directive', function () {
     // Check that the compiled element contains the templated content
     expect(scope.$eval(scope.data)).toBe($rootScope.test);
     scope.buildCSV(scope.data).then(function() {
-      expect(scope.csv).toEqual(TextEncoder('utf-16le').encode('\ufeff1,2,3\r\n4,5,6\r\n'));
+      expect(scope.csv).toEqual(new TextEncoder('utf-16le').encode('\ufeff1,2,3\r\n4,5,6\r\n'));
       done();
     });
     scope.$apply();

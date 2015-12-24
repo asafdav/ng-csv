@@ -136,7 +136,7 @@ angular.module('ngCsv.services').
         csv += csvContent;
         
         if(TextEncoder && options.encode){
-          csv = TextEncoder(options.charset).encode(csv);
+          csv = new TextEncoder(options.charset).encode(csv);
         }
         
         def.resolve(csv);
