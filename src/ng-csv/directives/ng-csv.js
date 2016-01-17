@@ -21,7 +21,8 @@ angular.module('ngCsv.directives').
         addByteOrderMarker: "@addBom",
         ngClick: '&',
         charset: '@charset',
-        label: '&csvLabel'
+        label: '&csvLabel',
+        sepHeader: '&sepHeader'
       },
       controller: [
         '$scope',
@@ -53,6 +54,7 @@ angular.module('ngCsv.directives').
             if (angular.isDefined($attrs.csvHeader)) options.header = $scope.$eval($scope.header);
             if (angular.isDefined($attrs.csvColumnOrder)) options.columnOrder = $scope.$eval($scope.columnOrder);
             if (angular.isDefined($attrs.csvLabel)) options.label = $scope.$eval($scope.label);
+            if (angular.isDefined($attrs.sepHeader)) options.sepHeader = $scope.$eval($scope.sepHeader);
 
             options.fieldSep = $scope.fieldSep ? $scope.fieldSep : ",";
 

@@ -70,7 +70,7 @@ angular.module('ngCsv.services').
 
       var that = this;
       var csv = "";
-      var csvContent = "";
+      var csvContent = !options.sepHeader ? "" : "sep=" + options.fieldSep + EOL;
 
       var dataPromise = $q.when(data).then(function (responseData) {
         //responseData = angular.copy(responseData);//moved to row creation
