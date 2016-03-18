@@ -134,14 +134,14 @@ describe('ngCsv directive', function () {
     $rootScope.testDelim = [ {a:1, b:2, c:3}, {a:4, b:5, c:6} ];
     var element = $compile(
       '<div ng-csv="testDelim" csv-label="true" filename="custom.csv"></div>')($rootScope);
-    
+
     $rootScope.$digest();
 
     var scope = element.isolateScope();
 
     // Check that the compiled element contains the templated content
     expect(scope.$eval(scope.data)).toEqual($rootScope.testDelim);
-    
+
 
     scope.buildCSV(scope.data).then(function() {
       expect(scope.csv).toBe('a,b,c\r\n1,2,3\r\n4,5,6\r\n');
@@ -532,4 +532,55 @@ describe('ngCsv directive', function () {
 
     scope.$apply();
   });
+
+  it('Accepts optional sortColumn attribute (input string) with ascending sort', function (done) {
+    $rootScope.sortColumn = "-age";
+    $rootScope.jsondata = [{name:'John', phone:'555-1212', age:10},
+       {name:'Mary', phone:'555-9876', age:19},
+       {name:'Mike', phone:'555-4321', age:21},
+       {name:'Adam', phone:'555-5678', age:35},
+       {name:'Julie', phone:'555-8765', age:29}];
+
+    var element = $compile(
+      '<div ng-csv="jsondata" sort-column="{{sortColumn}}" filename="custom.csv"></div>')($rootScope);
+
+    $rootScope.$digest();
+
+    var scope = element.isolateScope();
+
+    expect(scope.$eval(scope.data)).toEqual($rootScope.jsondata);
+    expect(scope.sortColumn).toEqual($rootScope.sortColumn);
+
+    scope.buildCSV(scope.data).then(function() {
+      expect(scope.csv).toBe('Adam,555-5678,35\r\nJulie,555-8765,29\r\nMike,555-4321,21\r\nMary,555-9876,19\r\nJohn,555-1212,10\r\n');
+      done();
+    });
+    scope.$apply();
+  });
+
+  it('Accepts optional sortColumn attribute (input string) with descending sort', function (done) {
+    $rootScope.sortColumn = "age";
+    $rootScope.jsondata = [{name:'John', phone:'555-1212', age:10},
+       {name:'Mary', phone:'555-9876', age:19},
+       {name:'Mike', phone:'555-4321', age:21},
+       {name:'Adam', phone:'555-5678', age:35},
+       {name:'Julie', phone:'555-8765', age:29}];
+
+    var element = $compile(
+      '<div ng-csv="jsondata" sort-column="{{sortColumn}}" filename="custom.csv"></div>')($rootScope);
+
+    $rootScope.$digest();
+
+    var scope = element.isolateScope();
+
+    expect(scope.$eval(scope.data)).toEqual($rootScope.jsondata);
+    expect(scope.sortColumn).toEqual($rootScope.sortColumn);
+
+    scope.buildCSV(scope.data).then(function() {
+      expect(scope.csv).toBe('John,555-1212,10\r\nMary,555-9876,19\r\nMike,555-4321,21\r\nJulie,555-8765,29\r\nAdam,555-5678,35\r\n');
+      done();
+    });
+    scope.$apply();
+  });
+
 });

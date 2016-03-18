@@ -36,7 +36,7 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' && module.ex
  * Created by asafdav on 15/05/14.
  */
 angular.module('ngCsv.services').
-  service('CSV', ['$q', function ($q) {
+  service('CSV', ['$q', '$filter', function ($q, $filter) {
 
     var EOL = '\r\n';
     var BOM = "\ufeff";
@@ -130,13 +130,21 @@ angular.module('ngCsv.services').
           arrData = responseData();
         }
 
+        // Sorts the data
+        if(angular.isDefined(options.sortColumn)) {
+          arrData = $filter('orderBy')(arrData, options.sortColumn);
+        }
+
         // Check if using keys as labels
         if (angular.isDefined(options.label) && options.label && typeof options.label === 'boolean') {
             var labelArray, labelString;
 
             labelArray = [];
-            angular.forEach(arrData[0], function(value, label) {
-                this.push(that.stringifyField(label, options));
+
+            var iterator = !!options.columnOrder ? options.columnOrder : arrData[0];
+            angular.forEach(iterator, function(value, label) {
+                var val = !!options.columnOrder ? value : label;
+                this.push(that.stringifyField(val, options));
             }, labelArray);
             labelString = labelArray.join(options.fieldSep ? options.fieldSep : ",");
             csvContent += labelString + EOL;
@@ -221,7 +229,8 @@ angular.module('ngCsv.directives').
         addByteOrderMarker: "@addBom",
         ngClick: '&',
         charset: '@charset',
-        label: '&csvLabel'
+        label: '&csvLabel',
+        sortColumn: '@sortColumn'
       },
       controller: [
         '$scope',
@@ -253,6 +262,7 @@ angular.module('ngCsv.directives').
             if (angular.isDefined($attrs.csvHeader)) options.header = $scope.$eval($scope.header);
             if (angular.isDefined($attrs.csvColumnOrder)) options.columnOrder = $scope.$eval($scope.columnOrder);
             if (angular.isDefined($attrs.csvLabel)) options.label = $scope.$eval($scope.label);
+            if (angular.isDefined($attrs.sortColumn)) options.sortColumn = $scope.sortColumn;
 
             options.fieldSep = $scope.fieldSep ? $scope.fieldSep : ",";
 
