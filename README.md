@@ -40,7 +40,7 @@ please also make sure you're adding angular-sanitize.min.js.
 
 3. Add ng-csv directive to the wanted element, example:
   ```html
-  <button type="button" ng-csv="getArray()" filename="test.csv">Export</button>
+  <button type="button" ng-csv="getArray" filename="test.csv">Export</button>
   ```
 
 ngCsv attributes
@@ -50,7 +50,7 @@ ngCsv attributes
 * csv-header: If provided, would use this attribute to create a header row
 
     ```html
-  <button type="button" ng-csv="getArray()" csv-header="['Field A', 'Field B', 'Field C']" filename="test.csv">Export</button>
+  <button type="button" ng-csv="getArray" csv-header="['Field A', 'Field B', 'Field C']" filename="test.csv">Export</button>
   ```
 
 * csv-column-order: Defines the column order to be set when creating the body of the CSV (may be according to the csv-headers) - use it when you have an array of objects.
