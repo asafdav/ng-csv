@@ -85,14 +85,55 @@ angular.module('ngCsv.directives').
       link: function (scope, element, attrs) {
         function doClick() {
           var charset = scope.charset || "utf-8";
-          var blob = new Blob([scope.csv], {
-            type: "text/csv;charset="+ charset + ";"
-          });
-
-          if (window.navigator.msSaveOrOpenBlob) {
-            navigator.msSaveBlob(blob, scope.getFilename());
-          } else {
-
+          var ua = navigator.userAgent.toLowerCase();
+          var safari, blob ;
+          //To findout safari browser
+          if (ua.indexOf('safari') != -1) {
+            if (ua.indexOf('chrome') > -1) {
+              safari = false; //chrome
+            } else {
+              safari = true; // Safari
+            }
+          }
+          //IE browsers
+          if ( ua.match(/msie/gi) || navigator.appName.match(/Internet/gi) || navigator.msMaxTouchPoints !== void 0 ){ 
+            //IE 10+ browsers
+            if( window.navigator.msSaveOrOpenBlob ) {
+              blob = new Blob([scope.csv], {
+                type: "text/csv;charset="+ charset + ";"
+              });
+              navigator.msSaveBlob(blob, scope.getFilename());
+            }else{
+              //IE9 and below browsers
+              csvData = decodeURIComponent(scope.csv);
+              var iframe = angular.element('<iframe></iframe>');
+              iframe[0].style.display = "none";
+              element.append(iframe);
+              var doc = null;
+              if (iframe[0].contentDocument)
+                  doc = iframe[0].contentDocument;
+              else if (iframe[0].contentWindow)
+                  doc = iframe[0].contentWindow.document;
+              doc.open("data:application/csv;charset=utf-8", "replace");
+              doc.write(csvData);
+              doc.close();
+              iframe.focus();
+              if(!doc.execCommand('SaveAs', true, scope.getFilename())){
+                //doc.execCommand('SaveAs', true, scope.getFilename()) returns false that means file downloading is failed with '.csv' extension. In IE9 '.csv' extension file not downloading properly, So while file saving is failed with extension '.csv' the same file got success while downloading with '.txt' extension and also we will get saveas option to save the file here we can change extension and file name.
+                doc.execCommand('SaveAs', true, scope.getFilename()+'.txt');
+              }
+            }
+          }
+          //For safari browser
+          else if(safari){
+            window.open('data:attachment/csv;filename='+scope.getFilename()+';charset=utf-8,' + encodeURI(scope.csv), "csvWindow");
+            window.close();
+          }
+          //Other than safari and IE browsers
+          else {
+            blob = new Blob([scope.csv], {
+              type: "text/csv;charset="+ charset + ";"
+            });
             var downloadContainer = angular.element('<div data-tap-disabled="true"><a></a></div>');
             var downloadLink = angular.element(downloadContainer.children()[0]);
             downloadLink.attr('href', window.URL.createObjectURL(blob));
