@@ -135,8 +135,11 @@ angular.module('ngCsv.services').
             var labelArray, labelString;
 
             labelArray = [];
-            angular.forEach(arrData[0], function(value, label) {
-                this.push(that.stringifyField(label, options));
+
+            var iterator = !!options.columnOrder ? options.columnOrder : arrData[0];
+            angular.forEach(iterator, function(value, label) {
+                var val = !!options.columnOrder ? value : label;
+                this.push(that.stringifyField(val, options));
             }, labelArray);
             labelString = labelArray.join(options.fieldSep ? options.fieldSep : ",");
             csvContent += labelString + EOL;
@@ -221,7 +224,8 @@ angular.module('ngCsv.directives').
         addByteOrderMarker: "@addBom",
         ngClick: '&',
         charset: '@charset',
-        label: '&csvLabel'
+        label: '&csvLabel',
+        downloadLink: '='
       },
       controller: [
         '$scope',
@@ -283,27 +287,27 @@ angular.module('ngCsv.directives').
         }
       ],
       link: function (scope, element, attrs) {
+        var downloadElement = document.querySelector( '#' + scope.downloadLink);
+        var targetElement = downloadElement ? angular.element(downloadElement) : element;
+
+        if (downloadElement){
+          targetElement.addClass('ng-hide');
+        }
+
         function doClick() {
           var charset = scope.charset || "utf-8";
           var blob = new Blob([scope.csv], {
             type: "text/csv;charset="+ charset + ";"
           });
 
-          if (window.navigator.msSaveOrOpenBlob) {
-            navigator.msSaveBlob(blob, scope.getFilename());
+          targetElement.attr('href', window.URL.createObjectURL(blob));
+          targetElement.attr('download', scope.getFilename());
+          targetElement.attr('target', '_blank');
+
+          if (downloadElement){
+            targetElement.removeClass('ng-hide');
           } else {
-
-            var downloadContainer = angular.element('<div data-tap-disabled="true"><a></a></div>');
-            var downloadLink = angular.element(downloadContainer.children()[0]);
-            downloadLink.attr('href', window.URL.createObjectURL(blob));
-            downloadLink.attr('download', scope.getFilename());
-            downloadLink.attr('target', '_blank');
-
-            $document.find('body').append(downloadContainer);
-            $timeout(function () {
-              downloadLink[0].click();
-              downloadLink.remove();
-            }, null);
+            element.unbind('click');
           }
         }
 
