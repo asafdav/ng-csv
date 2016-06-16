@@ -5,7 +5,7 @@
  * Author: asafdav - https://github.com/asafdav
  */
 angular.module('ngCsv.directives').
-  directive('ngCsv', ['$parse', '$q', 'CSV', '$document', '$timeout', function ($parse, $q, CSV, $document, $timeout) {
+  directive('ngCsv', ['$parse', '$q', 'CSV', '$document', '$timeout', 'CSVBroadcast', function ($parse, $q, CSV, $document, $timeout, CSVBroadcast) {
     return {
       restrict: 'AC',
       scope: {
@@ -108,8 +108,10 @@ angular.module('ngCsv.directives').
         }
 
         element.bind('click', function (e) {
+		  CSVBroadcast.broadcastEvent("CSV.beforeDownload");
           scope.buildCSV().then(function (csv) {
             doClick();
+			CSVBroadcast.broadcastEvent("CSV.downloaded");
           });
           scope.$apply();
         });
