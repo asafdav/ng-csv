@@ -33,7 +33,7 @@ angular.module('ngCsv.services').
       if (typeof data === 'string') {
         data = data.replace(/"/g, '""'); // Escape double qoutes
 
-        if (options.quoteStrings || data.indexOf(',') > -1 || data.indexOf('\n') > -1 || data.indexOf('\r') > -1) {
+        if (options.quoteStrings || data.indexOf(' ') > -1 || data.indexOf(',') > -1 || data.indexOf('\n') > -1 || data.indexOf('\r') > -1) {
             data = options.txtDelim + data + options.txtDelim;
         }
 
