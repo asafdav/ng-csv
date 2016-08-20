@@ -45,7 +45,7 @@ please also make sure you're adding angular-sanitize.min.js.
 
 ngCsv attributes
 ----------------
-* ng-csv: The data array - Could be an expression, a value or a promise.
+* ng-csv: The data array - Could be an expression, a value or a promise or an object(see multi-csv example).
 * filename: The filename that will be stored on the user's computer
 * csv-header: If provided, would use this attribute to create a header row
 
@@ -62,6 +62,7 @@ ngCsv attributes
 * add-bom: Add the Byte Order Mark, use this option if you are getting an unexpected char when opening the file on any windows App.
 * charset: Defines the charset of the downloadable Csv file. Default is "utf-8".
 * csv-label: Defines whether or not using keys as csv column value (default is false).
+* multi-csv: Set this to true if the data is an object which has arrays as values to create multiple table in a single csv file.
 
 ## Examples
 You can check out this live example here: https://asafdav.github.io/ng-csv/example/
