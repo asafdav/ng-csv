@@ -21,7 +21,8 @@ angular.module('ngCsv.directives').
         addByteOrderMarker: "@addBom",
         ngClick: '&',
         charset: '@charset',
-        label: '&csvLabel'
+        label: '&csvLabel',
+        title: '@csvTitle'
       },
       controller: [
         '$scope',
@@ -85,7 +86,7 @@ angular.module('ngCsv.directives').
       link: function (scope, element, attrs) {
         function doClick() {
           var charset = scope.charset || "utf-8";
-          var blob = new Blob([scope.csv], {
+          var blob = new Blob([scope.title ? scope.title + '\n' : '', scope.csv], {
             type: "text/csv;charset="+ charset + ";"
           });
 
