@@ -9,9 +9,9 @@ angular.module('ngCsv.config', []).
   }).
   config(['$compileProvider', function($compileProvider){
     if (angular.isDefined($compileProvider.urlSanitizationWhitelist)) {
-      $compileProvider.urlSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|data):/);
+      $compileProvider.urlSanitizationWhitelist(/^\s*(https?|ftp|mailto|tel|file|data):/);
     } else {
-      $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|data):/);
+      $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|tel|file|data):/);
     }
   }]);
 
