@@ -167,3 +167,25 @@ angular.module('ngCsv.services').
 
 
   }]);
+  
+  angular.module('ngCsv.services').
+  service('CSVBroadcast', function ($rootScope) {
+	/**
+     * Helper function to calling an event after export
+     * Function calls $rootScope.$broadcast(@eventName)
+     * @param eventName
+     */
+	this.broadcastEvent = function(eventName){
+		$rootScope.$broadcast(eventName); 
+	}
+	 
+	/**
+     * Helper function to calling an event after export
+     * Function invoked when event fired on $rootScope.$broadcast(@intput)
+	 * callback function executed on event
+     * @param eventName
+     */
+	this.listenEvent = function(eventName, callback) {
+		$rootScope.$on(eventName,callback);
+	}
+});
