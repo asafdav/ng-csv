@@ -44,6 +44,16 @@ angular.module('ngCsv.services').
         return data ? 'TRUE' : 'FALSE';
       }
 
+      if (typeof data === 'object') {
+        var data_string = "";
+
+        angular.forEach(data, function(val, key) {
+          data_string += key + ": " + val + " ";
+        });
+
+        return data_string;
+      }
+
       return data;
     };
 
