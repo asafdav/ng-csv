@@ -89,36 +89,54 @@ angular.module('ngCsv.directives').
         }
       ],
       link: function (scope, element, attrs) {
-        function doClick() {
-          var charset = scope.charset || "utf-8";
-          var blob = new Blob([scope.csv], {
-            type: "text/csv;charset="+ charset + ";"
-          });
+              function doClick() {
+                var charset = scope.charset || "utf-8";
+                var blob = new Blob([scope.csv], {
+                  type: "text/csv;charset="+ charset + ";"
+                });
+                if (window.navigator.msSaveOrOpenBlob) {
+                  navigator.msSaveBlob(blob, scope.getFilename());
+                } else {
+                  if (window.navigator.appName === 'Microsoft Internet Explorer') {
+                    var iframe = angular.element('<iframe></iframe>');
+                    iframe[0].style.display = "none";
+                    element.append(iframe);
+                    var doc = null;
+                    if (iframe[0].contentDocument){
+                      doc = iframe[0].contentDocument;
+                    }
+                    else if (iframe[0].contentWindow){
+                      doc = iframe[0].contentWindow.document;
+                    }
+                    doc.open("application/octet-stream", "replace");
+                    doc.write("sep=,\r\n"+scope.csv);
+                    doc.close();
+                    doc.execCommand('SaveAs', true, scope.getFilename());
+                  } else {
+                    var downloadContainer = angular.element('<div data-tap-disabled="true"><a></a></div>');
+                    var downloadLink = angular.element(downloadContainer.children()[0]);
+                    if (typeof downloadLink.download == "undefined") {
+                      downloadLink.attr('href', 'data:application/vnd.ms-excel;charset=utf-8,'+encodeURIComponent([scope.csv]));
+                    } else {
+                      downloadLink.attr('href', window.URL.createObjectURL(blob));
+                    }
+                    downloadLink.attr('download', scope.getFilename());
+                    downloadLink.attr('target', '_blank');
 
-          if (window.navigator.msSaveOrOpenBlob) {
-            navigator.msSaveBlob(blob, scope.getFilename());
-          } else {
+                    $document.find('body').append(downloadContainer);
+                    $timeout(function () {
+                      downloadLink[0].click();
+                      downloadLink.remove();
+                    }, null);
+                  }
+                }
+              }
 
-            var downloadContainer = angular.element('<div data-tap-disabled="true"><a></a></div>');
-            var downloadLink = angular.element(downloadContainer.children()[0]);
-            downloadLink.attr('href', window.URL.createObjectURL(blob));
-            downloadLink.attr('download', scope.getFilename());
-            downloadLink.attr('target', '_blank');
-
-            $document.find('body').append(downloadContainer);
-            $timeout(function () {
-              downloadLink[0].click();
-              downloadLink.remove();
-            }, null);
-          }
-        }
-
-        element.bind('click', function (e) {
-          scope.buildCSV().then(function (csv) {
-            doClick();
-          });
-          scope.$apply();
-        });
-      }
-    };
+              element.bind('click', function (e) {
+                scope.buildCSV().then(function (csv) {
+                  doClick();
+                });
+                scope.$apply();
+              });
+            }    };
   }]);
