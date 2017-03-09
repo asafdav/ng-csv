@@ -16,6 +16,24 @@
       </div>
 
       <div class="form-group">
+        <label>
+            Sample array
+        </label>
+        <div style="background: #f5f5f5; padding: 10px 5px; border-radius: 5px;">
+            $scope.getArray = {{ getArray }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>
+            Multi-Csv Data
+        </label>
+        <div style="background: #f5f5f5; padding: 10px 5px; border-radius: 5px;">
+            $scope.getArray = {{ multiArray }}
+        </div>
+      </div>
+
+      <div class="form-group">
         <label for="filename">Filename </label>
         <input type="text" id="filename" class="form-control" ng-model="filename">
       </div>
@@ -39,16 +57,24 @@
               >Export to CSV with header</button>
 
       <button class="btn btn-default"
-      ng-csv="getArray" csv-label="true" filename="{{ filename }}" field-separator="{{separator}}" decimal-separator="{{decimalSeparator}}"
+      ng-csv="getArray" csv-label="true" filename="{{ filename }}.csv" field-separator="{{separator}}" decimal-separator="{{decimalSeparator}}"
       >Export to CSV with keys</button>
 
       <button class="btn btn-default"
-              ng-csv="getArray" csv-header="getHeader()" filename="{{ filename }}" field-separator="{{separator}}" decimal-separator="{{decimalSeparator}}"
+              ng-csv="getArray" csv-header="getHeader()" filename="{{ filename }}.csv" field-separator="{{separator}}" decimal-separator="{{decimalSeparator}}"
               ng-click="clickFn()">Export with ng-click</button>
 
       <button class="btn btn-default"
               ng-csv="getArray" filename="{{ filename }}.csv" field-separator="{{separator}}" decimal-separator="{{decimalSeparator}}" add-bom="true"
         >With BOM</button>
+
+      <button class="btn btn-default"
+              ng-csv="multiArray" multi-csv="true" filename="{{ filename }}.csv" field-separator="{{separator}}" decimal-separator="{{decimalSeparator}}"
+              >Export Multi CSV</button>
+
+      <button class="btn btn-default"
+              ng-csv="multiArray" multi-csv="true" csv-header="getMultiHeader()" filename="{{ filename }}.csv" field-separator="{{separator}}" decimal-separator="{{decimalSeparator}}"
+              >Export Multi-CSV with header</button>
 
       <button class="btn btn-default" ng-click="addRandomRow()">Add row</button>
     </div>
@@ -60,12 +86,17 @@
     myapp.controller('myctrl', function ($scope) {
 	    $scope.filename = "test";
 	    $scope.getArray = [{a: 1, b:2}, {a:3, b:4}];
+      $scope.multiArray = {array1:[{a: 1, b:2}],array2:[{a:3, b:4}]};
 
       $scope.addRandomRow = function() {
         $scope.getArray.push({a: Math.floor((Math.random()*10)+1), b: Math.floor((Math.random()*10)+1)});
       };
 
       $scope.getHeader = function () {return ["A", "B"]};
+
+      $scope.getMultiHeader = function () {
+        return {array1:["A", "B"],array2:["A", "B"]}
+      };
 
       $scope.clickFn = function() {
         console.log("click click click");
