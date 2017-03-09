@@ -221,7 +221,8 @@ angular.module('ngCsv.directives').
         addByteOrderMarker: "@addBom",
         ngClick: '&',
         charset: '@charset',
-        label: '&csvLabel'
+        label: '&csvLabel',
+        skipEmpty: '@skipEmpty'
       },
       controller: [
         '$scope',
@@ -284,6 +285,10 @@ angular.module('ngCsv.directives').
       ],
       link: function (scope, element, attrs) {
         function doClick() {
+
+          // drop out for empty data
+          if (!scope.csv.trim() && scope.skipEmpty === "true") {return;}
+
           var charset = scope.charset || "utf-8";
           var blob = new Blob([scope.csv], {
             type: "text/csv;charset="+ charset + ";"

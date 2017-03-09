@@ -58,6 +58,7 @@ ngCsv attributes
 * decimal-separator: Defines the decimal separator character (default is .). If set to "locale", it uses the [language sensitive representation of the number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString).
 * text-delimiter: If provided, will use this characters to "escape" fields, otherwise will use double quotes as deafult
 * quote-strings: If provided, will force escaping of every string field.
+* skip-empty: If provided, will not trigger the download of empty data (default is false).
 * lazy-load: If defined and set to true, ngCsv will generate the data string only on demand. See the lazy_load example for more details.
 * add-bom: Add the Byte Order Mark, use this option if you are getting an unexpected char when opening the file on any windows App.
 * charset: Defines the charset of the downloadable Csv file. Default is "utf-8".
