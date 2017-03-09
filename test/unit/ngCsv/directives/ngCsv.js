@@ -30,6 +30,12 @@ describe('ngCsv directive', function () {
     _deferred = $q.defer();
     $timeout(function(){_deferred.resolve([[1, 2, 3], [4, 5, 6]])});
     $rootScope.longPromise = _deferred.promise;
+
+    $rootScope.functionPromise = function(){
+      var defer = $q.defer();
+      defer.resolve([[1, 2, 3]])
+      return defer.promise;
+    };
   }));
 
   //This is failing because the current stable build of PhantomJS doesn't support the Blob object. Support for Blobs
@@ -84,6 +90,22 @@ describe('ngCsv directive', function () {
     // Check that the compiled element contains the templated content
     scope.buildCSV(scope.data).then(function() {
       expect(scope.csv).toBe('1,2,3\r\n4,5,6\r\n');
+      done();
+    });
+    scope.$apply();
+  });
+
+  it('accepts function returning promise as data', function(done){
+    // Compile a piece of HTML containing the directive
+    var element = $compile("<div ng-csv='functionPromise' filename='custom.csv'></div>")($rootScope);
+    // fire all the watches, so the scope expression {{1 + 1}} will be evaluated
+    $rootScope.$digest();
+
+    var scope = element.isolateScope();
+
+    // Check that the compiled element contains the templated content
+    scope.buildCSV().then(function() {
+      expect(scope.csv).toBe('1,2,3\r\n');
       done();
     });
     scope.$apply();
