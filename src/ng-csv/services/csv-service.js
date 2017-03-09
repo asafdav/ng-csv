@@ -2,7 +2,7 @@
  * Created by asafdav on 15/05/14.
  */
 angular.module('ngCsv.services').
-  service('CSV', ['$q', function ($q) {
+  service('CSV', ['$q', '$filter', function ($q, $filter) {
 
     var EOL = '\r\n';
     var BOM = "\ufeff";
@@ -94,6 +94,11 @@ angular.module('ngCsv.services').
         }
         else if (angular.isFunction(responseData)) {
           arrData = responseData();
+        }
+
+        // Sorts the data
+        if(angular.isDefined(options.sortColumn)) {
+          arrData = $filter('orderBy')(arrData, options.sortColumn);
         }
 
         // Check if using keys as labels

@@ -62,6 +62,7 @@ ngCsv attributes
 * add-bom: Add the Byte Order Mark, use this option if you are getting an unexpected char when opening the file on any windows App.
 * charset: Defines the charset of the downloadable Csv file. Default is "utf-8".
 * csv-label: Defines whether or not using keys as csv column value (default is false).
+* sort-column: Defines the column name that the data needs to be sorted by. If you pass the column name with '-' in front of it, it will reverse the sort.
 
 ## Examples
 You can check out this live example here: https://asafdav.github.io/ng-csv/example/
@@ -78,4 +79,3 @@ Supported Browsers
 | IE 10+          | Yes           |
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/asafdav/ng-csv/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
