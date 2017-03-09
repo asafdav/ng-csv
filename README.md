@@ -8,6 +8,7 @@ An AngularJS simple directive that turns arrays and objects into downloadable CS
 ## Dependencies
 * angular.js (of course!), any version starting with 1
 * angular-sanitize.js, any version starting with 1
+* (optional) [text-encoding](https://github.com/inexorabletash/text-encoding), if using the encode option
 
 
 ## How to get it ?
@@ -61,6 +62,7 @@ ngCsv attributes
 * lazy-load: If defined and set to true, ngCsv will generate the data string only on demand. See the lazy_load example for more details.
 * add-bom: Add the Byte Order Mark, use this option if you are getting an unexpected char when opening the file on any windows App.
 * charset: Defines the charset of the downloadable Csv file. Default is "utf-8".
+* encode: Specifies that the content should be explicitly encoded using the charset. Add the encoding.js file from the text-encoding library if you are encoding to utf-8, utf-16le or utf-16be. If you are using another charset, also add the encoding-indexes.js file.
 * csv-label: Defines whether or not using keys as csv column value (default is false).
 
 ## Examples
