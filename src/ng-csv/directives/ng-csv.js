@@ -90,27 +90,42 @@ angular.module('ngCsv.directives').
       ],
       link: function (scope, element, attrs) {
         function doClick() {
-          var charset = scope.charset || "utf-8";
-          var blob = new Blob([scope.csv], {
-            type: "text/csv;charset="+ charset + ";"
-          });
+          var blob;
 
           if (window.navigator.msSaveOrOpenBlob) {
+            blob = new Blob([decodeURIComponent(scope.csv)], {
+              type: "text/csv;charset=utf-8;"
+            });
             navigator.msSaveBlob(blob, scope.getFilename());
           } else {
+            if (window.navigator.appName === 'Microsoft Internet Explorer') {
+                var IEwindow = window.open();
+                IEwindow.document.write('sep=,\r\n' + decodeURIComponent(scope.csv));
+                IEwindow.document.close();
+                IEwindow.document.execCommand('SaveAs', true, 'export.csv');
+                IEwindow.close();
+            } else {
 
-            var downloadContainer = angular.element('<div data-tap-disabled="true"><a></a></div>');
-            var downloadLink = angular.element(downloadContainer.children()[0]);
-            downloadLink.attr('href', window.URL.createObjectURL(blob));
-            downloadLink.attr('download', scope.getFilename());
-            downloadLink.attr('target', '_blank');
+              var charset = scope.charset || "utf-8";
+              blob = new Blob([scope.csv], {
+                type: "text/csv;charset="+ charset + ";"
+              });
 
-            $document.find('body').append(downloadContainer);
-            $timeout(function () {
-              downloadLink[0].click();
-              downloadLink.remove();
-            }, null);
+              var downloadContainer = angular.element('<div data-tap-disabled="true"><a></a></div>');
+              var downloadLink = angular.element(downloadContainer.children()[0]);
+              downloadLink.attr('href', window.URL.createObjectURL(blob));
+              downloadLink.attr('download', scope.getFilename());
+              downloadLink.attr('target', '_blank');
+
+              $document.find('body').append(downloadContainer);
+              $timeout(function () {
+                downloadLink[0].click();
+                downloadLink.remove();
+              }, null);
+
+            }
           }
+
         }
 
         element.bind('click', function (e) {
