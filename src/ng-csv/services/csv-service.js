@@ -72,7 +72,7 @@ angular.module('ngCsv.services').
       var csv = "";
       var csvContent = "";
 
-      var dataPromise = $q.when(data).then(function (responseData) {
+      var dataPromise = $q.when(angular.isFunction(data) ? data() : data).then(function (responseData) {
         //responseData = angular.copy(responseData);//moved to row creation
         // Check if there's a provided header array
         if (angular.isDefined(options.header) && options.header) {
