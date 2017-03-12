@@ -116,7 +116,7 @@ module.exports = function (grunt) {
       },
       pages: {
         options: {
-          remote: 'git@github.com:asafdav/ng-csv.git',
+          remote: 'git@github.com:vicqstream/ng-csv.git',
           branch: 'gh-pages'
         }
       }
