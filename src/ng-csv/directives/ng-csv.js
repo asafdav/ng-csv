@@ -55,6 +55,9 @@ angular.module('ngCsv.directives').
             if (angular.isDefined($attrs.csvLabel)) options.label = $scope.$eval($scope.label);
 
             options.fieldSep = $scope.fieldSep ? $scope.fieldSep : ",";
+            
+            // can handle tab separated value
+            options.fieldSep = (options.fieldSep === "\\t") ? "\t" : options.fieldSep;
 
             // Replaces any badly formatted special character string with correct special character
             options.fieldSep = CSV.isSpecialChar(options.fieldSep) ? CSV.getSpecialChar(options.fieldSep) : options.fieldSep;
