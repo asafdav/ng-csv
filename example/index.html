@@ -35,15 +35,15 @@
               >Export to CSV</button>
 
       <button class="btn btn-default"
-              ng-csv="getArray" csv-header="getHeader()" filename="{{ filename }}" field-separator="{{separator}}" decimal-separator="{{decimalSeparator}}"
+              ng-csv="getArray" csv-header="getHeader()" filename="{{ filename }}.csv" field-separator="{{separator}}" decimal-separator="{{decimalSeparator}}"
               >Export to CSV with header</button>
 
       <button class="btn btn-default"
-      ng-csv="getArray" csv-label="true" filename="{{ filename }}" field-separator="{{separator}}" decimal-separator="{{decimalSeparator}}"
+      ng-csv="getArray" csv-label="true" filename="{{ filename }}.csv" field-separator="{{separator}}" decimal-separator="{{decimalSeparator}}"
       >Export to CSV with keys</button>
 
       <button class="btn btn-default"
-              ng-csv="getArray" csv-header="getHeader()" filename="{{ filename }}" field-separator="{{separator}}" decimal-separator="{{decimalSeparator}}"
+              ng-csv="getArray" csv-header="getHeader()" filename="{{ filename }}.csv" field-separator="{{separator}}" decimal-separator="{{decimalSeparator}}"
               ng-click="clickFn()">Export with ng-click</button>
 
       <button class="btn btn-default"
