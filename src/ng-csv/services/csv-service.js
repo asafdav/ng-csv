@@ -107,8 +107,8 @@ angular.module('ngCsv.services').
                 var val = !!options.columnOrder ? value : label;
                 this.push(that.stringifyField(val, options));
             }, labelArray);
-            labelString = labelArray.join(options.fieldSep ? options.fieldSep : ",");
-            csvContent += labelString + EOL;
+            // insert labels as first row of arrData
+            arrData.unshift(labelArray);
         }
 
         angular.forEach(arrData, function (oldRow, index) {
