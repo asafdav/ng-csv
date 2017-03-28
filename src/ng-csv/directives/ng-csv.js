@@ -113,7 +113,7 @@ angular.module('ngCsv.directives').
           }
         }
 
-        element.bind('click', function (e) {
+        element[element.on ? 'on' : 'bind']('click', function (e) {
           scope.buildCSV().then(function (csv) {
             doClick();
           });
