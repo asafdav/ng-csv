@@ -3,3 +3,5 @@ bower_components
 dist
 
 .idea
+
+npm-debug.log
