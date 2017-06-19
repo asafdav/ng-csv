@@ -71,6 +71,9 @@ angular.module('ngCsv.services').
       var that = this;
       var csv = "";
       var csvContent = "";
+      
+      // provide default options object if none is provided
+      options = options || { txtDelim: '\"' };
 
       var dataPromise = $q.when(data).then(function (responseData) {
         //responseData = angular.copy(responseData);//moved to row creation
