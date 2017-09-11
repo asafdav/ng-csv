@@ -10,7 +10,7 @@ angular.module('ngCsv.directives').
       restrict: 'AC',
       scope: {
         data: '&ngCsv',
-        filename: '@filename',
+        filename: '&filename',
         header: '&csvHeader',
         columnOrder: '&csvColumnOrder',
         txtDelim: '@textDelimiter',
@@ -40,7 +40,13 @@ angular.module('ngCsv.directives').
           }
 
           $scope.getFilename = function () {
-            return $scope.filename || 'download.csv';
+            var filename = 'download.csv';
+            if(angular.isFunction($scope.filename)){
+              filename = $scope.filename() || filename;
+            }else{
+              filename = $scope.filename||filename;
+            }
+            return filename;
           };
 
           function getBuildCsvOptions() {
