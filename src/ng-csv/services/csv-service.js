@@ -72,14 +72,28 @@ angular.module('ngCsv.services').
       var csv = "";
       var csvContent = "";
 
-      var dataPromise = $q.when(data).then(function (responseData) {
+      var csvResolvables = [data];
+      if (angular.isDefined(options.header) && options.header) {
+        csvResolvables.push(options.header);
+      }
+
+      var dataPromise = $q.all(csvResolvables).then(function (responseDataAll) {
         //responseData = angular.copy(responseData);//moved to row creation
         // Check if there's a provided header array
-        if (angular.isDefined(options.header) && options.header) {
+        if (angular.isDefined(responseDataAll[1]) && responseDataAll[1]) {
           var encodingArray, headerString;
 
+          var headerData = [];
+
+          if (angular.isArray(responseDataAll[1])) {
+            headerData = responseDataAll[1];
+          }
+          else if (angular.isFunction(responseDataAll[1])) {
+            headerData = responseDataAll[1]();
+          }
+
           encodingArray = [];
-          angular.forEach(options.header, function (title, key) {
+          angular.forEach(headerData, function (title, key) {
             this.push(that.stringifyField(title, options));
           }, encodingArray);
 
@@ -89,11 +103,11 @@ angular.module('ngCsv.services').
 
         var arrData = [];
 
-        if (angular.isArray(responseData)) {
-          arrData = responseData;
+        if (angular.isArray(responseDataAll[0])) {
+          arrData = responseDataAll[0];
         }
-        else if (angular.isFunction(responseData)) {
-          arrData = responseData();
+        else if (angular.isFunction(responseDataAll[0])) {
+          arrData = responseDataAll[0]();
         }
 
         // Check if using keys as labels

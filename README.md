@@ -47,7 +47,7 @@ ngCsv attributes
 ----------------
 * ng-csv: The data array - Could be an expression, a value or a promise.
 * filename: The filename that will be stored on the user's computer
-* csv-header: If provided, would use this attribute to create a header row
+* csv-header: If provided, would use this attribute to create a header row. Could be an expression, a value or a promise.
 
     ```html
   <button type="button" ng-csv="getArray" csv-header="['Field A', 'Field B', 'Field C']" filename="test.csv">Export</button>
