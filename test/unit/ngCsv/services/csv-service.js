@@ -93,9 +93,5 @@ describe('ngCsv service', function () {
         expect(CSV.isSpecialChar(testCase)).toBeFalsy();
       });
     });    
-
-
   });
-
-
 });
