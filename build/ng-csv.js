@@ -135,8 +135,11 @@ angular.module('ngCsv.services').
             var labelArray, labelString;
 
             labelArray = [];
-            angular.forEach(arrData[0], function(value, label) {
-                this.push(that.stringifyField(label, options));
+
+            var iterator = !!options.columnOrder ? options.columnOrder : arrData[0];
+            angular.forEach(iterator, function(value, label) {
+                var val = !!options.columnOrder ? value : label;
+                this.push(that.stringifyField(val, options));
             }, labelArray);
             labelString = labelArray.join(options.fieldSep ? options.fieldSep : ",");
             csvContent += labelString + EOL;
@@ -268,10 +271,16 @@ angular.module('ngCsv.directives').
            */
           $scope.buildCSV = function () {
             var deferred = $q.defer();
+            var data = null;
 
             $element.addClass($attrs.ngCsvLoadingClass || 'ng-csv-loading');
 
-            CSV.stringify($scope.data(), getBuildCsvOptions()).then(function (csv) {
+            data = $scope.data();
+            if(angular.isFunction(data)){
+              data = data();
+            }
+
+            CSV.stringify(data, getBuildCsvOptions()).then(function (csv) {
               $scope.csv = csv;
               $element.removeClass($attrs.ngCsvLoadingClass || 'ng-csv-loading');
               deferred.resolve(csv);
@@ -283,33 +292,37 @@ angular.module('ngCsv.directives').
         }
       ],
       link: function (scope, element, attrs) {
-        function doClick() {
-          var charset = scope.charset || "utf-8";
-          var blob = new Blob([scope.csv], {
-            type: "text/csv;charset="+ charset + ";"
-          });
-
-          if (window.navigator.msSaveOrOpenBlob) {
-            navigator.msSaveBlob(blob, scope.getFilename());
-          } else {
-
-            var downloadContainer = angular.element('<div data-tap-disabled="true"><a></a></div>');
-            var downloadLink = angular.element(downloadContainer.children()[0]);
-            downloadLink.attr('href', window.URL.createObjectURL(blob));
-            downloadLink.attr('download', scope.getFilename());
-            downloadLink.attr('target', '_blank');
-
-            $document.find('body').append(downloadContainer);
-            $timeout(function () {
-              downloadLink[0].click();
-              downloadLink.remove();
-            }, null);
-          }
-        }
-
         element.bind('click', function (e) {
           scope.buildCSV().then(function (csv) {
-            doClick();
+
+            var csvData = new Blob([csv], {type: 'text/csv;charset=utf-8;'});
+            var csvURL =  null;
+            if (navigator.msSaveBlob) {
+              navigator.msSaveBlob(csvData, scope.getFilename());
+            } else {
+              if(navigator.userAgent.toLowerCase().indexOf('chrome') === -1 ) {
+                var downloadContainer = angular.element('<div data-tap-disabled="true"><a></a></div>');
+                var downloadLink = angular.element(downloadContainer.children()[0]);
+                downloadLink.attr('href', window.URL.createObjectURL(csvData));
+                downloadLink.attr('download', scope.getFilename());
+                downloadLink.attr('target', '_blank');
+
+                $document.find('body').append(downloadContainer);
+                $timeout(function () {
+                  downloadLink[0].click();
+                  downloadLink.remove();
+                }, null);
+              } else {
+                csvURL = window.URL.createObjectURL(csvData);
+
+                var tempLink = document.createElement('a');
+                tempLink.href = csvURL;
+                tempLink.setAttribute('download', scope.getFilename());
+                tempLink.click();
+              }
+
+            }
+
           });
           scope.$apply();
         });
