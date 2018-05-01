@@ -18,6 +18,7 @@
     "email": "asafdav@gmail.com",
     "url": "http://about.me/asafdavid"
   },
+  "license": "MIT",
   "dependencies": {},
   "devDependencies": {
     "connect-livereload": "^0.2.0",
