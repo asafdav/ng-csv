@@ -56,7 +56,7 @@ ngCsv attributes
 * csv-column-order: Defines the column order to be set when creating the body of the CSV (may be according to the csv-headers) - use it when you have an array of objects.
 * field-separator: Defines the field separator character (default is ,)
 * decimal-separator: Defines the decimal separator character (default is .). If set to "locale", it uses the [language sensitive representation of the number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString).
-* text-delimiter: If provided, will use this characters to "escape" fields, otherwise will use double quotes as deafult
+* text-delimiter: If provided, will use this characters to "escape" fields, otherwise will use double quotes as default
 * quote-strings: If provided, will force escaping of every string field.
 * lazy-load: If defined and set to true, ngCsv will generate the data string only on demand. See the lazy_load example for more details.
 * add-bom: Add the Byte Order Mark, use this option if you are getting an unexpected char when opening the file on any windows App.
